@@ -110,7 +110,7 @@ class CargarFichero:
         self.df = self.df.sort_values('fecha', ascending=False).reset_index(drop=True)
         
         # Añadir columnas útiles
-        self.df['mes'] = self.df['fecha'].dt.to_period('M')
+        self.df['mes'] = self.df['fecha'].dt.month
         self.df['año'] = self.df['fecha'].dt.year
         self.df['mes_nombre'] = self.df['fecha'].dt.strftime('%B')
         self.df['dia_semana'] = self.df['fecha'].dt.day_name()
@@ -119,6 +119,6 @@ class CargarFichero:
 
 
 cargador = CargarFichero()
-df = cargador.parsear_xml("files/MisFinanzasMovimientos20260118201116780000.xml")
+df = cargador.parsear_xml("files/202512.xml")
 df = cargador.limpiar_datos()
 print(df)
