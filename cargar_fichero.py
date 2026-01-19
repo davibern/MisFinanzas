@@ -5,25 +5,23 @@ from lxml import etree
 
 
 class CargarFichero:
-    def __init__(self):
+    def __init__(self, file):
+        self.file: str = file
         self.data: list = []
         self.headers: list = []
         self.header_found: bool = False
         self.df: pd.DataFrame = None
 
-    def parsear_xml(self, file):
+    def parsear_xml(self):
         """
         Parsea el archivo XML de finanzas y extrae los datos en un DataFrame
-
-        Args:
-            file: ruta del archivo XML
     
         Returns:
             DataFrame con los datos procesados
         """
 
         # Parsear el fichero XML
-        tree = etree.parse(file)
+        tree = etree.parse(self.file)
         root = tree.getroot()
 
         # Definir namespaces
@@ -116,9 +114,3 @@ class CargarFichero:
         self.df['dia_semana'] = self.df['fecha'].dt.day_name()
 
         return self.df
-
-
-cargador = CargarFichero()
-df = cargador.parsear_xml("files/202512.xml")
-df = cargador.limpiar_datos()
-print(df)
