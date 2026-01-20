@@ -10,4 +10,10 @@ class ExportarDatos:
         """
         Exporta los datos a un fichero parquet
         """
-        self.datos.df.to_parquet("data/finanzas.parquet", engine="pyarrow", compression="snappy")
+        self.datos.df.to_parquet(
+                "data/finanzas.parquet",
+                engine="pyarrow",
+                compression="snappy",
+                partition_cols=["año", "mes"],
+                index=False,
+            )
