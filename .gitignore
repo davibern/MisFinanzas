@@ -1,2 +1,3 @@
-/files
+/raw
 /.venv
+__pycache__/
