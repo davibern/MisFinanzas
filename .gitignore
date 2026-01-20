@@ -1,3 +1,9 @@
+# Ficheros de datos
 /raw
+/data/finanzas.parquet
+
+# Ficheros para el entorno
 /.venv
+
+# Ficheros de cache
 __pycache__/
