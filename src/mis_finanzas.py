@@ -3,8 +3,8 @@ import pandas as pd
 
 class MisFinanzas():
 
-    def __init__(self, df: pd.DataFrame, mes: int, año: int) -> None:
-        self.df = df
+    def __init__(self, mes: int, año: int) -> None:
+        self.datos = pd.read_parquet("data/finanzas.parquet")
         self.mes = mes
         self.año = año
 
@@ -15,14 +15,11 @@ class MisFinanzas():
         Returns:
             float: total de ingresos del mes
         """
-        filters = [
-            ("año", "==", self.año),
-            ("mes", "==", self.mes),
-            ("tipo", "==", "Ingreso")
-        ]
-        return pd.read_parquet(
-            "data/finanzas.parquet", filters=filters
-        )['importe'].sum()
+        return self.datos[
+            (self.datos['año'] == self.año) &
+            (self.datos['mes'] == self.mes) &
+            (self.datos['tipo'] == 'Ingreso')
+        ]['importe'].sum()
 
     def obtener_gastos_mes_año(self) -> float:
         """
@@ -31,11 +28,8 @@ class MisFinanzas():
         Returns:
             float: total de gastos del mes
         """
-        filters = [
-            ("año", "==", self.año),
-            ("mes", "==", self.mes),
-            ("tipo", "==", "Gasto")
-        ]
-        return pd.read_parquet(
-            "data/finanzas.parquet", filters=filters
-        )['importe'].sum()
+        return self.datos[
+            (self.datos['año'] == self.año) &
+            (self.datos['mes'] == self.mes) &
+            (self.datos['tipo'] == 'Gasto')
+        ]['importe'].sum()
