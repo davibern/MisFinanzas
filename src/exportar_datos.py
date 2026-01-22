@@ -26,7 +26,7 @@ class ExportarDatos:
         periodos_existentes = df_existente[['año', 'mes']].drop_duplicates()
 
         # Paso a set para trabajar de forma eficiente
-        set_existente = set(map(tuple,periodos_existentes.values))
+        set_existente = set(map(tuple, periodos_existentes.values))
         set_nuevos = set(map(tuple, nuevos_periodos.values))
 
         # Compruebo si hay pares nuevos
