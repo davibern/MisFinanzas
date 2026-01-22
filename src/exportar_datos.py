@@ -10,6 +10,9 @@ class ExportarDatos:
     def validar_año_mes(self) -> bool:
         """
         Valida que el año y el mes ya hayan sido procesados previamente para no volverlos a procesar
+
+        Returns:
+            bool: True si el año y el mes ya han sido procesados, False en caso contrario
         """
         try:
             df_existente = pd.read_parquet("data/finanzas.parquet")
