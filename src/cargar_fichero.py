@@ -1,6 +1,5 @@
 import pandas as pd
 import re
-from datetime import datetime
 from lxml import etree
 
 
@@ -15,7 +14,7 @@ class CargarFichero:
     def parsear_xml(self):
         """
         Parsea el archivo XML de finanzas y extrae los datos en un DataFrame
-    
+
         Returns:
             DataFrame con los datos procesados
         """
@@ -48,7 +47,7 @@ class CargarFichero:
                     row_data.append(value if value is not None else '')
                 else:
                     row_data.append('')
-            
+
             # Buscar la fila de encabezados
             if not self.header_found and row_data and 'Fecha' in row_data:
                 self.headers = [h for h in row_data if h]
@@ -66,7 +65,6 @@ class CargarFichero:
         self.df = pd.DataFrame(self.data, columns=self.headers)
 
         return self.df
-    
 
     def limpiar_datos(self):
         """
@@ -100,13 +98,13 @@ class CargarFichero:
 
         # Limpiar espacios no separables en cuenta_tarjeta
         self.df['cuenta_tarjeta'] = self.df['cuenta_tarjeta'].str.replace('\xa0', ' ')
-        
+
         # Eliminar filas con fecha nula
         self.df = self.df.dropna(subset=['fecha'])
-        
+
         # Ordenar por fecha descendente
         self.df = self.df.sort_values('fecha', ascending=False).reset_index(drop=True)
-        
+
         # Añadir columnas útiles
         self.df['mes'] = self.df['fecha'].dt.month
         self.df['año'] = self.df['fecha'].dt.year
