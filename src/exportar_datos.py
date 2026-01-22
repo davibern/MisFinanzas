@@ -5,7 +5,6 @@ from src.cargar_fichero import CargarFichero
 class ExportarDatos:
     def __init__(self, datos: CargarFichero):
         self.datos = datos
-    
 
     def validar_año_mes(self) -> bool:
         """
@@ -18,7 +17,7 @@ class ExportarDatos:
             df_existente = pd.read_parquet("data/finanzas.parquet")
         except FileNotFoundError:
             return False
-        
+
         # Obtengo los pares únicos del año y mes en los nuevos
         nuevos_periodos = self.datos.df[['año', 'mes']].drop_duplicates()
 
@@ -31,7 +30,6 @@ class ExportarDatos:
 
         # Compruebo si hay pares nuevos
         return set_nuevos.issubset(set_existente)
-
 
     def exportar(self):
         """
@@ -46,4 +44,4 @@ class ExportarDatos:
                 compression="snappy",
                 partition_cols=["año", "mes"],
                 index=False,
-            )   
+            )
