@@ -106,8 +106,8 @@ class CargarFichero:
         self.df = self.df.sort_values('fecha', ascending=False).reset_index(drop=True)
 
         # Añadir columnas útiles
-        self.df['mes'] = self.df['fecha'].dt.month
-        self.df['año'] = self.df['fecha'].dt.year
+        self.df['mes'] = self.df['fecha'].dt.month.astype(int)
+        self.df['año'] = self.df['fecha'].dt.year.astype(int)
         self.df['mes_nombre'] = self.df['fecha'].dt.strftime('%B')
         self.df['dia_semana'] = self.df['fecha'].dt.day_name()
 
