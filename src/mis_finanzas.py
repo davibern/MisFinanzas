@@ -72,3 +72,20 @@ class MisFinanzas():
             (self.datos['mes'] <= mes_fin) &
             (self.datos['tipo'] == 'Ingreso')
         ]['importe'].sum()
+
+    def obtener_intervalo_gastos_agrupados_mes_año(self, año: int, mes: int) -> pd.DataFrame:
+        """
+        Obtener los gastos de un mes y año agrupados por categoría
+
+        Args:
+            año (int): el año de estudio
+            mes (int): el mes de estudio
+
+        Returns:
+            pd.DataFrame: DataFrame con los datos de gastos agrupados por categoría
+        """
+        return self.datos[
+            (self.datos['año'] == año) &
+            (self.datos['mes'] == mes) &
+            (self.datos['tipo'] == 'Gasto')
+        ]['importe'].groupby(self.datos['categoria']).sum().reset_index()
