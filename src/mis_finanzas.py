@@ -73,7 +73,7 @@ class MisFinanzas():
             (self.datos['tipo'] == 'Ingreso')
         ]['importe'].sum()
 
-    def obtener_intervalo_gastos_agrupados_mes_año(self, año: int, mes: int) -> pd.DataFrame:
+    def obtener_gastos_agrupados_mes_año(self, año: int, mes: int) -> pd.DataFrame:
         """
         Obtener los gastos de un mes y año agrupados por categoría
 
@@ -88,4 +88,57 @@ class MisFinanzas():
             (self.datos['año'] == año) &
             (self.datos['mes'] == mes) &
             (self.datos['tipo'] == 'Gasto')
+        ]['importe'].groupby(self.datos['categoria']).sum().reset_index()
+
+    def obtener_intervalo_gastos_agrupados_mes_año(self, año: int, mes_inicio: int, mes_fin: int) -> pd.DataFrame:
+        """
+        Obtener los gastos de un intervalo de meses y año agrupados por categoría
+
+        Args:
+            año (int): el año de estudio
+            mes_inicio (int): el mes inicial
+            mes_fin (int): el mes final
+        Returns:
+            pd.DataFrame: DataFrame con los datos de gastos agrupados por categoría
+        """
+        return self.datos[
+            (self.datos['año'] == año) &
+            (self.datos['mes'] >= mes_inicio) &
+            (self.datos['mes'] <= mes_fin) &
+            (self.datos['tipo'] == 'Gasto')
+        ]['importe'].groupby(self.datos['categoria']).sum().reset_index()
+
+    def obtener_ingresos_agrupados_mes_año(self, año: int, mes: int) -> pd.DataFrame:
+        """
+        Obtener los ingresos de un mes y año agrupados por categoría
+
+        Args:
+            año (int): el año de estudio
+            mes (int): el mes de estudio
+
+        Returns:
+            pd.DataFrame: DataFrame con los datos de gastos agrupados por categoría
+        """
+        return self.datos[
+            (self.datos['año'] == año) &
+            (self.datos['mes'] == mes) &
+            (self.datos['tipo'] == 'Ingreso')
+        ]['importe'].groupby(self.datos['categoria']).sum().reset_index()
+
+    def obtener_intervalo_ingresos_agrupados_mes_año(self, año: int, mes_inicio: int, mes_fin: int) -> pd.DataFrame:
+        """
+        Obtener los ingresos de un intervalo de meses y año agrupados por categoría
+
+        Args:
+            año (int): el año de estudio
+            mes_inicio (int): el mes inicial
+            mes_fin (int): el mes final
+        Returns:
+            pd.DataFrame: DataFrame con los datos de ingresos agrupados por categoría
+        """
+        return self.datos[
+            (self.datos['año'] == año) &
+            (self.datos['mes'] >= mes_inicio) &
+            (self.datos['mes'] <= mes_fin) &
+            (self.datos['tipo'] == 'Ingreso')
         ]['importe'].groupby(self.datos['categoria']).sum().reset_index()
