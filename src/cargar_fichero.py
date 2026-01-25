@@ -78,7 +78,7 @@ class CargarFichero:
         column_mapping = {
             'Fecha': 'fecha',
             'Concepto': 'concepto',
-            'Categoría': 'categoría',
+            'Categoría': 'categoria',
             'Importe (€)': 'importe',
             'Tipo Movimiento': 'tipo_movimiento',
             'Cuenta/Tarjeta': 'cuenta_tarjeta'
