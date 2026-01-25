@@ -27,3 +27,7 @@ intervalo_gastos = finanzas.obtener_intervalo_gastos(2025, 11, 12)
 intervalo_ingresos = finanzas.obtener_intervalo_ingresos(2025, 11, 12)
 print(intervalo_gastos)
 print(intervalo_ingresos)
+
+mes_estudio = MisFinanzas()
+gastos_categoria = mes_estudio.obtener_ingresos_agrupados_mes_año(2025, 12)
+print(gastos_categoria)
