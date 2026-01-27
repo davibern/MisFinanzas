@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [0.0.3] - 2025-01-27
+### Added
+- Implementar librería Streamlit para crear una interfaz web para consumir los datos.
+### Changed
+- Actualización de dependencias en el archivo `requirements.txt` para incluir Streamlit y eliminar pandas (al venir preinstalado con Streamlit).
+
 ## [0.0.2] - 2025-01-25
 ### Added
 - Nueva funcionalidad para obtener ingresos agrupados por categoría en un mes y año específicos.
