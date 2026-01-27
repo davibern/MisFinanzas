@@ -31,12 +31,12 @@ class ExportarDatos:
         # Compruebo si hay pares nuevos
         return set_nuevos.issubset(set_existente)
 
-    def exportar(self):
+    def exportar(self) -> int:
         """
         Exporta los datos a un fichero parquet
         """
         if self.validar_año_mes():
-            print("El año y el mes ya han sido procesados")
+            return 0
         else:
             self.datos.df.to_parquet(
                 "data/finanzas.parquet",
@@ -45,4 +45,4 @@ class ExportarDatos:
                 partition_cols=["año", "mes"],
                 index=False,
             )
-            print("Datos exportados correctamente.")
+            return 1
