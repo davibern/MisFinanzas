@@ -1,10 +1,14 @@
 # CONTROL DE CAMBIOS
 
 ## [0.0.4] - 2026-01-28
+### Añadido
+- Implementar librería Plotly para crear gráficos interactivos.
+- Implementar funcionalidad en `datos_por_mes.py` para mostrar gráficos de barras de los gastos por categoría.
 ### Modificado
 - Refactorizar el código de `app.py` para mejorar la legibilidad y organización.
 - Mejorar la información mostrada en la página `cargar_datos.py`.
 - Mejorar el tamaño de la imagen en la página de inicio, `assets/logo.png`.
+- Actualización de dependencias en el archivo `requirements.txt` para incluir Plotly.
 
 ## [0.0.3] - 2025-01-27
 ### Añadido
