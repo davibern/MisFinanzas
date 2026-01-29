@@ -43,11 +43,11 @@ def obtener_resumen_mes() -> None:
     # Mostrar tarjetas en columnas de 3
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Ingresos", ingresos, delta=f"{ratio_delta_ingresos:.2f}%", help="Ingresos del mes comparado con el mes anterior", label_visibility="visible", format="euro")
+        st.metric("Ingresos", ingresos, delta=f"{ratio_delta_ingresos:.2f}%", help="Ingresos del mes y su diferencia con el mes anterior en porcentaje", label_visibility="visible", format="euro")
     with col2:
-        st.metric("Gastos", gastos, delta=f"{ratio_delta_gastos:.2f}%", delta_color="inverse", help="Gastos del mes comparado con el mes anterior", label_visibility="visible", format="euro")
+        st.metric("Gastos", gastos, delta=f"{ratio_delta_gastos:.2f}%", delta_color="inverse", help="Gastos del mes y su diferencia con el mes anterior en porcentaje", label_visibility="visible", format="euro")
     with col3:
-        st.metric("Balance", balance, delta=f"{ratio_delta_balance:.2f}%", help="Balance del mes comparado con el mes anterior", label_visibility="visible", format="euro")
+        st.metric("Balance", balance, delta=f"{ratio_delta_balance:.2f}%", help="Balance del mes y su diferencia con el mes anterior en porcentaje", label_visibility="visible", format="euro")
 
 def obtener_datos_mes() -> None:
     """Obtiene los gastos por categoría del mes actual y lo muestra en un gráfico de barras."""
