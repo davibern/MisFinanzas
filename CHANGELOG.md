@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.5] - 2026-01-29
+### Añadido
+- Implementar funcionalidad en `datos_por_mes.py` para mostrar tarjetas de estadísticas del total de gastos, ingresos y diferencia del mes y su comparativa con el mes anterior.
+### Modificado
+- Actualización de comentarios en `datos_por_mes.py`.
+
 ## [0.0.4] - 2026-01-28
 ### Añadido
 - Implementar librería Plotly para crear gráficos interactivos.
