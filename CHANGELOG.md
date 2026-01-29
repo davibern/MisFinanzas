@@ -3,6 +3,7 @@
 ## [0.0.5] - 2026-01-29
 ### Añadido
 - Implementar funcionalidad en `datos_por_mes.py` para mostrar tarjetas de estadísticas del total de gastos, ingresos y diferencia del mes y su comparativa con el mes anterior.
+- Añadir configuración general de la app para ocultar el botón Deploy.
 ### Modificado
 - Actualización de comentarios en `datos_por_mes.py`.
 
