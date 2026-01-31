@@ -31,3 +31,6 @@ print(intervalo_ingresos)
 mes_estudio = MisFinanzas()
 gastos_categoria = mes_estudio.obtener_ingresos_agrupados_mes_año(2025, 12)
 print(gastos_categoria)
+
+ingresos_mensuales = finanzas.obtener_intervalo_ingresos_por_meses(2025)
+print(ingresos_mensuales)
