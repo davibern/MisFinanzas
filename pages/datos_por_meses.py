@@ -28,4 +28,36 @@ def selector_año_mes() -> None:
     st.markdown("---")
 
 
+def obtener_intervalo_ingresos_meses() -> None:
+    """
+    Obtiene la suma de los ingresos por meses
+    """
+    fig = go.Figure()
+    ingresos_meses = datos.obtener_intervalo_ingresos_por_meses(año)
+    gastos_meses = datos.obtener_intervalo_gastos_por_meses(año).abs()
+    fig.add_trace(
+        go.Scatter(
+            x=ingresos_meses['mes'],
+            y=ingresos_meses['importe'],
+            mode='lines+markers',
+            name='Ingresos',
+            line=dict(color='#1f77b4'),
+            marker=dict(color='#1f77b4'),
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=gastos_meses['mes'],
+            y=gastos_meses['importe'],
+            mode='lines+markers',
+            name='Gastos',
+            line=dict(color='#d62728'),
+            marker=dict(color='#d62728'),
+        )
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+
 selector_año_mes()
+obtener_intervalo_ingresos_meses()
