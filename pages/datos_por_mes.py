@@ -29,12 +29,12 @@ def obtener_resumen_mes() -> None:
     st.subheader("Resumen Estadístico")
     # Obtener ingresos del mes actual y anterior y el ratio de diferencia
     ingresos: float = datos.obtener_ingresos_mes_año(año, mes)
-    delta_ingresos: float = datos.obtener_ingresos_mes_año(año, mes - 1)
+    delta_ingresos: float = datos.obtener_ingresos_mes_año(año, mes - 1) if mes > 1 else datos.obtener_ingresos_mes_año(año - 1, 12)
     ratio_delta_ingresos: float = ((ingresos - delta_ingresos) / delta_ingresos) * 100 if delta_ingresos != 0 else 0
 
     # Obtener gastos del mes actual y anterior y el ratio de diferencia
     gastos: float = datos.obtener_gastos_mes_año(año, mes)
-    delta_gastos: float = datos.obtener_gastos_mes_año(año, mes - 1)
+    delta_gastos: float = datos.obtener_gastos_mes_año(año, mes - 1) if mes > 1 else datos.obtener_gastos_mes_año(año - 1, 12)
     ratio_delta_gastos: float = ((gastos - delta_gastos) / delta_gastos) * 100 if delta_gastos != 0 else 0
 
     # Obtener balance del mes actual y anterior y el ratio de diferencia
