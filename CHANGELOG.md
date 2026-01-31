@@ -6,6 +6,8 @@
 ### Modificado
 - Corrección del cálculo del delta de ingresos y gastos en `datos_por_mes.py` cuando el mes es enero, para obtener correctamente los datos del mes anterior (diciembre del año anterior).
 - Correción del formato de `datos_por_mes.py` para eliminar líneas en blanco innecesarias.
+- Cambiado icono de resumen mensual en `app.py` a `:material/stacked_bar_chart:` para mayor claridad.
+- Corregido formato en `app.py`.
 
 ## [0.0.5] - 2026-01-29
 ### Añadido
