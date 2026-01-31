@@ -1,5 +1,10 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.6] - 2026-01-31
+### Modificado
+- Corrección del cálculo del delta de ingresos y gastos en `datos_por_mes.py` cuando el mes es enero, para obtener correctamente los datos del mes anterior (diciembre del año anterior).
+- Correción del formato de `datos_por_mes.py` para eliminar líneas en blanco innecesarias.
+
 ## [0.0.5] - 2026-01-29
 ### Añadido
 - Implementar funcionalidad en `datos_por_mes.py` para mostrar tarjetas de estadísticas del total de gastos, ingresos y diferencia del mes y su comparativa con el mes anterior.
