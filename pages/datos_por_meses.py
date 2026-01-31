@@ -56,7 +56,7 @@ def obtener_intervalo_ingresos_meses() -> None:
         )
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 
 selector_año_mes()
