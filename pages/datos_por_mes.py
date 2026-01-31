@@ -9,6 +9,7 @@ st.title("📅 Datos del Mes")
 # Cargar datos
 datos = MisFinanzas()
 
+
 def selector_año_mes() -> None:
     """Selector de año y mes"""
     st.markdown("---")
@@ -22,6 +23,7 @@ def selector_año_mes() -> None:
         mes = st.selectbox("Mes", range(1, 13), index=11)
     st.markdown("---")
 
+
 def obtener_resumen_mes() -> None:
     """Obtiene el resumen estadístico del mes actual y anterior y lo muestra en tarjetas."""
     st.subheader("Resumen Estadístico")
@@ -34,7 +36,7 @@ def obtener_resumen_mes() -> None:
     gastos: float = datos.obtener_gastos_mes_año(año, mes)
     delta_gastos: float = datos.obtener_gastos_mes_año(año, mes - 1)
     ratio_delta_gastos: float = ((gastos - delta_gastos) / delta_gastos) * 100 if delta_gastos != 0 else 0
-    
+
     # Obtener balance del mes actual y anterior y el ratio de diferencia
     balance: float = ingresos + gastos
     delta_balance: float = delta_ingresos + delta_gastos
@@ -43,11 +45,18 @@ def obtener_resumen_mes() -> None:
     # Mostrar tarjetas en columnas de 3
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Ingresos", ingresos, delta=f"{ratio_delta_ingresos:.2f}%", help="Ingresos del mes y su diferencia con el mes anterior en porcentaje", label_visibility="visible", format="euro")
+        st.metric("Ingresos", ingresos, delta=f"{ratio_delta_ingresos:.2f}%",
+                  help="Ingresos del mes y su diferencia con el mes anterior en porcentaje",
+                  label_visibility="visible", format="euro")
     with col2:
-        st.metric("Gastos", gastos, delta=f"{ratio_delta_gastos:.2f}%", delta_color="inverse", help="Gastos del mes y su diferencia con el mes anterior en porcentaje", label_visibility="visible", format="euro")
+        st.metric("Gastos", gastos, delta=f"{ratio_delta_gastos:.2f}%", delta_color="inverse",
+                  help="Gastos del mes y su diferencia con el mes anterior en porcentaje",
+                  label_visibility="visible", format="euro")
     with col3:
-        st.metric("Balance", balance, delta=f"{ratio_delta_balance:.2f}%", help="Balance del mes y su diferencia con el mes anterior en porcentaje", label_visibility="visible", format="euro")
+        st.metric("Balance", balance, delta=f"{ratio_delta_balance:.2f}%",
+                  help="Balance del mes y su diferencia con el mes anterior en porcentaje",
+                  label_visibility="visible", format="euro")
+
 
 def obtener_datos_mes() -> None:
     """Obtiene los gastos por categoría del mes actual y lo muestra en un gráfico de barras."""
@@ -86,6 +95,7 @@ def obtener_datos_mes() -> None:
     # Mostrar el gráfico en Streamlit
     st.plotly_chart(fig, width='stretch')
 
+
 def obtener_ingresos_mes() -> None:
     """Obtiene los ingresos por categoría del mes actual y lo muestra en un gráfico de barras."""
 
@@ -122,6 +132,7 @@ def obtener_ingresos_mes() -> None:
 
     # Mostrar el gráfico en Streamlit
     st.plotly_chart(fig, width='stretch')
+
 
 selector_año_mes()
 obtener_resumen_mes()
