@@ -142,3 +142,33 @@ class MisFinanzas():
             (self.datos['mes'] <= mes_fin) &
             (self.datos['tipo'] == 'Ingreso')
         ]['importe'].groupby(self.datos['categoria']).sum().reset_index()
+
+    def obtener_intervalo_gastos_por_meses(self, año: int) -> pd.DataFrame:
+        """
+        Obtener la suma de los gastos por meses en un intervalo de 12 meses
+
+        Args:
+            año (int): el año de estudio
+
+        Returns:
+            pd.DataFrame: DataFrame con los datos de gastos por mes
+        """
+        return self.datos[
+            (self.datos['año'] == año) &
+            (self.datos['tipo'] == 'Gasto')
+        ].groupby(self.datos['mes'])['importe'].sum().reset_index()
+
+    def obtener_intervalo_ingresos_por_meses(self, año: int) -> pd.DataFrame:
+        """
+        Obtener la suma de los ingresos por meses en un intervalo de 12 meses
+
+        Args:
+            año (int): el año de estudio
+
+        Returns:
+            pd.DataFrame: DataFrame con los datos de ingresos por mes
+        """
+        return self.datos[
+            (self.datos['año'] == año) &
+            (self.datos['tipo'] == 'Ingreso')
+        ].groupby(self.datos['mes'])['importe'].sum().reset_index()
