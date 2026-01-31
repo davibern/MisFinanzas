@@ -3,6 +3,7 @@
 ## [0.0.6] - 2026-01-31
 ### Añadido
 - Texto introductorio en la página `datos_por_mes.py` explicando las funcionalidades disponibles.
+- Nueva página `datos_por_meses.py` para mostrar gráficos de barras con la evolución de ingresos y gastos mensuales a lo largo del año.
 ### Modificado
 - Corrección del cálculo del delta de ingresos y gastos en `datos_por_mes.py` cuando el mes es enero, para obtener correctamente los datos del mes anterior (diciembre del año anterior).
 - Correción del formato de `datos_por_mes.py` para eliminar líneas en blanco innecesarias.
