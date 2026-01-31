@@ -5,6 +5,10 @@ from src.mis_finanzas import MisFinanzas
 
 # Título de la página
 st.title("📅 Datos del Mes")
+st.write("Datos financieros agrupados por mes, con gráficos y estadísticas.")
+st.write("Selecciona el año y el mes para obtener los datos correspondientes, y obtendrás\
+    automáticamente la comparativa con respecto al mes anterior.")
+st.write("Encontrarás además un desglose de gastos e ingresos por categoría.")
 
 # Cargar datos
 datos = MisFinanzas()
