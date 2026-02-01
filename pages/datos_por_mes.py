@@ -21,7 +21,7 @@ def selector_año_mes() -> None:
     col1, col2 = st.columns(2)
     with col1:
         global año
-        año = st.selectbox("Año", range(2024, 2026), index=1)
+        año = st.selectbox("Año", range(2024, 2027), index=1)
     with col2:
         global mes
         mes = st.selectbox("Mes", range(1, 13), index=11)
