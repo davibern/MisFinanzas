@@ -1,5 +1,10 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.7] - 2026-02-02
+### Modificado
+- Eliminación del campo de filtro del mes en la página `datos_por_meses.py`.
+- Eliminar el fichero `main.py`.
+
 ## [0.0.6] - 2026-01-31
 ### Añadido
 - Texto introductorio en la página `datos_por_mes.py` explicando las funcionalidades disponibles.
