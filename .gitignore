@@ -7,3 +7,8 @@
 
 # Ficheros de cache
 __pycache__/
+
+# Ficheros de testing
+.coverage
+.pytest_cache/
+htmlcov/
