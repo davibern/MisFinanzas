@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.8] - 2026-02-02
+### Añadido
+- Añadir ficheros de tests para MisFinanzas.
+### Modificado
+- Añadir dependencia para realizar tests con pytest.    
+
 ## [0.0.7] - 2026-02-02
 ### Modificado
 - Eliminación del campo de filtro del mes en la página `datos_por_meses.py`.
