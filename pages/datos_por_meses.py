@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 
+from datetime import datetime
 from src.mis_finanzas import MisFinanzas
 
 # Título de la página
@@ -21,7 +22,16 @@ def selector_año_mes() -> None:
     col1, col2 = st.columns(2)
     with col1:
         global año
-        año = st.selectbox("Año", range(2024, 2027), index=1)
+        años = list(range(2024, 2027))
+        año_actual = datetime.now().year
+
+        # Calculo el índice del año actual en la lista de años
+        # Si el año actual no está en la lista, uso 0 para evitar errores
+        try:
+            indice_defecto_año = años.index(año_actual)
+        except ValueError:
+            indice_defecto_año = 0
+        año = st.selectbox("Año", años, index=indice_defecto_año)
     st.markdown("---")
 
 
