@@ -7,7 +7,7 @@ from src.mis_finanzas import MisFinanzas
 # Título de la página
 st.title("📅 Datos por Meses")
 st.write("Histograma de datos financieros agrupados por meses, con gráficos y estadísticas.")
-st.write("Selecciona el año y el mes para obtener los datos correspondientes, y obtendrás\
+st.write("Selecciona el año para obtener los datos correspondientes, y obtendrás\
     automáticamente la evolución de los últimos doce meses.")
 st.write("Encontrarás además un desglose de gastos e ingresos por categoría.")
 
