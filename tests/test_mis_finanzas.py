@@ -38,7 +38,7 @@ def datos_prueba():
 
 
 @pytest.fixture
-def mis_finanzas_mock(datos_prueba):
+def mis_finanzas_mock(datos_prueba) -> MisFinanzas:
     """
     Fixture: Crea una instancia de MisFinanzas con datos mockeados.
 
@@ -60,7 +60,7 @@ def mis_finanzas_mock(datos_prueba):
 # TESTS DE EJEMPLO
 # ============================================================================
 
-def test_obtener_ingresos_mes_año(mis_finanzas_mock):
+def test_obtener_ingresos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     """
     Test: Verifica que se calculen correctamente los ingresos de un mes.
 
@@ -77,7 +77,7 @@ def test_obtener_ingresos_mes_año(mis_finanzas_mock):
     assert resultado == 2500.0, f"Se esperaba 2500.0 pero se obtuvo {resultado}"
 
 
-def test_obtener_gastos_mes_año(mis_finanzas_mock):
+def test_obtener_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     """
     Test: Verifica que se calculen correctamente los gastos de un mes.
 
@@ -92,7 +92,7 @@ def test_obtener_gastos_mes_año(mis_finanzas_mock):
     assert resultado == -150.0, f"Se esperaba -150.0 pero se obtuvo {resultado}"
 
 
-def test_obtener_gastos_mes_sin_datos(mis_finanzas_mock):
+def test_obtener_gastos_mes_sin_datos(mis_finanzas_mock: MisFinanzas) -> None:
     """
     Test: Verifica el comportamiento cuando no hay datos para un mes.
 
@@ -107,7 +107,7 @@ def test_obtener_gastos_mes_sin_datos(mis_finanzas_mock):
     assert resultado == 0.0, f"Se esperaba 0.0 pero se obtuvo {resultado}"
 
 
-def test_obtener_intervalo_gastos(mis_finanzas_mock):
+def test_obtener_intervalo_gastos(mis_finanzas_mock: MisFinanzas) -> None:
     """
     Test: Verifica que se calculen correctamente los gastos en un intervalo.
 
@@ -121,7 +121,7 @@ def test_obtener_intervalo_gastos(mis_finanzas_mock):
     assert resultado == -350.0, f"Se esperaba -350.0 pero se obtuvo {resultado}"
 
 
-def test_obtener_gastos_agrupados_mes_año(mis_finanzas_mock):
+def test_obtener_gastos_agrupados_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     """
     Test: Verifica que los gastos se agrupen correctamente por categoría.
 
@@ -149,7 +149,7 @@ def test_obtener_gastos_agrupados_mes_año(mis_finanzas_mock):
         f"Se esperaban {categorias_esperadas} pero se obtuvieron {categorias_obtenidas}"
 
 
-def test_obtener_intervalo_ingresos_por_meses(mis_finanzas_mock):
+def test_obtener_intervalo_ingresos_por_meses(mis_finanzas_mock: MisFinanzas) -> None:
     """
     Test: Verifica que se obtengan correctamente los ingresos por mes.
 
