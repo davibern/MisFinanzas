@@ -16,7 +16,7 @@ from src.mis_finanzas import MisFinanzas
 
 
 @pytest.fixture
-def datos_prueba():
+def datos_prueba() -> pd.DataFrame:
     """
     Fixture: Crea datos de prueba para usar en los tests.
 
@@ -38,7 +38,7 @@ def datos_prueba():
 
 
 @pytest.fixture
-def mis_finanzas_mock(datos_prueba) -> MisFinanzas:
+def mis_finanzas_mock(datos_prueba: pd.DataFrame) -> MisFinanzas:
     """
     Fixture: Crea una instancia de MisFinanzas con datos mockeados.
 
