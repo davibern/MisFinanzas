@@ -1,5 +1,13 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.9] - 2026-02-04
+### Añadido
+- Añadida página `/pages/ahorro.py.py` para mostrar la evolución del gasto-ingreso a lo largo de un año.
+### Modificado
+- Corrección de errores tipográficos en los comentarios del código.
+- Añadido tipado en el retorno de las funciones de los tests en `test_mis_finanzas.py`.
+- Añadido que salga automáticamente el año actual en el selector de años en la página `datos_por_meses.py`.
+
 ## [0.0.8] - 2026-02-02
 ### Añadido
 - Añadir ficheros de tests para MisFinanzas.
