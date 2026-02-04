@@ -15,7 +15,7 @@ st.write("Encontrarás además un desglose de gastos e ingresos por categoría."
 datos = MisFinanzas()
 
 
-def selector_año_mes() -> None:
+def selector_año() -> None:
     """Selector de año y mes"""
     st.markdown("---")
     st.markdown("#### Selecciona el año y el mes que deseas consultar")
@@ -66,5 +66,5 @@ def obtener_intervalo_ingresos_meses() -> None:
     st.plotly_chart(fig, width='stretch')
 
 
-selector_año_mes()
+selector_año()
 obtener_intervalo_ingresos_meses()
