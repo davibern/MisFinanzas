@@ -85,6 +85,47 @@ def obtener_media_diferencia() -> None:
     st.metric(label="Ahorro medio mensual", value=f"{media_diferencia:.2f} €")
 
 
+def obtener_intervalo_tasa_ahorro() -> None:
+    """
+    Obtiene la tasa de ahorro con respecto a los ingresos: ((ingresos - gastos) / ingresos) * 100
+    """
+    df_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)
+    df_gastos = datos.obtener_intervalo_gastos_por_meses(año)
+
+    df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
+    df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
+
+    df_final['tasa_ahorro'] = (df_final['diferencia'] / df_final['importe_ingresos'] * 100).round(2)
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=df_final['mes'],
+            y=df_final['tasa_ahorro'],
+            mode='lines+markers',
+            name='Tasa de Ahorro (%)'
+        )
+    )
+
+    st.plotly_chart(fig, width='stretch')
+
+
+def obtener_media_tasa_ahorro() -> None:
+    """
+    Obtiene la tasa de ahorro medio con respecto a los ingresos: ((ingresos - gastos) / ingresos) * 100
+    """
+    df_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)
+    df_gastos = datos.obtener_intervalo_gastos_por_meses(año)
+
+    df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
+    df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
+
+    df_final['tasa_ahorro'] = (df_final['diferencia'] / df_final['importe_ingresos'] * 100).round(2)
+    media_tasa_ahorro = df_final['tasa_ahorro'].mean()
+
+    st.metric(label="Tasa de ahorro media mensual", value=f"{media_tasa_ahorro:.2f} %")
+
+
 selector_año()
 
 col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
@@ -93,3 +134,9 @@ with col1:
 with col3:
     obtener_total_diferencia()
     obtener_media_diferencia()
+
+col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
+with col1:
+    obtener_intervalo_tasa_ahorro()
+with col3:
+    obtener_media_tasa_ahorro()
