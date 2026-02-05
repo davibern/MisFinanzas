@@ -1,5 +1,6 @@
 # Ficheros de datos
-/raw
+/raw/*.xml
+!/raw/example.xml
 /data/finanzas.parquet
 
 # Ficheros para el entorno
