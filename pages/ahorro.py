@@ -70,6 +70,21 @@ def obtener_total_diferencia() -> None:
     st.metric(label="Ahorro total del año", value=f"{total_diferencia:.2f} €")
 
 
+def obtener_media_diferencia() -> None:
+    """
+    Obtiene el promedio de las diferencias entre gasto e ingresos del año completo
+    """
+    df_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)
+    df_gastos = datos.obtener_intervalo_gastos_por_meses(año)
+
+    df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
+    df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
+    df_final['ahorrado'] = df_final['diferencia'] > 0
+
+    media_diferencia = df_final['diferencia'].mean()
+    st.metric(label="Ahorro medio mensual", value=f"{media_diferencia:.2f} €")
+
+
 selector_año()
 
 col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
@@ -77,3 +92,4 @@ with col1:
     obtener_intervalo_ahorro_meses()
 with col3:
     obtener_total_diferencia()
+    obtener_media_diferencia()
