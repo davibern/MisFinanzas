@@ -1,5 +1,10 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.10] - 2026-02-05
+### Añadido
+- Añadidos los ficheros de ejemplos, tanto el fichero fuente que se descarga del área de cliente de CaixaBank como el parquet que se exporta al finalizar el proceso de importación. Estos ficheros se encuentran en `raw/example.xml` y `data/finanzas.parquet.example` respectivamente.
+- Añadido nuevos indicadores en `ahorro.py` para mostrar el ahorro total acumulado a lo largo del año y la tasa de ahorro promedio mensual en el año de estudio.
+
 ## [0.0.9] - 2026-02-04
 ### Añadido
 - Añadida página `/pages/ahorro.py.py` para mostrar la evolución del gasto-ingreso a lo largo de un año.
