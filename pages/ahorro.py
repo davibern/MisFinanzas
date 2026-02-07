@@ -128,15 +128,17 @@ def obtener_media_tasa_ahorro() -> None:
 
 selector_año()
 
-col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
-with col1:
-    obtener_intervalo_ahorro_meses()
-with col3:
-    obtener_total_diferencia()
-    obtener_media_diferencia()
-
-col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
-with col1:
-    obtener_intervalo_tasa_ahorro()
-with col3:
-    obtener_media_tasa_ahorro()
+tab_diferencia, tab_tasa_ahorro = st.tabs(["📈 Ingresos - Gastos", "💵 Tasa Ahorro (%)"])
+with tab_diferencia:
+    col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
+    with col1:
+        obtener_intervalo_ahorro_meses()
+    with col3:
+        obtener_total_diferencia()
+        obtener_media_diferencia()
+with tab_tasa_ahorro:
+    col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
+    with col1:
+        obtener_intervalo_tasa_ahorro()
+    with col3:
+        obtener_media_tasa_ahorro()
