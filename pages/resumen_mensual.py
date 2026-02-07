@@ -157,12 +157,21 @@ def obtener_ingresos_mes() -> None:
     st.plotly_chart(fig, width='stretch')
 
 
+def obtener_detalles_mes() -> None:
+    """
+    Obtiene el listado del mes (se visualiza el dataframe)
+    """
+    st.dataframe(datos.datos.query("año == @año and mes == @mes").sort_values(by="fecha", ascending=True).reset_index(drop=True))
+
+
 selector_año_mes()
 obtener_resumen_mes()
 
-tab_gastos, tab_ingresos = st.tabs(["🛍️ Gastos", "🪙 Ingresos"], default="🛍️ Gastos")
+tab_gastos, tab_ingresos, tab_listado = st.tabs(["🛍️ Gastos", "🪙 Ingresos", "🗒️ Listado"], default="🛍️ Gastos")
 
 with tab_gastos:
     obtener_gastos_mes()
 with tab_ingresos:
     obtener_ingresos_mes()
+with tab_listado:
+    obtener_detalles_mes()
