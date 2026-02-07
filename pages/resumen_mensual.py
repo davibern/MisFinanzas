@@ -81,7 +81,7 @@ def obtener_resumen_mes() -> None:
                   label_visibility="visible", format="euro")
 
 
-def obtener_datos_mes() -> None:
+def obtener_gastos_mes() -> None:
     """Obtiene los gastos por categoría del mes actual y lo muestra en un gráfico de barras."""
 
     # Subtítulo para los gastos por categoría
@@ -159,5 +159,10 @@ def obtener_ingresos_mes() -> None:
 
 selector_año_mes()
 obtener_resumen_mes()
-obtener_datos_mes()
-obtener_ingresos_mes()
+
+tab_gastos, tab_ingresos = st.tabs(["🛍️ Gastos", "🪙 Ingresos"], default="🛍️ Gastos")
+
+with tab_gastos:
+    obtener_gastos_mes()
+with tab_ingresos:
+    obtener_ingresos_mes()
