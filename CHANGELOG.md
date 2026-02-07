@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.11] - 2026-02-07
+### Añadido
+- Añadida nueva organización de la información usando pestañas (`st.tabs`) en las páginas `resumen_mensual.py` y `ahorro.py` para mejorar la experiencia de usuario.
+
 ## [0.0.10] - 2026-02-05
 ### Añadido
 - Añadidos los ficheros de ejemplos, tanto el fichero fuente que se descarga del área de cliente de CaixaBank como el parquet que se exporta al finalizar el proceso de importación. Estos ficheros se encuentran en `raw/example.xml` y `data/finanzas.parquet.example` respectivamente.
@@ -7,11 +11,11 @@
 
 ## [0.0.9] - 2026-02-04
 ### Añadido
-- Añadida página `/pages/ahorro.py.py` para mostrar la evolución del gasto-ingreso a lo largo de un año.
+- Añadida página `/pages/ahorro.py` para mostrar la evolución del gasto-ingreso a lo largo de un año.
 ### Modificado
 - Corrección de errores tipográficos en los comentarios del código.
 - Añadido tipado en el retorno de las funciones de los tests en `test_mis_finanzas.py`.
-- Añadido que salga automáticamente el año actual en el selector de años en la página `datos_por_meses.py`.
+- Añadido que salga automáticamente el año actual en el selector de años en la página `resumen_anual.py`.
 
 ## [0.0.8] - 2026-02-02
 ### Añadido
@@ -21,30 +25,30 @@
 
 ## [0.0.7] - 2026-02-02
 ### Modificado
-- Eliminación del campo de filtro del mes en la página `datos_por_meses.py`.
+- Eliminación del campo de filtro del mes en la página `resumen_anual.py`.
 - Eliminar el fichero `main.py`.
 
 ## [0.0.6] - 2026-01-31
 ### Añadido
-- Texto introductorio en la página `datos_por_mes.py` explicando las funcionalidades disponibles.
-- Nueva página `datos_por_meses.py` para mostrar gráficos de barras con la evolución de ingresos y gastos mensuales a lo largo del año.
+- Texto introductorio en la página `resumen_mensual.py` explicando las funcionalidades disponibles.
+- Nueva página `resumen_anual.py` para mostrar gráficos de barras con la evolución de ingresos y gastos mensuales a lo largo del año.
 ### Modificado
-- Corrección del cálculo del delta de ingresos y gastos en `datos_por_mes.py` cuando el mes es enero, para obtener correctamente los datos del mes anterior (diciembre del año anterior).
-- Correción del formato de `datos_por_mes.py` para eliminar líneas en blanco innecesarias.
+- Corrección del cálculo del delta de ingresos y gastos en `resumen_mensual.py` cuando el mes es enero, para obtener correctamente los datos del mes anterior (diciembre del año anterior).
+- Correción del formato de `resumen_mensual.py` para eliminar líneas en blanco innecesarias.
 - Cambiado icono de resumen mensual en `app.py` a `:material/stacked_bar_chart:` para mayor claridad.
 - Corregido formato en `app.py`.
 
 ## [0.0.5] - 2026-01-29
 ### Añadido
-- Implementar funcionalidad en `datos_por_mes.py` para mostrar tarjetas de estadísticas del total de gastos, ingresos y diferencia del mes y su comparativa con el mes anterior.
+- Implementar funcionalidad en `resumen_mensual.py` para mostrar tarjetas de estadísticas del total de gastos, ingresos y diferencia del mes y su comparativa con el mes anterior.
 - Añadir configuración general de la app para ocultar el botón Deploy.
 ### Modificado
-- Actualización de comentarios en `datos_por_mes.py`.
+- Actualización de comentarios en `resumen_mensual.py`.
 
 ## [0.0.4] - 2026-01-28
 ### Añadido
 - Implementar librería Plotly para crear gráficos interactivos.
-- Implementar funcionalidad en `datos_por_mes.py` para mostrar gráficos de barras de los gastos por categoría.
+- Implementar funcionalidad en `resumen_mensual.py` para mostrar gráficos de barras de los gastos por categoría.
 ### Modificado
 - Refactorizar el código de `app.py` para mejorar la legibilidad y organización.
 - Mejorar la información mostrada en la página `cargar_datos.py`.
