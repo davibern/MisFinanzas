@@ -89,6 +89,13 @@ def obtener_gastos_mes() -> None:
 
     # Obtener datos del mes y almacenarlos en un dataframe
     df_gastos = datos.obtener_gastos_agrupados_mes_año(año, mes)
+
+    # Validar si no hay datos para salir antes de intentar graficar
+    if df_gastos.empty:
+        st.info("No hay datos de gastos para el mes seleccionado.")
+        return
+
+    # Convertir los importes a valores absolutos para mostrar el grafico correctamente
     df_gastos['importe'] = df_gastos['importe'].abs()
 
     # Crear gráfico de barras con Plotly para tener control sobre la rotación de etiquetas
@@ -127,6 +134,13 @@ def obtener_ingresos_mes() -> None:
 
     # Obtener datos del mes y almacenarlos en un dataframe
     df_ingresos = datos.obtener_ingresos_agrupados_mes_año(año, mes)
+
+    # Validar si no hay datos para salir antes de intentar graficar
+    if df_ingresos.empty:
+        st.info("No hay datos de ingresos para el mes seleccionado.")
+        return
+
+    # Convertir los importes a valores absolutos para mostrar el grafico correctamente
     df_ingresos['importe'] = df_ingresos['importe'].abs()
 
     # Crear gráfico de barras con Plotly para tener control sobre la rotación de etiquetas
