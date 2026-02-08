@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.12] - 2026-02-08
+### Modificado
+- Añadir validación para el nombre del archivo en la página `cargar_datos.py` para asegurar que siga el formato establecido, que es `YYYYMM`, y mostrar avisos al usuario en caso de que escriba mal el dato. No se motrará el componente de subida de archivos hasta que el nombre no sea correcto.
+### Corregido
+- Corrección de error cuando se selecciona un mes sin datos en la página `resumen_mensual.py`, mostrando al usuario información en lugar del código de error.
+
 ## [0.0.11] - 2026-02-07
 ### Añadido
 - Añadida nueva organización de la información usando pestañas (`st.tabs`) en las páginas `resumen_mensual.py` y `ahorro.py` para mejorar la experiencia de usuario.
