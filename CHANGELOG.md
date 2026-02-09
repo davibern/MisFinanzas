@@ -1,5 +1,10 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.13] - 2026-02-09
+### Añadido
+- Añadida los tests para la función `cargar_datos` en `test_mis_finanzas.py`.
+- Añadida los tests para la función `exportar_datos` en `test_mis_finanzas.py`.
+
 ## [0.0.12] - 2026-02-08
 ### Modificado
 - Añadir validación para el nombre del archivo en la página `cargar_datos.py` para asegurar que siga el formato establecido, que es `YYYYMM`, y mostrar avisos al usuario en caso de que escriba mal el dato. No se motrará el componente de subida de archivos hasta que el nombre no sea correcto.
