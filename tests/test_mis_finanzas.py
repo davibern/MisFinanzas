@@ -28,6 +28,7 @@ def datos_prueba() -> pd.DataFrame:
     """
     # Creamos un DataFrame con datos de ejemplo
     datos = pd.DataFrame({
+        'fecha': ['2025-01-01', '2025-01-01', '2025-01-02', '2025-02-01', '2025-02-01', '2025-02-02'],
         'año': [2025, 2025, 2025, 2025, 2025, 2025],
         'mes': [1, 1, 1, 2, 2, 2],
         'tipo': ['Ingreso', 'Ingreso', 'Gasto', 'Ingreso', 'Gasto', 'Gasto'],
@@ -90,6 +91,20 @@ def test_obtener_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     # Assert
     # En enero 2025 tenemos: Alimentación (-150) = -150
     assert resultado == -150.0, f"Se esperaba -150.0 pero se obtuvo {resultado}"
+
+
+def test_obtener_media_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
+    """
+    Test: Verifica que se calculen correctamente la media de gasto diario de un mes.
+
+    El gasto diario es la suma de los gastos agrupados por fecha, y la media es el promedio de estos totales diarios.
+    """
+    # Act
+    resultado = mis_finanzas_mock.obtener_media_gastos_mes_año(2025, 1)
+
+    # Assert
+    # En enero 2025 tenemos un gasto total de -150 en un sólo día, por lo que la media de gasto diario es 150 (se toma el valor absoluto)
+    assert resultado == 150.0, f"Se esperaba 150.0 pero se obtuvo {resultado}"
 
 
 def test_obtener_gastos_mes_sin_datos(mis_finanzas_mock: MisFinanzas) -> None:
