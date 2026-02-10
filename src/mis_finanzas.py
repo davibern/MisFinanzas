@@ -35,6 +35,33 @@ class MisFinanzas():
             (self.datos['tipo'] == 'Gasto')
         ]['importe'].sum()
 
+    def obtener_media_gastos_mes_año(self, año: int, mes: int) -> float:
+        """
+        Obtener la media del gasto diario sumando los gastos por día y calculando la media de esos totales (omitiendo días sin registros)
+        Args:
+            año (int): el año de estudio
+            mes (int): el mes de estudio
+        Return:
+            float: media del gasto diario del mes
+        """
+
+        # Filtrar los gastos del mes y año correspondientes
+        gastos_mes: pd.DataFrame = self.datos[
+            (self.datos['año'] == año) &
+            (self.datos['mes'] == mes) &
+            (self.datos['tipo'] == 'Gasto')
+        ]['importe']
+
+        # Si no hay gastos ese mes, evitamos errores devolviendo 0.0
+        if gastos_mes.empty:
+            return 0.0
+
+        # Agrupar por fecha y sumar los gastos de cada día, se usa abs() para convertir los gastos a positivos
+        gastos_diarios = gastos_mes.groupby(self.datos['fecha']).sum().abs()
+
+        # Calcular la media de los gastos diarios
+        return gastos_diarios.mean()
+
     def obtener_intervalo_gastos(self, año: int, mes_inicio: int, mes_fin: int) -> float:
         """
         Obtener los gastos totales en un intervalo de fecha
