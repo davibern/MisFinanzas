@@ -65,8 +65,14 @@ def obtener_resumen_mes() -> None:
     delta_balance: float = delta_ingresos + delta_gastos
     ratio_delta_balance: float = ((balance - delta_balance) / delta_balance) * 100 if delta_balance != 0 else 0
 
-    # Mostrar tarjetas en columnas de 3
-    col1, col2, col3 = st.columns(3)
+    # Obtener la media de gasto diario del mes actual y anterior y el ratio de diferencia
+    media_gasto_diario: float = datos.obtener_media_gastos_mes_año(año, mes)
+    delta_media_gasto_diario: float = datos.obtener_media_gastos_mes_año(año, mes - 1) if mes > 1 else datos.obtener_media_gastos_mes_año(año - 1, 12)
+    ratio_delta_media_gasto_diario: float = ((media_gasto_diario - delta_media_gasto_diario) / delta_media_gasto_diario * 100) \
+        if delta_media_gasto_diario != 0 else 0
+
+    # Mostrar tarjetas en columnas de 4
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Ingresos", ingresos, delta=f"{ratio_delta_ingresos:.2f}%",
                   help="Ingresos del mes y su diferencia con el mes anterior en porcentaje",
@@ -78,6 +84,10 @@ def obtener_resumen_mes() -> None:
     with col3:
         st.metric("Balance", balance, delta=f"{ratio_delta_balance:.2f}%",
                   help="Balance del mes y su diferencia con el mes anterior en porcentaje",
+                  label_visibility="visible", format="euro")
+    with col4:
+        st.metric("Media de gasto diario", media_gasto_diario, delta=f"{ratio_delta_media_gasto_diario:.2f}%", delta_color="inverse",
+                  help="Media de gasto diario del mes y su diferencia con el mes anterior en porcentaje",
                   label_visibility="visible", format="euro")
 
 
