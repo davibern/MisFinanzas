@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.14] - 2026-02-10
+### Añadido
+- Añadida función para calcular el gasto medio diario del mes correspondiente. La función se llama `obtener_media_gastos_mes_año` y se encuentra en `src/mis_finanzas.py`. Esta función filtra los gastos del mes y año correspondientes, agrupa por fecha sumando los gastos de cada día (uso `abs()` para convertir los gastos a positivos) y luego calculo la media arimética de la suma de los gastos diarios.
+- Se realiza el correspondiente test unitario para comprobar el correcto funcionamiento de la función, en `/tests/test_mis_finanzas.py`, y la función `test_obtener_media_gastos_mes_año`.
+- Se añade una columna más en el fichero `resumen_mensual.py` para mostrar el gasto medio diario y el delta del mes anterior.
+
 ## [0.0.13] - 2026-02-09
 ### Añadido
 - Añadida los tests para la función `cargar_datos` en `test_mis_finanzas.py`.
