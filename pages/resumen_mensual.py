@@ -142,7 +142,7 @@ def obtener_gastos_top_5_mes() -> None:
     col_burbuja, col_top_gasto = st.columns(2)
     with col_burbuja:
         # Control de usuario para "zoom" (tamaño máximo de burbuja)
-        desired_max_size = st.slider("Tamaño máximo de burbuja (px)", min_value=40, max_value=200, value=180)
+        diametro_burbuja = st.slider("Tamaño máximo de burbuja (px)", min_value=40, max_value=200, value=180)
     with col_top_gasto:
         # Control para el top de gastos
         control_tope_gasto = st.slider("Top de gastos (3 ó 5)", min_value=3, max_value=5, value=4)
@@ -163,10 +163,10 @@ def obtener_gastos_top_5_mes() -> None:
         return
 
     # Preparar tamaños como lista de floats (Plotly valida mejor listas simples)
-    sizes = df_gastos['importe'].astype(float).tolist()
-    max_importe = max(sizes) if sizes else 0
+    diametros = df_gastos['importe'].astype(float).tolist()
+    max_importe = max(diametros) if diametros else 0
     # Tamaño de la burbuja
-    sizeref = 2. * max_importe / (desired_max_size ** 2) if max_importe > 0 else 1
+    diametro_ref = 2. * max_importe / (diametro_burbuja ** 2) if max_importe > 0 else 1
 
     # Usar posiciones numéricas en X para reducir la distancia entre categorías
     categorias = df_gastos['categoria'].astype(str).tolist()
@@ -178,11 +178,11 @@ def obtener_gastos_top_5_mes() -> None:
             y=df_gastos['importe'].tolist(),
             mode='markers',
             marker=dict(
-                size=sizes,
+                size=diametros,
                 sizemode='area',
-                sizeref=sizeref,
+                sizeref=diametro_ref,
                 sizemin=6,
-                color=sizes,
+                color=diametros,
                 colorscale='Viridis',
                 showscale=True,
                 line=dict(width=10, color='rgba(0,0,0,0.2)')
