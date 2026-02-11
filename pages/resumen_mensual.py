@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
+import pandas as pd
 
 from datetime import datetime
 from src.mis_finanzas import MisFinanzas
@@ -109,19 +110,19 @@ def obtener_gastos_mes() -> None:
     df_gastos['importe'] = df_gastos['importe'].abs()
 
     # Crear gráfico de barras con Plotly para tener control sobre la rotación de etiquetas
-    fig = go.Figure(data=[
+    fig_hist = go.Figure(data=[
         go.Bar(
             x=df_gastos['categoria'],
             y=df_gastos['importe'],
             marker=dict(
-                color=df_gastos.index,  # Color por categoría
+                color=df_gastos.index,
                 colorscale='Viridis'
             )
         )
     ])
 
     # Configurar el layout con etiquetas rotadas a 45 grados
-    fig.update_layout(
+    fig_hist.update_layout(
         xaxis_title="Categoría",
         yaxis_title="Importe (€)",
         height=600,
@@ -133,7 +134,75 @@ def obtener_gastos_mes() -> None:
     )
 
     # Mostrar el gráfico en Streamlit
-    st.plotly_chart(fig, width='stretch')
+    st.plotly_chart(fig_hist, width='stretch')
+
+
+def obtener_gastos_top_5_mes() -> None:
+    st.subheader("Top 5 de gastos del mes")
+
+    # Obtener y validar datos
+    df_gastos = datos.obtener_gastos_agrupados_mes_año(año, mes)
+    if df_gastos.empty:
+        st.info("No hay datos de gastos para el mes seleccionado.")
+        return
+
+    # Asegurar que 'importe' sea numérico, sin NaN y en valor absoluto
+    df_gastos['importe'] = pd.to_numeric(df_gastos.get('importe', pd.Series()), errors='coerce').fillna(0).abs()
+
+    # Mostrar solo el top 5 de gastos por cuantía
+    df_gastos = df_gastos.sort_values(by='importe', ascending=False).head(5)
+    if df_gastos.empty:
+        st.info("No hay gastos para mostrar en el Top 5.")
+        return
+
+    # Preparar tamaños como lista de floats (Plotly valida mejor listas simples)
+    sizes = df_gastos['importe'].astype(float).tolist()
+    max_importe = max(sizes) if sizes else 0
+
+    # Control de usuario para "zoom" (tamaño máximo de burbuja)
+    desired_max_size = st.slider("Tamaño máximo de burbuja (px)", min_value=40, max_value=200, value=120, key="bubbles_max_size")
+    sizeref = 2. * max_importe / (desired_max_size ** 2) if max_importe > 0 else 1
+
+    # Usar posiciones numéricas en X para reducir la distancia entre categorías
+    categorias = df_gastos['categoria'].astype(str).tolist()
+    x_pos = list(range(len(categorias)))
+
+    fig_bub = go.Figure(data=[
+        go.Scatter(
+            x=x_pos,
+            y=df_gastos['importe'].tolist(),
+            mode='markers',
+            marker=dict(
+                size=sizes,
+                sizemode='area',
+                sizeref=sizeref,
+                sizemin=6,
+                color=sizes,
+                colorscale='Viridis',
+                showscale=True,
+                line=dict(width=10, color='rgba(0,0,0,0.2)')
+            ),
+            hovertemplate='%{text}<br>Importe: €%{y:.2f}<extra></extra>',
+            text=categorias
+        )
+    ])
+
+    fig_bub.update_layout(
+        xaxis_title="Categoría",
+        yaxis_title="Importe (€)",
+        height=500,
+        xaxis=dict(
+            tickmode='array',
+            tickvals=x_pos,
+            ticktext=categorias,
+            tickangle=-45,
+            range=[-0.6, len(categorias) - 0.4]
+        ),
+        margin=dict(l=40, r=40, t=40, b=120),
+        showlegend=False
+    )
+
+    st.plotly_chart(fig_bub, width='stretch')
 
 
 def obtener_ingresos_mes() -> None:
@@ -195,6 +264,7 @@ tab_gastos, tab_ingresos, tab_listado = st.tabs(["🛍️ Gastos", "🪙 Ingreso
 
 with tab_gastos:
     obtener_gastos_mes()
+    obtener_gastos_top_5_mes()
 with tab_ingresos:
     obtener_ingresos_mes()
 with tab_listado:
