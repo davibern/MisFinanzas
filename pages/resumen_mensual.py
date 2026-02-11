@@ -139,6 +139,13 @@ def obtener_gastos_mes() -> None:
 
 def obtener_gastos_top_5_mes() -> None:
     st.subheader("Top 5 de gastos del mes")
+    col_burbuja, col_top_gasto = st.columns(2)
+    with col_burbuja:
+        # Control de usuario para "zoom" (tamaño máximo de burbuja)
+        desired_max_size = st.slider("Tamaño máximo de burbuja (px)", min_value=40, max_value=200, value=180)
+    with col_top_gasto:
+        # Control para el top de gastos
+        control_tope_gasto = st.slider("Top de gastos (3 ó 5)", min_value=3, max_value=5, value=4)
 
     # Obtener y validar datos
     df_gastos = datos.obtener_gastos_agrupados_mes_año(año, mes)
@@ -150,7 +157,7 @@ def obtener_gastos_top_5_mes() -> None:
     df_gastos['importe'] = pd.to_numeric(df_gastos.get('importe', pd.Series()), errors='coerce').fillna(0).abs()
 
     # Mostrar solo el top 5 de gastos por cuantía
-    df_gastos = df_gastos.sort_values(by='importe', ascending=False).head(5)
+    df_gastos = df_gastos.sort_values(by='importe', ascending=False).head(control_tope_gasto)
     if df_gastos.empty:
         st.info("No hay gastos para mostrar en el Top 5.")
         return
@@ -158,9 +165,7 @@ def obtener_gastos_top_5_mes() -> None:
     # Preparar tamaños como lista de floats (Plotly valida mejor listas simples)
     sizes = df_gastos['importe'].astype(float).tolist()
     max_importe = max(sizes) if sizes else 0
-
-    # Control de usuario para "zoom" (tamaño máximo de burbuja)
-    desired_max_size = st.slider("Tamaño máximo de burbuja (px)", min_value=40, max_value=200, value=120, key="bubbles_max_size")
+    # Tamaño de la burbuja
     sizeref = 2. * max_importe / (desired_max_size ** 2) if max_importe > 0 else 1
 
     # Usar posiciones numéricas en X para reducir la distancia entre categorías
