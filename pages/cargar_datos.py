@@ -44,3 +44,5 @@ if nombre_archivo:
                 with open(os.path.join("./raw", nombre_archivo), "wb") as f:
                     f.write(archivo.getbuffer())
                 st.success("Datos exportados correctamente. Se ha guardado una copia en la carpeta raw y los datos se han añadido al parquet.")
+                st.cache_data_clear()
+                st.info("✅ Caché limpiado. Los nuevos datos estarán disponibles al navegar a otras páginas.")
