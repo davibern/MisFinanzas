@@ -1,13 +1,27 @@
 import pandas as pd
+import streamlit as st
+
+
+@st.cache_data
+def cargar_datos_finanzas() -> pd.DataFrame:
+    """
+    Carga y preprocesa los datos del archivo parquet.
+    Esta función está cacheada para evitar lecturas repetitivas.
+
+    Returns:
+        pd.DataFrame: DataFrame con los datos procesados
+    """
+    datos = pd.read_parquet("data/finanzas.parquet")
+    # Convertir columnas de partición de categorical a int
+    datos[['año', 'mes']] = datos[['año', 'mes']].astype(int)
+    return datos
 
 
 class MisFinanzas():
 
     def __init__(self) -> None:
-        self.datos = pd.read_parquet("data/finanzas.parquet")
-        # Convertir columnas de partición de categorical a int
-        self.datos['año'] = self.datos['año'].astype(int)
-        self.datos['mes'] = self.datos['mes'].astype(int)
+        # Usa función cacheada en lugar de leer directamente
+        self.datos = cargar_datos_finanzas()
 
     def obtener_ingresos_mes_año(self, año: int, mes: int) -> float:
         """
