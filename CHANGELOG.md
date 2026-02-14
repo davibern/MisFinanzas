@@ -1,5 +1,13 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.16] - 2026-02-14
+### Modificado
+- Añadida caché de datos para mejorar el rendimiento en la carga de datos, carga de clasae y métodos. En `src/mis_finanzas.py` se ha añadido la caché de datos para mejorar el rendimiento en la carga de datos, carga de clasae y métodos. En `pages/cargar_datos.py` se ha añadido la caché de datos para mejorar el rendimiento en la carga de datos, carga de clasae y métodos.
+- Limpiar caché de datos justo cuando se cargen nuevos para actualizar los datos almacenados.
+### Añadido
+- Añadido mensaje informativo en la página `cargar_datos.py` para informar al usuario de que los nuevos datos estarán disponibles al navegar a otras páginas.
+
+
 ## [0.0.15] - 2026-02-11
 ### Añadido
 - Añadido gráfico de burbujas para mostrar el top 5 de gastos del mes en `/pages/resumen_mensual.py`
