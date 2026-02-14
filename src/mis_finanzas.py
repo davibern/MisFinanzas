@@ -23,15 +23,7 @@ def cargar_datos_finanzas() -> pd.DataFrame:
 # ============================================
 @st.cache_data
 def _calcular_ingresos_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> float:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes: el mes de estudio
-    
-    Returns:
-        float: total de ingresos del mes
-    """
+    """Calcula el total de ingresos para un mes específico (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] == mes) &
@@ -41,15 +33,7 @@ def _calcular_ingresos_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> fl
 
 @st.cache_data
 def _calcular_gastos_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> float:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes: el mes de estudio
-    
-    Returns:
-        float: total de gastos del mes
-    """
+    """Calcula el total de gastos para un mes específico (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] == mes) &
@@ -59,15 +43,7 @@ def _calcular_gastos_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> floa
 
 @st.cache_data
 def _calcular_media_gastos_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> float:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes: el mes de estudio
-    
-    Returns:
-        float: media del gasto diario del mes
-    """
+    """Calcula la media de gasto diario para un mes, omitiendo días sin registros (función cacheada)."""
 
     # Filtrar los gastos del mes y año correspondientes
     gastos_mes: pd.DataFrame = _datos[
@@ -89,16 +65,7 @@ def _calcular_media_gastos_mes_año(_datos: pd.DataFrame, año: int, mes: int) -
 
 @st.cache_data
 def _calcular_intervalo_gastos(_datos: pd.DataFrame, año: int, mes_inicio: int, mes_fin: int) -> float:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes_inicio: el mes inicial
-        mes_fin: el mes final
-    
-    Returns:
-        float: total de gastos imputados en el periodo de estudio
-    """
+    """Calcula el total de gastos en un intervalo de meses (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] >= mes_inicio) &
@@ -109,16 +76,7 @@ def _calcular_intervalo_gastos(_datos: pd.DataFrame, año: int, mes_inicio: int,
 
 @st.cache_data
 def _calcular_intervalo_ingresos(_datos: pd.DataFrame, año: int, mes_inicio: int, mes_fin: int) -> float:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes_inicio: el mes inicial
-        mes_fin: el mes final
-    
-    Returns:
-        float: total de ingresos imputados en el periodo de estudio
-    """
+    """Calcula el total de ingresos en un intervalo de meses (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] >= mes_inicio) &
@@ -129,15 +87,7 @@ def _calcular_intervalo_ingresos(_datos: pd.DataFrame, año: int, mes_inicio: in
 
 @st.cache_data
 def _calcular_gastos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> pd.DataFrame:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes: el mes de estudio
-    
-    Returns:
-        pd.DataFrame: DataFrame con los gastos agrupados por categoría
-    """
+    """Agrupa los gastos por categoría para un mes específico (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] == mes) &
@@ -147,16 +97,7 @@ def _calcular_gastos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes: in
 
 @st.cache_data
 def _calcular_intervalo_gastos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes_inicio: int, mes_fin: int) -> pd.DataFrame:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes_inicio: el mes inicial
-        mes_fin: el mes final
-    
-    Returns:
-        pd.DataFrame: DataFrame con los gastos agrupados por categoría
-    """
+    """Agrupa los gastos por categoría en un intervalo de meses (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] >= mes_inicio) &
@@ -166,15 +107,7 @@ def _calcular_intervalo_gastos_agrupados_mes_año(_datos: pd.DataFrame, año: in
 
 @st.cache_data
 def _calcular_ingresos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> pd.DataFrame:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes: el mes de estudio
-    
-    Returns:
-        pd.DataFrame: DataFrame con los ingresos agrupados por categoría
-    """
+    """Agrupa los ingresos por categoría para un mes específico (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] == mes) &
@@ -183,16 +116,7 @@ def _calcular_ingresos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes: 
 
 @st.cache_data
 def _calcular_intervalo_ingresos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes_inicio: int, mes_fin: int) -> pd.DataFrame:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-        mes_inicio: el mes inicial
-        mes_fin: el mes final
-    
-    Returns:
-        pd.DataFrame: DataFrame con los ingresos agrupados por categoría
-    """
+    """Agrupa los ingresos por categoría en un intervalo de meses (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['mes'] >= mes_inicio) &
@@ -203,14 +127,7 @@ def _calcular_intervalo_ingresos_agrupados_mes_año(_datos: pd.DataFrame, año: 
 
 @st.cache_data
 def _calcular_intervalo_gastos_por_meses(_datos: pd.DataFrame, año: int) -> pd.DataFrame:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-    
-    Returns:
-        pd.DataFrame: DataFrame con los gastos agrupados por mes
-    """
+    """Agrupa los gastos por mes para un año completo (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['tipo'] == 'Gasto')
@@ -218,14 +135,7 @@ def _calcular_intervalo_gastos_por_meses(_datos: pd.DataFrame, año: int) -> pd.
 
 @st.cache_data
 def _calcular_intervalo_ingresos_por_meses(_datos: pd.DataFrame, año: int) -> pd.DataFrame:
-    """
-        Args:
-        _datos: DataFrame con los datos financieros (el _ indica que no se usa para el hash del cache)
-        año: el año de estudio
-    
-    Returns:
-        pd.DataFrame: DataFrame con los ingresos agrupados por mes
-    """
+    """Agrupa los ingresos por mes para un año completo (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['tipo'] == 'Ingreso')
@@ -243,141 +153,145 @@ class MisFinanzas():
 
     def obtener_ingresos_mes_año(self, año: int, mes: int) -> float:
         """
-        Obtener los ingresos totales del año y mes de estudio
+        Obtiene el total de ingresos de un mes específico.
 
         Args:
-            año (int): el año de estudio
-            mes (int): el mes de estudio
+            año: Año a consultar
+            mes: Mes a consultar (1-12)
         
         Returns:
-            float: total de ingresos del mes
+            Total de ingresos del mes en euros
         """
         return _calcular_ingresos_mes_año(self.datos, año, mes)
 
     def obtener_gastos_mes_año(self, año: int, mes: int) -> float:
         """
-        Obtener los gastos totales del año y mes de estudio
+        Obtiene el total de gastos de un mes específico.
 
         Args:
-            año (int): el año de estudio
-            mes (int): el mes de estudio
+            año: Año a consultar
+            mes: Mes a consultar (1-12)
         
         Returns:
-            float: total de gastos del mes
+            Total de gastos del mes en euros (valor negativo)
         """
         return _calcular_gastos_mes_año(self.datos, año, mes)
 
     def obtener_media_gastos_mes_año(self, año: int, mes: int) -> float:
         """
-        Obtener la media del gasto diario sumando los gastos por día y calculando la media de esos totales (omitiendo días sin registros)
+        Calcula la media de gasto diario de un mes, considerando solo los días con gastos registrados.
+
         Args:
-            año (int): el año de estudio
-            mes (int): el mes de estudio
-        Return:
-            float: media del gasto diario del mes
+            año: Año a consultar
+            mes: Mes a consultar (1-12)
+        
+        Returns:
+            Media de gasto diario en euros
         """
         return _calcular_media_gastos_mes_año(self.datos, año, mes)
 
     def obtener_intervalo_gastos(self, año: int, mes_inicio: int, mes_fin: int) -> float:
         """
-        Obtener los gastos totales en un intervalo de fecha
+        Obtiene el total de gastos en un rango de meses.
 
         Args:
-            año (int): el año de estudio
-            mes_inicio (int): el mes inicial
-            mes_fin (int): el mes final
+            año: Año a consultar
+            mes_inicio: Mes inicial del intervalo (1-12)
+            mes_fin: Mes final del intervalo (1-12)
 
         Returns:
-            float: total de gastos imputados en el periodo de estudio
+            Total de gastos del periodo en euros (valor negativo)
         """
         return _calcular_intervalo_gastos(self.datos, año, mes_inicio, mes_fin)
 
     def obtener_intervalo_ingresos(self, año: int, mes_inicio: int, mes_fin: int) -> float:
         """
-        Obtener los ingresos totales en un intervalo de fecha
+        Obtiene el total de ingresos en un rango de meses.
 
         Args:
-            año (int): el año de estudio
-            mes_inicio (int): el mes inicial
-            mes_fin (int): el mes final
+            año: Año a consultar
+            mes_inicio: Mes inicial del intervalo (1-12)
+            mes_fin: Mes final del intervalo (1-12)
 
         Returns:
-            float: total de ingresos imputados en el periodo de estudio
+            Total de ingresos del periodo en euros
         """
         return _calcular_intervalo_ingresos(self.datos, año, mes_inicio, mes_fin)
 
     def obtener_gastos_agrupados_mes_año(self, año: int, mes: int) -> pd.DataFrame:
         """
-        Obtener los gastos de un mes y año agrupados por categoría
+        Obtiene los gastos de un mes agrupados por categoría.
 
         Args:
-            año (int): el año de estudio
-            mes (int): el mes de estudio
+            año: Año a consultar
+            mes: Mes a consultar (1-12)
 
         Returns:
-            pd.DataFrame: DataFrame con los datos de gastos agrupados por categoría
+            DataFrame con columnas ['categoria', 'importe']
         """
         return _calcular_gastos_agrupados_mes_año(self.datos, año, mes)
 
     def obtener_intervalo_gastos_agrupados_mes_año(self, año: int, mes_inicio: int, mes_fin: int) -> pd.DataFrame:
         """
-        Obtener los gastos de un intervalo de meses y año agrupados por categoría
+        Obtiene los gastos de un rango de meses agrupados por categoría.
 
         Args:
-            año (int): el año de estudio
-            mes_inicio (int): el mes inicial
-            mes_fin (int): el mes final
+            año: Año a consultar
+            mes_inicio: Mes inicial del intervalo (1-12)
+            mes_fin: Mes final del intervalo (1-12)
+
         Returns:
-            pd.DataFrame: DataFrame con los datos de gastos agrupados por categoría
+            DataFrame con columnas ['categoria', 'importe']
         """
         return _calcular_intervalo_gastos_agrupados_mes_año(self.datos, año, mes_inicio, mes_fin)
 
     def obtener_ingresos_agrupados_mes_año(self, año: int, mes: int) -> pd.DataFrame:
         """
-        Obtener los ingresos de un mes y año agrupados por categoría
+        Obtiene los ingresos de un mes agrupados por categoría.
 
         Args:
-            año (int): el año de estudio
-            mes (int): el mes de estudio
+            año: Año a consultar
+            mes: Mes a consultar (1-12)
 
         Returns:
-            pd.DataFrame: DataFrame con los datos de gastos agrupados por categoría
+            DataFrame con columnas ['categoria', 'importe']
         """
         return _calcular_ingresos_agrupados_mes_año(self.datos, año, mes)
 
     def obtener_intervalo_ingresos_agrupados_mes_año(self, año: int, mes_inicio: int, mes_fin: int) -> pd.DataFrame:
         """
-        Obtener los ingresos de un intervalo de meses y año agrupados por categoría
+        Obtiene los ingresos de un rango de meses agrupados por categoría.
 
         Args:
-            año (int): el año de estudio
-            mes_inicio (int): el mes inicial
-            mes_fin (int): el mes final
+            año: Año a consultar
+            mes_inicio: Mes inicial del intervalo (1-12)
+            mes_fin: Mes final del intervalo (1-12)
+
         Returns:
-            pd.DataFrame: DataFrame con los datos de ingresos agrupados por categoría
+            DataFrame con columnas ['categoria', 'importe']
         """
         return _calcular_intervalo_ingresos_agrupados_mes_año(self.datos, año, mes_inicio, mes_fin)
 
     def obtener_intervalo_gastos_por_meses(self, año: int) -> pd.DataFrame:
         """
-        Obtener la suma de los gastos por meses en un intervalo de 12 meses
+        Obtiene los gastos totales de cada mes de un año.
 
         Args:
-            año (int): el año de estudio
+            año: Año a consultar
 
         Returns:
-            pd.DataFrame: DataFrame con los datos de gastos por mes
+            DataFrame con columnas ['mes', 'importe'] para los 12 meses
         """
         return _calcular_intervalo_gastos_por_meses(self.datos, año)
 
     def obtener_intervalo_ingresos_por_meses(self, año: int) -> pd.DataFrame:
         """
-        Obtener la suma de los ingresos por meses en un intervalo de 12 meses
+        Obtiene los ingresos totales de cada mes de un año.
 
         Args:
-            año (int): el año de estudio
+            año: Año a consultar
 
         Returns:
-            pd.DataFrame: DataFrame con los datos de ingresos por mes
+            DataFrame con columnas ['mes', 'importe'] para los 12 meses
         """
         return _calcular_intervalo_ingresos_por_meses(self.datos, año)
