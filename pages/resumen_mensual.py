@@ -138,14 +138,14 @@ def obtener_gastos_mes() -> None:
 
 
 def obtener_gastos_top_5_mes() -> None:
-    st.subheader("Top 5 de gastos del mes")
+    st.subheader("Top de gastos del mes")
     col_burbuja, col_top_gasto = st.columns(2)
     with col_burbuja:
         # Control de usuario para "zoom" (tamaño máximo de burbuja)
         diametro_burbuja = st.slider("Tamaño máximo de burbuja (px)", min_value=40, max_value=200, value=180)
     with col_top_gasto:
         # Control para el top de gastos
-        control_tope_gasto = st.slider("Top de gastos (3 ó 5)", min_value=3, max_value=5, value=4)
+        control_tope_gasto = st.slider("Filtra el tope de gastos máximos (3 ó 5)", min_value=3, max_value=5, value=4)
 
     # Obtener y validar datos
     df_gastos = datos.obtener_gastos_agrupados_mes_año(año, mes)
