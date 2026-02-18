@@ -7,9 +7,8 @@ from src.exportar_datos import ExportarDatos
 st.title("🗂️ Cargar Datos")
 
 st.markdown("""
-1. Lo primero es indicar el **año y el mes** del archivo que se va a cargar.
-    - Esto servirá para almacenar la copia de seguridad del archivo original con el nombre que indiques en `/raw`.
-2. A continuación, se debe seleccionar el archivo `.xml` que se va a cargar.
+1. Indica el **año y el mes** del archivo que se va a cargar. Sigue el formato indicado (YYYYMM)
+2. Seguidamente, selecciona el archivo `.xml` que se va a cargar.
 """)
 
 nombre_archivo = str(st.text_input("Nombre del archivo (formato: YYYYMM)", placeholder="YYYYMM"))
