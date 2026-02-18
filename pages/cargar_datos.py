@@ -11,7 +11,10 @@ st.markdown("""
 2. Seguidamente, selecciona el archivo `.xml` que se va a cargar.
 """)
 
-nombre_archivo = str(st.text_input("Nombre del archivo (formato: YYYYMM)", placeholder="YYYYMM"))
+col1, _ = st.columns([1, 3])
+
+with col1:
+    nombre_archivo = str(st.text_input("Nombre del archivo (formato: YYYYMM)", placeholder="YYYYMM"))
 
 # Validar que exista un nombre y luego que siga el formato correcto
 if nombre_archivo:
@@ -20,7 +23,11 @@ if nombre_archivo:
     elif len(nombre_archivo) != 6:
         st.warning("El nombre del fichero debe tener 6 dígitos y seguir el formato YYYYMM, ejemplo: 202401, que sería enero 2024.")
     else:
-        archivo = st.file_uploader("Selecciona un archivo XML", type=["xml"])
+
+        col1, _ = st.columns([1, 2])
+
+        with col1:
+            archivo = st.file_uploader("Selecciona un archivo XML", type=["xml"])
 
         if archivo is not None:
             # Cargar y procesar el archivo desde el uploader de Streamlit
