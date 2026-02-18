@@ -1,5 +1,10 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.17] - 2026-02-18
+### Modificado
+- Mejorar la información de los textos de ayuda en la página `cargar_datos.py` para que el usuario sepa qué formato debe seguir el nombre del archivo.
+- Cambiar la distribución de los campos en `cargar_datos.py` para que no ocupen todo el año de pantalla con columnas.
+
 ## [0.0.16] - 2026-02-14
 ### Modificado
 - Añadida caché de datos para mejorar el rendimiento en la carga de datos, carga de clasae y métodos. En `src/mis_finanzas.py` se ha añadido la caché de datos para mejorar el rendimiento en la carga de datos, carga de clasae y métodos. En `pages/cargar_datos.py` se ha añadido la caché de datos para mejorar el rendimiento en la carga de datos, carga de clasae y métodos.
