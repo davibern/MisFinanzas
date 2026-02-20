@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.18] - 2026-02-20
+### Añadido
+- Mejorado los textos de ayuda al usuario y los campos de selección de fechas en `resumen_mensual.py` y `resumen_anual.py`.
+
 ## [0.0.17] - 2026-02-18
 ### Modificado
 - Mejorar la información de los textos de ayuda en la página `cargar_datos.py` para que el usuario sepa qué formato debe seguir el nombre del archivo.
