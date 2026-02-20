@@ -8,9 +8,6 @@ from src.mis_finanzas import MisFinanzas
 # Título de la página
 st.title("📅 Datos del Mes")
 st.write("Datos financieros agrupados por mes, con gráficos y estadísticas.")
-st.write("Selecciona el año y el mes para obtener los datos correspondientes, y obtendrás\
-    automáticamente la comparativa con respecto al mes anterior.")
-st.write("Encontrarás además un desglose de gastos e ingresos por categoría.")
 
 # Cargar datos
 datos = MisFinanzas()
@@ -19,7 +16,6 @@ datos = MisFinanzas()
 def selector_año_mes() -> None:
     """Selector de año y mes"""
     st.markdown("---")
-    st.markdown("#### Selecciona el año y el mes que deseas consultar")
     col1, col2 = st.columns(2)
     with col1:
         global año
@@ -32,7 +28,7 @@ def selector_año_mes() -> None:
             indice_defecto_año = años.index(año_actual)
         except ValueError:
             indice_defecto_año = 0
-        año = st.selectbox("Año", años, index=indice_defecto_año)
+        año = st.selectbox("Año", años, index=indice_defecto_año, help="Selecciona el año que deseas consultar")
     with col2:
         global mes
         meses = list(range(1, 13))
@@ -44,7 +40,7 @@ def selector_año_mes() -> None:
             indice_defecto_mes = meses.index(mes_actual)
         except ValueError:
             indice_defecto_mes = 0
-        mes = st.selectbox("Mes", meses, index=indice_defecto_mes)
+        mes = st.selectbox("Mes", meses, index=indice_defecto_mes, help="Selecciona el mes que deseas consultar")
     st.markdown("---")
 
 
