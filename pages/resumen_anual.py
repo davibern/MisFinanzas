@@ -6,10 +6,7 @@ from src.mis_finanzas import MisFinanzas
 
 # Título de la página
 st.title("📅 Datos por Meses")
-st.write("Histograma de datos financieros agrupados por meses, con gráficos y estadísticas.")
-st.write("Selecciona el año para obtener los datos correspondientes, y obtendrás\
-    automáticamente la evolución de los últimos doce meses.")
-st.write("Encontrarás además un desglose de gastos e ingresos por categoría.")
+st.write("Histograma de gastos vs ingresos por mes en el año seleccionado.")
 
 # Cargar datos
 datos = MisFinanzas()
@@ -18,8 +15,7 @@ datos = MisFinanzas()
 def selector_año() -> None:
     """Selector de año y mes"""
     st.markdown("---")
-    st.markdown("#### Selecciona el año y el mes que deseas consultar")
-    col1, col2 = st.columns(2)
+    col1, _ = st.columns([1, 3])
     with col1:
         global año
         años = list(range(2024, 2027))
@@ -31,7 +27,7 @@ def selector_año() -> None:
             indice_defecto_año = años.index(año_actual)
         except ValueError:
             indice_defecto_año = 0
-        año = st.selectbox("Año", años, index=indice_defecto_año)
+        año = st.selectbox("Año", años, index=indice_defecto_año, help="Selecciona el año que deseas consultar")
     st.markdown("---")
 
 
