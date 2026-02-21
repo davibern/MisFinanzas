@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.19] - 2026-02-21
+### Añadido
+- Añadido enlace a la página de ayuda para exportar datos de CaixaBank en la página `cargar_datos.py`.
+
 ## [0.0.18] - 2026-02-20
 ### Añadido
 - Mejorado los textos de ayuda al usuario y los campos de selección de fechas en `resumen_mensual.py` y `resumen_anual.py`.
