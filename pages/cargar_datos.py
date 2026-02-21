@@ -11,6 +11,10 @@ st.markdown("""
 2. Seguidamente, selecciona el archivo `.xml` que se va a cargar.
 """)
 
+st.write("Si necesitas ayuda para exportar los datos de CaixaBank, puedes pulsar el siguiente botón de ayuda 👇🏻")
+st.page_link("./pages/cargar_datos_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
+st.markdown("""---""", unsafe_allow_html=True)
+
 col1, _ = st.columns([1, 3])
 
 with col1:
