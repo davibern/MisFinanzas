@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.20] - 2026-02-22
+### Corregido
+- Corrección de error al limpiar caché. No estaba llamando bien a la función.
+
 ## [0.0.19] - 2026-02-21
 ### Añadido
 - Añadido enlace a la página de ayuda para exportar datos de CaixaBank en la página `cargar_datos.py`.
