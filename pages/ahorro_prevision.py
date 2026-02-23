@@ -6,7 +6,7 @@ from datetime import datetime
 from src.mis_finanzas import MisFinanzas
 
 # Título de la página
-st.title("💰 Ahorro")
+st.title("💰 Ahorro y Previsión")
 st.write("Histograma del ahorro mensual en el año seleccionado.")
 st.write("Selecciona el año para obtener los datos correspondientes, y obtendrás\
     automáticamente la evolución de los últimos doce meses.")
