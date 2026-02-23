@@ -28,12 +28,12 @@ def datos_prueba() -> pd.DataFrame:
     """
     # Creamos un DataFrame con datos de ejemplo
     datos = pd.DataFrame({
-        'fecha': ['2025-01-01', '2025-01-01', '2025-01-02', '2025-02-01', '2025-02-01', '2025-02-02'],
-        'año': [2025, 2025, 2025, 2025, 2025, 2025],
-        'mes': [1, 1, 1, 2, 2, 2],
-        'tipo': ['Ingreso', 'Ingreso', 'Gasto', 'Ingreso', 'Gasto', 'Gasto'],
-        'categoria': ['Salario', 'Freelance', 'Alimentación', 'Salario', 'Transporte', 'Ocio'],
-        'importe': [2000.0, 500.0, -150.0, 2000.0, -80.0, -120.0]
+        'fecha': ['2025-01-01', '2025-01-01', '2025-01-02', '2025-02-01', '2025-02-01', '2025-02-02', '2025-01-15'],
+        'año': [2025, 2025, 2025, 2025, 2025, 2025, 2025],
+        'mes': [1, 1, 1, 2, 2, 2, 1],
+        'tipo': ['Ingreso', 'Ingreso', 'Gasto', 'Ingreso', 'Gasto', 'Gasto', 'Gasto'],
+        'categoria': ['Salario', 'Freelance', 'Alimentación', 'Salario', 'Transporte', 'Ocio', 'Planes de pensión y previsión'],
+        'importe': [2000.0, 500.0, -150.0, 2000.0, -80.0, -120.0, -600.0]
     })
     return datos
 
@@ -89,8 +89,8 @@ def test_obtener_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     resultado = mis_finanzas_mock.obtener_gastos_mes_año(2025, 1)
 
     # Assert
-    # En enero 2025 tenemos: Alimentación (-150) = -150
-    assert resultado == -150.0, f"Se esperaba -150.0 pero se obtuvo {resultado}"
+    # En enero 2025 tenemos: Alimentación (-150) + Planes de pensión (-600) = -750
+    assert resultado == -750.0, f"Se esperaba -750.0 pero se obtuvo {resultado}"
 
 
 def test_obtener_media_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
@@ -103,8 +103,9 @@ def test_obtener_media_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     resultado = mis_finanzas_mock.obtener_media_gastos_mes_año(2025, 1)
 
     # Assert
-    # En enero 2025 tenemos un gasto total de -150 en un sólo día, por lo que la media de gasto diario es 150 (se toma el valor absoluto)
-    assert resultado == 150.0, f"Se esperaba 150.0 pero se obtuvo {resultado}"
+    # En enero 2025: Alimentación (-150) el día 02 y Planes de pensión (-600) el día 15
+    # Media diaria = (150 + 600) / 2 = 375.0
+    assert resultado == 375.0, f"Se esperaba 375.0 pero se obtuvo {resultado}"
 
 
 def test_obtener_gastos_mes_sin_datos(mis_finanzas_mock: MisFinanzas) -> None:
@@ -132,8 +133,8 @@ def test_obtener_intervalo_gastos(mis_finanzas_mock: MisFinanzas) -> None:
     resultado = mis_finanzas_mock.obtener_intervalo_gastos(2025, 1, 2)
 
     # Assert
-    # Gastos de enero a febrero: -150 (enero) + -80 + -120 (febrero) = -350
-    assert resultado == -350.0, f"Se esperaba -350.0 pero se obtuvo {resultado}"
+    # Gastos de enero a febrero: -150 + -600 (enero) + -80 + -120 (febrero) = -950
+    assert resultado == -950.0, f"Se esperaba -950.0 pero se obtuvo {resultado}"
 
 
 def test_obtener_gastos_agrupados_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
@@ -184,3 +185,22 @@ def test_obtener_intervalo_ingresos_por_meses(mis_finanzas_mock: MisFinanzas) ->
 
     assert mes_1 == 2500.0, f"Ingresos de enero deberían ser 2500.0 pero son {mes_1}"
     assert mes_2 == 2000.0, f"Ingresos de febrero deberían ser 2000.0 pero son {mes_2}"
+
+
+def test_obtener_ahorro_jubilacion_por_meses(mis_finanzas_mock: MisFinanzas) -> None:
+    """
+    Test: Verifica que se obtengan correctamente los gastos por mes.
+
+    Este test comprueba que la función devuelve un DataFrame con
+    los gastos agrupados por mes.
+    """
+    # Act
+    resultado = mis_finanzas_mock.obtener_ahorro_jubilacion_por_meses(2025)
+
+    # Assert
+    assert isinstance(resultado, pd.DataFrame), "El resultado debería ser un DataFrame"
+    assert len(resultado) == 1, f"Se esperaba 1 mes pero se obtuvieron {len(resultado)}"
+
+    # Verificamos el valor del ahorro en enero (el importe es negativo como los gastos)
+    ahorro_enero = resultado[resultado['mes'] == 1]['importe'].values[0]
+    assert ahorro_enero == 600.0, f"El ahorro de jubilación de enero debería ser 600.0 pero es {ahorro_enero}"
