@@ -126,6 +126,25 @@ def obtener_media_tasa_ahorro() -> None:
     st.metric(label="Tasa de ahorro media mensual", value=f"{media_tasa_ahorro:.2f} %")
 
 
+def obtener_intervalo_prevision() -> None:
+    """
+    Obtiene el ahorro diferido por jubilación mensual en un año
+    """
+    df_ahorro = datos.obtener_ahorro_jubilacion_por_meses(año)
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=df_ahorro['mes'],
+            y=df_ahorro['importe'],
+            mode='lines+markers',
+            name='Ahorro por jubilación'
+        )
+    )
+
+    st.plotly_chart(fig, width='stretch')
+
+
 selector_año()
 
 tab_diferencia, tab_tasa_ahorro = st.tabs(["📈 Ingresos - Gastos", "💵 Tasa Ahorro (%)"])
@@ -142,3 +161,6 @@ with tab_tasa_ahorro:
         obtener_intervalo_tasa_ahorro()
     with col3:
         obtener_media_tasa_ahorro()
+
+obtener_intervalo_prevision()   
+
