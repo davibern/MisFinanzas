@@ -1,5 +1,13 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.21] - 2026-02-23
+### Añadido
+- Añadida gráfica provisional para mostrar el ahorro mensual en la página `ahorro_prevision.py`.
+- Añadido test unitario para la función `obtener_ahorro_jubilacion_por_meses` en `tests/test_mis_finanzas.py`.
+- Añadido método `obtener_ahorro_jubilacion_por_meses` en `src/mis_finanzas.py` para obtener el ahorro diferido por jubilación mensual en un año.
+### Modificado
+- Cambiar el literal y las referencias de ahorro en la página `ahorro_prevision.py`.
+
 ## [0.0.20] - 2026-02-22
 ### Corregido
 - Corrección de error al limpiar caché. No estaba llamando bien a la función.
