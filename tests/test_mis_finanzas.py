@@ -27,13 +27,18 @@ def datos_prueba() -> pd.DataFrame:
         pd.DataFrame: DataFrame con datos de prueba simulados
     """
     # Creamos un DataFrame con datos de ejemplo
+    # Nota: incluimos dos conceptos de pensión distintos (AXA y FIATC) para
+    # reflejar la estructura real de los datos y testear el groupby por concepto
     datos = pd.DataFrame({
-        'fecha': ['2025-01-01', '2025-01-01', '2025-01-02', '2025-02-01', '2025-02-01', '2025-02-02', '2025-01-15'],
-        'año': [2025, 2025, 2025, 2025, 2025, 2025, 2025],
-        'mes': [1, 1, 1, 2, 2, 2, 1],
-        'tipo': ['Ingreso', 'Ingreso', 'Gasto', 'Ingreso', 'Gasto', 'Gasto', 'Gasto'],
-        'categoria': ['Salario', 'Freelance', 'Alimentación', 'Salario', 'Transporte', 'Ocio', 'Planes de pensión y previsión'],
-        'importe': [2000.0, 500.0, -150.0, 2000.0, -80.0, -120.0, -600.0]
+        'fecha': ['2025-01-01', '2025-01-01', '2025-01-02', '2025-02-01', '2025-02-01', '2025-02-02', '2025-01-15', '2025-01-08'],
+        'año':   [2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025],
+        'mes':   [1, 1, 1, 2, 2, 2, 1, 1],
+        'tipo':  ['Ingreso', 'Ingreso', 'Gasto', 'Ingreso', 'Gasto', 'Gasto', 'Gasto', 'Gasto'],
+        'categoria': ['Salario', 'Freelance', 'Alimentación', 'Salario', 'Transporte', 'Ocio',
+                      'Planes de pensión y previsión', 'Planes de pensión y previsión'],
+        'concepto':  ['Nómina empresa', 'Proyecto web', 'Supermercado', 'Nómina empresa', 'Metro', 'Cine',
+                      'AXA SEGUROS', 'FIATC MUTUA DE SEGUROS Y REASEGUROS'],
+        'importe':   [2000.0, 500.0, -150.0, 2000.0, -80.0, -120.0, -50.0, -50.0]
     })
     return datos
 
@@ -89,8 +94,8 @@ def test_obtener_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     resultado = mis_finanzas_mock.obtener_gastos_mes_año(2025, 1)
 
     # Assert
-    # En enero 2025 tenemos: Alimentación (-150) + Planes de pensión (-600) = -750
-    assert resultado == -750.0, f"Se esperaba -750.0 pero se obtuvo {resultado}"
+    # En enero 2025 tenemos: Alimentación (-150) + AXA (-50) + FIATC (-50) = -250
+    assert resultado == -250.0, f"Se esperaba -250.0 pero se obtuvo {resultado}"
 
 
 def test_obtener_media_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
@@ -103,9 +108,12 @@ def test_obtener_media_gastos_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
     resultado = mis_finanzas_mock.obtener_media_gastos_mes_año(2025, 1)
 
     # Assert
-    # En enero 2025: Alimentación (-150) el día 02 y Planes de pensión (-600) el día 15
-    # Media diaria = (150 + 600) / 2 = 375.0
-    assert resultado == 375.0, f"Se esperaba 375.0 pero se obtuvo {resultado}"
+    # En enero 2025 hay gastos en 3 fechas distintas:
+    #   - 2025-01-02: Alimentación (-150)
+    #   - 2025-01-08: FIATC (-50)
+    #   - 2025-01-15: AXA (-50)
+    # Media diaria = (150 + 50 + 50) / 3 = 83.33...
+    assert abs(resultado - (250 / 3)) < 0.01, f"Se esperaba ~83.33 pero se obtuvo {resultado}"
 
 
 def test_obtener_gastos_mes_sin_datos(mis_finanzas_mock: MisFinanzas) -> None:
@@ -133,8 +141,11 @@ def test_obtener_intervalo_gastos(mis_finanzas_mock: MisFinanzas) -> None:
     resultado = mis_finanzas_mock.obtener_intervalo_gastos(2025, 1, 2)
 
     # Assert
-    # Gastos de enero a febrero: -150 + -600 (enero) + -80 + -120 (febrero) = -950
-    assert resultado == -950.0, f"Se esperaba -950.0 pero se obtuvo {resultado}"
+    # Gastos de enero a febrero:
+    #   Enero: Alimentación (-150) + AXA (-50) + FIATC (-50) = -250
+    #   Febrero: Transporte (-80) + Ocio (-120) = -200
+    #   Total: -450
+    assert resultado == -450.0, f"Se esperaba -450.0 pero se obtuvo {resultado}"
 
 
 def test_obtener_gastos_agrupados_mes_año(mis_finanzas_mock: MisFinanzas) -> None:
@@ -189,18 +200,29 @@ def test_obtener_intervalo_ingresos_por_meses(mis_finanzas_mock: MisFinanzas) ->
 
 def test_obtener_ahorro_jubilacion_por_meses(mis_finanzas_mock: MisFinanzas) -> None:
     """
-    Test: Verifica que se obtengan correctamente los gastos por mes.
+    Test: Verifica que se obtengan correctamente los ahorros por mes y concepto.
 
     Este test comprueba que la función devuelve un DataFrame con
-    los gastos agrupados por mes.
+    el ahorro de jubilación agrupado por mes y concepto (uno por cada
+    entidad: AXA SEGUROS y FIATC MUTUA DE SEGUROS Y REASEGUROS).
     """
     # Act
     resultado = mis_finanzas_mock.obtener_ahorro_jubilacion_por_meses(2025)
 
     # Assert
     assert isinstance(resultado, pd.DataFrame), "El resultado debería ser un DataFrame"
-    assert len(resultado) == 1, f"Se esperaba 1 mes pero se obtuvieron {len(resultado)}"
+    assert 'mes' in resultado.columns
+    assert 'concepto' in resultado.columns
+    assert 'importe' in resultado.columns
 
-    # Verificamos el valor del ahorro en enero (el importe es negativo como los gastos)
-    ahorro_enero = resultado[resultado['mes'] == 1]['importe'].values[0]
-    assert ahorro_enero == 600.0, f"El ahorro de jubilación de enero debería ser 600.0 pero es {ahorro_enero}"
+    # En enero deben aparecer 2 filas (una por concepto)
+    filas_enero = resultado[resultado['mes'] == 1]
+    assert len(filas_enero) == 2, f"Se esperaban 2 conceptos en enero pero se obtuvieron {len(filas_enero)}"
+
+    # Verificamos que AXA SEGUROS tenga 50.0 en enero
+    ahorro_axa = resultado[(resultado['mes'] == 1) & (resultado['concepto'] == 'AXA SEGUROS')]['importe'].values[0]
+    assert ahorro_axa == 50.0, f"El ahorro AXA de enero debería ser 50.0 pero es {ahorro_axa}"
+
+    # Verificamos que FIATC tenga 50.0 en enero
+    ahorro_fiatc = resultado[(resultado['mes'] == 1) & (resultado['concepto'] == 'FIATC MUTUA DE SEGUROS Y REASEGUROS')]['importe'].values[0]
+    assert ahorro_fiatc == 50.0, f"El ahorro FIATC de enero debería ser 50.0 pero es {ahorro_fiatc}"
