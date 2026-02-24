@@ -130,15 +130,41 @@ def obtener_intervalo_prevision() -> None:
     """
     Obtiene el ahorro diferido por jubilación mensual en un año
     """
-    df_ahorro = datos.obtener_ahorro_jubilacion_por_meses(año)
+    # Crear copia para evitar problemas con el DataFrame cacheado (inmutable)
+    df_ahorro = datos.obtener_ahorro_jubilacion_por_meses(año).copy()
+
+    # Mapear número de mes a nombre en español
+    nombres_meses = {
+        1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+        5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+        9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+    }
+    df_ahorro['mes_nombre'] = df_ahorro['mes'].map(nombres_meses)
 
     fig = go.Figure()
-    fig.add_trace(
-        go.Scatter(
-            x=df_ahorro['mes'],
-            y=df_ahorro['importe'],
-            mode='lines+markers',
-            name='Ahorro por jubilación'
+    for concepto in df_ahorro['concepto'].unique():
+        df_filtrado = df_ahorro[df_ahorro['concepto'] == concepto]
+        fig.add_trace(
+            go.Scatter(
+                x=df_filtrado['mes_nombre'],
+                y=df_filtrado['importe'],
+                mode='lines+markers',
+                name=concepto,
+                hovertemplate=(
+                    '<b>%{fullData.name}</b><br>'
+                    'Mes: %{x}<br>'
+                    'Importe: %{y:.2f} €'
+                    '<extra></extra>'
+                )
+            )
+        )
+
+    # Forzar el eje X como categórico y ordenar los meses correctamente
+    fig.update_layout(
+        xaxis=dict(
+            type='category',
+            categoryorder='array',
+            categoryarray=list(nombres_meses.values())
         )
     )
 
@@ -162,5 +188,6 @@ with tab_tasa_ahorro:
     with col3:
         obtener_media_tasa_ahorro()
 
-obtener_intervalo_prevision()   
-
+tab_ahorro = st.tabs(["🐖 Ahorro y Previsión"])[0]
+with tab_ahorro:
+    obtener_intervalo_prevision()   
