@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.22] - 2026-02-25
+### Modificado
+- Mejorar la gráfica para mostrar el ahorro mensual en la página `ahorro_prevision.py`.
+- Adaptar test al nuevo cambio agrupado por mes y tipo del ahorro.
+- Cambiar método de obtención de datos para que traiga los datos separados por tipo de ahorro.
+
 ## [0.0.21] - 2026-02-23
 ### Añadido
 - Añadida gráfica provisional para mostrar el ahorro mensual en la página `ahorro_prevision.py`.
