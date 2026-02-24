@@ -143,12 +143,12 @@ def _calcular_intervalo_ingresos_por_meses(_datos: pd.DataFrame, año: int) -> p
 
 @st.cache_data
 def _calcular_ahorro_jubilacion_por_meses(_datos: pd.DataFrame, año: int) -> pd.DataFrame:
-    """Agrupa el ahorro por mes para un año completo (función cacheada)."""
+    """Agrupa el ahorro por mes y concepto para un año completo (función cacheada)."""
     return _datos[
         (_datos['año'] == año) &
         (_datos['tipo'] == 'Gasto') &
         (_datos['categoria'] == 'Planes de pensión y previsión')
-    ].groupby('mes')['importe'].sum().abs().reset_index()
+    ].groupby(['mes', 'concepto'])['importe'].sum().abs().reset_index()
 
 # ============================================
 # CLASE PRINCIPAL
