@@ -1,98 +1,50 @@
 # Directorio raw/
 
-Este directorio contiene los archivos XML fuente con los datos financieros originales.
+Este directorio contiene los archivos fuente con los datos financieros originales, organizados por fuente de datos.
 
-## Fuente de datos
+```
+raw/
+├── bancario/   → Movimientos bancarios exportados desde CaixaBank (formato XML)
+└── fiatc/      → Control de inversiones exportado desde FIATC (formato CSV)
+```
 
-El fichero, si bien es ficticio para entender la estructura del mismo, está basado en el fichero oficial que se descarga de la aplicación de CaixaBank del apartado de clientes de finanzas (movimientos - gastos e ingresos).
+---
 
-Se fija la fecha de estudio, normalmente el mes pasado, de visualizan todos los movimientos del mes y se pulsa finalmente en descargar, seleccionando cuidadosamente que se incluyan todos los elementos de la pantalla para su exportación.
+## bancario/
 
-## Estructura de los archivos XML
+### Fuente de datos
 
-Los archivos XML siguen el formato **Microsoft Excel XML Spreadsheet** (SpreadsheetML), que es un formato XML utilizado por Microsoft Excel para representar hojas de cálculo.
+Los ficheros XML se descargan desde la aplicación de CaixaBank, en el apartado de clientes de finanzas (movimientos - gastos e ingresos). Se fija el mes a estudiar, se visualizan todos los movimientos y se pulsa en descargar, seleccionando que se incluyan todos los elementos de la pantalla.
 
 ### Formato de nombres
 
-Los archivos se nombran siguiendo el patrón `YYYYMM.xml`, donde:
+Los archivos se nombran siguiendo el patrón `YYYYMM.xml`:
 - `YYYY` = Año (4 dígitos)
 - `MM` = Mes (2 dígitos)
 
-**Ejemplos:**
-- `202401.xml` - Datos de enero de 2024
-- `202512.xml` - Datos de diciembre de 2025
+**Ejemplos:** `202401.xml` (enero 2024), `202512.xml` (diciembre 2025)
 
 ### Estructura del XML
 
-Cada archivo XML contiene:
+Los archivos siguen el formato **Microsoft Excel XML Spreadsheet** (SpreadsheetML). La hoja de trabajo debe llamarse exactamente **"Ingresos y Gastos"**.
 
-#### 1. Declaración y namespaces
-```xml
-<?xml version="1.0"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" ...>
-```
-
-#### 2. Hoja de trabajo principal
-El nombre de la hoja debe ser exactamente: **"Ingresos y Gastos"**
-
-```xml
-<Worksheet ss:Name="Ingresos y Gastos">
-```
-
-#### 3. Encabezados de columnas (Fila 1)
-Las columnas deben aparecer en este orden:
+#### Columnas
 
 | Columna | Nombre | Descripción |
 |---------|--------|-------------|
-| 1 | Fecha | Fecha de la transacción (formato: DD/MM/YYYY) |
+| 1 | Fecha | Fecha de la transacción (DD/MM/YYYY) |
 | 2 | Concepto | Descripción de la transacción |
 | 3 | Categoría | Categoría de la transacción |
-| 4 | Importe (€) | Cantidad en euros (positivo para ingresos, negativo para gastos) |
-| 5 | Tipo Movimiento | "Ingreso (I)" o "Gasto (G)" |
+| 4 | Importe (€) | Cantidad en euros (positivo = ingreso, negativo = gasto) |
+| 5 | Tipo Movimiento | `Ingreso (I)` o `Gasto (G)` |
 | 6 | Cuenta/Tarjeta | Cuenta o tarjeta utilizada |
 
-#### 4. Filas de datos
-Cada fila representa una transacción financiera:
+#### Convenciones
 
-```xml
-<Row>
-    <Cell ss:Index="2" ss:StyleID="s81">
-        <Data ss:Type="String">15/01/2025</Data>
-    </Cell>
-    <Cell ss:StyleID="s81">
-        <Data ss:Type="String">Salario mensual</Data>
-    </Cell>
-    <Cell ss:StyleID="s81">
-        <Data ss:Type="String">Nómina</Data>
-    </Cell>
-    <Cell ss:StyleID="s84">
-        <Data ss:Type="Number">2500.00</Data>
-    </Cell>
-    <Cell ss:StyleID="s81">
-        <Data ss:Type="String">Ingreso (I)</Data>
-    </Cell>
-    <Cell ss:StyleID="s82">
-        <Data ss:Type="String">Cuenta Corriente</Data>
-    </Cell>
-</Row>
-```
-
-### Tipos de datos
-
-- **Fecha**: String en formato DD/MM/YYYY
-- **Concepto**: String
-- **Categoría**: String
-- **Importe**: Number (decimal con punto como separador)
-- **Tipo Movimiento**: String - "Ingreso (I)" o "Gasto (G)"
-- **Cuenta/Tarjeta**: String
-
-### Convenciones importantes
-
-1. **Importes negativos**: Los gastos se representan con valores negativos (ej: -85.50)
-2. **Importes positivos**: Los ingresos se representan con valores positivos (ej: 2500.00)
-3. **Formato de fecha**: Siempre DD/MM/YYYY (ej: 15/01/2025)
-4. **Tipo de movimiento**: Debe incluir el sufijo "(I)" para ingresos o "(G)" para gastos
+1. **Importes negativos**: Gastos (ej: `-85.50`)
+2. **Importes positivos**: Ingresos (ej: `2500.00`)
+3. **Formato de fecha**: Siempre `DD/MM/YYYY`
+4. **Tipo de movimiento**: Debe incluir el sufijo `(I)` o `(G)`
 
 ### Procesamiento
 
@@ -100,39 +52,71 @@ El archivo [`src/cargar_fichero.py`](../src/cargar_fichero.py) se encarga de:
 
 1. **Parsear el XML** usando lxml
 2. **Extraer los datos** de la hoja "Ingresos y Gastos"
-3. **Limpiar y transformar** los datos:
-   - Convertir fechas a formato datetime
-   - Convertir importes a float
-   - Extraer el tipo simplificado (Ingreso/Gasto)
-   - Añadir columnas calculadas (mes, año, mes_nombre, dia_semana)
+3. **Limpiar y transformar** los datos (fechas, importes, tipo de movimiento, columnas calculadas)
 4. **Exportar a Parquet** en el directorio `data/`
 
 ### Archivo de ejemplo
 
-El archivo [`example.xml`](./example.xml) contiene 5 transacciones ficticias:
-- 1 ingreso (Salario mensual)
-- 4 gastos (Supermercado, Gasolina, Restaurante, Suscripción)
+[`bancario/example.xml`](./bancario/example.xml) — 5 transacciones ficticias (1 ingreso + 4 gastos). Úsalo como plantilla de referencia.
 
-Este archivo puede usarse como plantilla para crear nuevos archivos de datos.
+### Categorías comunes
 
-## Categorías comunes
+**Ingresos:** Nómina / pensión / desempleo
 
-Basándose en los datos existentes, estas son algunas categorías típicas:
+**Gastos:** Alimentación · Supers e hipers · Transporte · Ocio · Restaurantes · Servicios · Cuotas y suscripciones · Hogar · Salud · Ropa y calzado · Seguros y mutuas · Hipotecas y préstamos · Varios · Cajero · Transferencias · Bizum
 
-**Ingresos:**
-- Nómina / pensión / desempleo
+---
 
-**Gastos:**
-- Alimentación / Supers e hipers
-- Transporte
-- Ocio / Restaurantes
-- Servicios / Cuotas y suscripciones
-- Hogar
-- Salud
-- Ropa y calzado
-- Seguros y mutuas
-- Gastos en hipotecas y préstamos
-- Varios
-- Dinero del cajero
-- Transferencias realizadas
-- Bizum realizado
+## fiatc/
+
+### Fuente de datos
+
+El fichero CSV se descarga desde el portal de FIATC, en el apartado de control de inversiones del plan de ahorro. Refleja todas las aportaciones realizadas al plan y los saldos acumulados al cierre de cada trimestre.
+
+### Formato de nombres
+
+El archivo exportado por FIATC se llama:
+
+```
+Control de Inversiones - FIATC.csv
+```
+
+### Estructura del CSV
+
+El fichero usa **coma** como separador de campos y **codificación UTF-8**.
+
+#### Columnas
+
+| Columna | Descripción |
+|---------|-------------|
+| `FECHA` | Fecha del movimiento en formato `DD/MM/AAAA` |
+| `MOVIMIENTO` | Tipo de operación (ver valores posibles abajo) |
+| `IMPORTE` | Importe del movimiento en euros (ej: `"50,00€"`) |
+| `SALDO` | Saldo acumulado en euros — solo se informa en `APORTACIÓN INICIAL` y `SALDO INICIO PERIODO`; vacío en el resto |
+
+#### Valores posibles del campo MOVIMIENTO
+
+| Valor | Descripción |
+|-------|-------------|
+| `APORTACIÓN INICIAL` | Primera aportación al plan |
+| `APORTACIÓN PERIÓDICA` | Aportación mensual recurrente |
+| `SALDO INICIO PERIODO` | Balance acumulado al cierre de cada trimestre |
+
+#### Convenciones
+
+1. **Importes**: Siempre positivos. Los valores usan coma decimal y símbolo `€` (ej: `"50,00€"`)
+2. **Saldo**: Solo aparece relleno en la primera fila y en las filas de cierre trimestral
+3. **Frecuencia**: Las aportaciones periódicas son mensuales; los cierres de periodo son trimestrales
+
+### Procesamiento
+
+El archivo [`src/cargar_fichero.py`](../src/cargar_fichero.py) se encarga de:
+
+1. **Leer el CSV** ignorando las líneas de comentario iniciales
+2. **Limpiar los importes**: eliminar el símbolo `€` y convertir la coma decimal a punto
+3. **Transformar los datos**: convertir fechas, filtrar por tipo de movimiento
+4. **Integrar con el resto** de datos financieros para el cálculo del ahorro
+
+### Archivo de ejemplo
+
+[`fiatc/example.csv`](./fiatc/example.csv) — 8 filas ficticias que cubren 2 trimestres completos (aportación inicial + aportaciones periódicas + cierres trimestrales). Úsalo como plantilla de referencia.
