@@ -1,6 +1,8 @@
 # Ficheros de datos
-/raw/*.xml
-!/raw/example.xml
+/raw/bancario/*.xml
+/raw/fiatc/*.csv
+!/raw/bancario/example.xml
+!/raw/fiatc/example.csv
 /data/finanzas.parquet
 
 # Ficheros para el entorno
