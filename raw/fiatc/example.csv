@@ -1,0 +1,36 @@
+# ============================================================
+# FICHERO DE EJEMPLO - Control de Inversiones FIATC
+# ============================================================
+# Este fichero sirve como plantilla de referencia para entender
+# el formato que deben tener los CSV exportados desde FIATC
+# (plan de ahorro / inversión).
+#
+# IMPORTANTE: Este fichero contiene datos FICTICIOS únicamente
+# con fines de documentación y pruebas. No refleja datos reales.
+#
+# El fichero real debe colocarse en este mismo directorio con
+# el nombre: "Control de Inversiones - FIATC.csv"
+# ============================================================
+#
+# COLUMNAS:
+#   FECHA       → Fecha del movimiento en formato DD/MM/AAAA
+#   MOVIMIENTO  → Tipo de operación registrada. Valores posibles:
+#                   - APORTACIÓN INICIAL   : Primera aportación al plan
+#                   - APORTACIÓN PERIÓDICA : Aportación mensual recurrente
+#                   - SALDO INICIO PERIODO : Balance acumulado al cierre del trimestre
+#   IMPORTE     → Importe del movimiento en euros (ej: "50,00€")
+#                 Siempre positivo. Las aportaciones suman al saldo.
+#   SALDO       → Saldo total acumulado en euros (ej: "150,00€")
+#                 Solo se informa en las filas SALDO INICIO PERIODO
+#                 y en la APORTACIÓN INICIAL. En las aportaciones
+#                 periódicas intermedias este campo queda vacío.
+# ============================================================
+FECHA,MOVIMIENTO,IMPORTE,SALDO
+02/01/2025,APORTACIÓN INICIAL,"50,00€","50,00€"
+05/02/2025,APORTACIÓN PERIÓDICA,"50,00€",
+05/03/2025,APORTACIÓN PERIÓDICA,"50,00€",
+31/03/2025,SALDO INICIO PERIODO,"50,00€","156,30€"
+05/04/2025,APORTACIÓN PERIÓDICA,"50,00€",
+05/05/2025,APORTACIÓN PERIÓDICA,"50,00€",
+05/06/2025,APORTACIÓN PERIÓDICA,"50,00€",
+30/06/2025,SALDO INICIO PERIODO,"50,00€","310,75€"
