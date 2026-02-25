@@ -46,12 +46,12 @@ if nombre_archivo:
                 st.warning("El año y el mes ya han sido procesados anteriormente.")
             else:
                 # Crear directorio raw si no existe
-                if not os.path.exists("./raw"):
-                    os.makedirs("./raw")
+                if not os.path.exists("./raw/bancario"):
+                    os.makedirs("./raw/bancario")
 
                 # Guardar el archivo original en la carpeta raw como copia de seguridad con el nombre indicado
                 nombre_archivo = f"{nombre_archivo}.xml" if nombre_archivo else archivo.name
-                with open(os.path.join("./raw", nombre_archivo), "wb") as f:
+                with open(os.path.join("./raw/bancario", nombre_archivo), "wb") as f:
                     f.write(archivo.getbuffer())
                 st.success("Datos exportados correctamente. Se ha guardado una copia en la carpeta raw y los datos se han añadido al parquet.")
                 st.cache_data.clear()
