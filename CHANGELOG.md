@@ -1,5 +1,12 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.23] - 2026-02-26
+### Modificado
+- Cambiar la ruta de los ficheros que se almacenan en `raw` para organizarlos por tipo: el bancario, y los de ahorro previsión.
+- Actualizar el `.gitignore` para que no se almacenen los ficheros de producción..
+- Crear un fichero de ejemplo para los datos de ahorro de FIATC.
+- Actualizar el README para estructurar la información de manera más clara, especificando por un lado el fichero de ejemplo de los datos bancarios y por otro el de ahorro.
+
 ## [0.0.22] - 2026-02-25
 ### Modificado
 - Mejorar la gráfica para mostrar el ahorro mensual en la página `ahorro_prevision.py`.
