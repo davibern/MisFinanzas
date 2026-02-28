@@ -1,5 +1,16 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.24] - 2026-02-28
+### Añadido
+- Fichero de datos para los datos de inversión de AXA, con el mismo formato que el de FIATC.
+- Fichero de ejemplo para los datos de invesión de AXA.
+### Modificado
+- Actualizar el README para incluir la información de los datos de inversión, con su correspondiente fichero de ejemplo.
+- Renombrado el fichero de clase `CargarFichero` por el de `CargarFicheroBancario` para diferenciarlo del específico de carga de datos de ahorro.
+- Renombrar el fichero `cargar_datos.py` por el de `cargar_datos_bancarios.py` para diferenciarlo del específico de carga de datos de ahorro.
+- Eliminar librerías sin uso en los ficheros de tests.
+- Mejorar el formato de los ficheros de tests.
+
 ## [0.0.23] - 2026-02-26
 ### Modificado
 - Cambiar la ruta de los ficheros que se almacenan en `raw` para organizarlos por tipo: el bancario, y los de ahorro previsión.
