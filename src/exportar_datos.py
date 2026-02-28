@@ -1,5 +1,5 @@
 import pandas as pd
-from src.cargar_fichero import CargarFichero
+from src.cargar_fichero import CargarFicheroBancario as CargarFichero
 
 
 class ExportarDatos:

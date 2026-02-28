@@ -3,7 +3,7 @@ import re
 from lxml import etree
 
 
-class CargarFichero:
+class CargarFicheroBancario:
     def __init__(self, file):
         self.file: str = file
         self.data: list = []
