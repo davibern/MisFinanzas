@@ -4,7 +4,7 @@ import os
 from src.cargar_fichero import CargarFicheroBancario as CargarFichero
 from src.exportar_datos import ExportarDatos
 
-st.title("🗂️ Cargar Datos")
+st.title("🗂️ Cargar Datos Bancarios")
 
 st.markdown("""
 1. Indica el **año y el mes** del archivo que se va a cargar. Sigue el formato indicado (YYYYMM)
@@ -12,7 +12,7 @@ st.markdown("""
 """)
 
 st.write("Si necesitas ayuda para exportar los datos de CaixaBank, puedes pulsar el siguiente botón de ayuda 👇🏻")
-st.page_link("./pages/cargar_datos_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
+st.page_link("./pages/cargar_banco_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
 st.markdown("""---""", unsafe_allow_html=True)
 
 col1, _ = st.columns([1, 3])
