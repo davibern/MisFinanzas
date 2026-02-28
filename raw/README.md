@@ -6,6 +6,7 @@ Este directorio contiene los archivos fuente con los datos financieros originale
 raw/
 ├── bancario/   → Movimientos bancarios exportados desde CaixaBank (formato XML)
 └── fiatc/      → Control de inversiones exportado desde FIATC (formato CSV)
+└── axa/      → Control de inversiones exportado desde AXA (formato CSV)
 ```
 
 ---
@@ -67,23 +68,27 @@ El archivo [`src/cargar_fichero.py`](../src/cargar_fichero.py) se encarga de:
 
 ---
 
-## fiatc/
+## fiatc/ y axa/
 
 ### Fuente de datos
 
-El fichero CSV se descarga desde el portal de FIATC, en el apartado de control de inversiones del plan de ahorro. Refleja todas las aportaciones realizadas al plan y los saldos acumulados al cierre de cada trimestre.
+El fichero CSV se descarga desde los portales de clientes de:
+
+- FIATC Seguros (plan de ahorro)
+- AXA Seguros (plan de inversión)
 
 ### Formato de nombres
 
-El archivo exportado por FIATC se llama:
+Los archivos exportados por FIATC se llaman:
 
 ```
-Control de Inversiones - FIATC.csv
+- Control de Inversiones - FIATC.csv
+- Control de Inversiones - AXA.csv
 ```
 
 ### Estructura del CSV
 
-El fichero usa **coma** como separador de campos y **codificación UTF-8**.
+Los ficheros usan **coma** como separador de campos y **codificación UTF-8**.
 
 #### Columnas
 
@@ -118,5 +123,7 @@ El archivo [`src/cargar_fichero.py`](../src/cargar_fichero.py) se encarga de:
 4. **Integrar con el resto** de datos financieros para el cálculo del ahorro
 
 ### Archivo de ejemplo
+
+[`fiatc/example.csv`](./fiatc/example.csv) — 8 filas ficticias que cubren 2 trimestres completos (aportación inicial + aportaciones periódicas + cierres trimestrales). Úsalo como plantilla de referencia.
 
 [`fiatc/example.csv`](./fiatc/example.csv) — 8 filas ficticias que cubren 2 trimestres completos (aportación inicial + aportaciones periódicas + cierres trimestrales). Úsalo como plantilla de referencia.
