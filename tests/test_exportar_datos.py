@@ -10,7 +10,7 @@ Este archivo contiene tests unitarios para validar el funcionamiento de:
 import pytest
 import pandas as pd
 from unittest.mock import Mock, patch, MagicMock
-from src.cargar_fichero import CargarFichero
+from src.cargar_datos_bancarios import CargarFichero
 from src.exportar_datos import ExportarDatos
 
 

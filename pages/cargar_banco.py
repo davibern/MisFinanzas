@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 
-from src.cargar_fichero import CargarFicheroBancario as CargarFichero
+from src.cargar_datos_bancarios import CargarFicheroBancario as CargarFichero
 from src.exportar_datos import ExportarDatos
 
 st.title("🗂️ Cargar Datos Bancarios")

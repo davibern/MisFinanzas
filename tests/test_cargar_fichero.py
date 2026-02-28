@@ -12,7 +12,7 @@ import pandas as pd
 from io import BytesIO
 from unittest.mock import Mock, patch, MagicMock
 from lxml import etree
-from src.cargar_fichero import CargarFichero
+from src.cargar_datos_bancarios import CargarFichero
 
 
 @pytest.fixture
