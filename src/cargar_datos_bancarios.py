@@ -4,14 +4,14 @@ from lxml import etree
 
 
 class CargarFicheroBancario:
-    def __init__(self, file):
+    def __init__(self, file) -> None:
         self.file: str = file
         self.data: list = []
         self.headers: list = []
         self.header_found: bool = False
         self.df: pd.DataFrame = None
 
-    def parsear_xml(self):
+    def parsear_xml(self) -> pd.DataFrame:
         """
         Parsea el archivo XML de finanzas y extrae los datos en un DataFrame
 
