@@ -11,6 +11,13 @@ st.write("Histograma del ahorro mensual en el año seleccionado.")
 st.write("Selecciona el año para obtener los datos correspondientes, y obtendrás\
     automáticamente la evolución de los últimos doce meses.")
 
+# Mapear número de mes a nombre en español
+nombres_meses = {
+    1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+    5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+    9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+}
+
 # Cargar datos
 datos = MisFinanzas()
 
@@ -46,10 +53,13 @@ def obtener_intervalo_ahorro_meses() -> None:
     df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
     df_final['ahorrado'] = df_final['diferencia'] > 0
 
+    # Mapear número de mes a nombre en español
+    df_final['mes_nombre'] = df_final['mes'].map(nombres_meses)
+
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
-            x=df_final['mes'],
+            x=df_final['mes_nombre'],
             y=df_final['diferencia'],
             mode='lines+markers',
             name='Ahorro'
@@ -94,13 +104,15 @@ def obtener_intervalo_tasa_ahorro() -> None:
 
     df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
     df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
-
     df_final['tasa_ahorro'] = (df_final['diferencia'] / df_final['importe_ingresos'] * 100).round(2)
+
+    # Mapear número de mes a nombre en español
+    df_final['mes_nombre'] = df_final['mes'].map(nombres_meses)
 
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
-            x=df_final['mes'],
+            x=df_final['mes_nombre'],
             y=df_final['tasa_ahorro'],
             mode='lines+markers',
             name='Tasa de Ahorro (%)'
@@ -134,11 +146,6 @@ def obtener_intervalo_prevision() -> None:
     df_ahorro = datos.obtener_ahorro_jubilacion_por_meses(año).copy()
 
     # Mapear número de mes a nombre en español
-    nombres_meses = {
-        1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
-        5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
-        9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
-    }
     df_ahorro['mes_nombre'] = df_ahorro['mes'].map(nombres_meses)
 
     fig = go.Figure()
@@ -190,4 +197,4 @@ with tab_tasa_ahorro:
 
 tab_ahorro = st.tabs(["🐖 Ahorro y Previsión"])[0]
 with tab_ahorro:
-    obtener_intervalo_prevision()   
+    obtener_intervalo_prevision()

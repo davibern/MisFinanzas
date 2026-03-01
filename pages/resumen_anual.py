@@ -8,6 +8,13 @@ from src.mis_finanzas import MisFinanzas
 st.title("📅 Datos por Meses")
 st.write("Histograma de gastos vs ingresos por mes en el año seleccionado.")
 
+# Mapear número de mes a nombre en español
+nombres_meses = {
+    1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+    5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+    9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+}
+
 # Cargar datos
 datos = MisFinanzas()
 
@@ -38,9 +45,14 @@ def obtener_intervalo_ingresos_meses() -> None:
     fig = go.Figure()
     ingresos_meses = datos.obtener_intervalo_ingresos_por_meses(año)
     gastos_meses = datos.obtener_intervalo_gastos_por_meses(año).abs()
+
+    # Mapear número de mes a nombre en español
+    ingresos_meses['mes_nombre'] = ingresos_meses['mes'].map(nombres_meses)
+    gastos_meses['mes_nombre'] = gastos_meses['mes'].map(nombres_meses)
+
     fig.add_trace(
         go.Scatter(
-            x=ingresos_meses['mes'],
+            x=ingresos_meses['mes_nombre'],
             y=ingresos_meses['importe'],
             mode='lines+markers',
             name='Ingresos',
@@ -50,7 +62,7 @@ def obtener_intervalo_ingresos_meses() -> None:
     )
     fig.add_trace(
         go.Scatter(
-            x=gastos_meses['mes'],
+            x=gastos_meses['mes_nombre'],
             y=gastos_meses['importe'],
             mode='lines+markers',
             name='Gastos',
