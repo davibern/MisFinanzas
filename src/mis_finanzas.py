@@ -105,6 +105,7 @@ def _calcular_intervalo_gastos_agrupados_mes_año(_datos: pd.DataFrame, año: in
         (_datos['tipo'] == 'Gasto')
     ].groupby('categoria')['importe'].sum().reset_index()
 
+
 @st.cache_data
 def _calcular_ingresos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes: int) -> pd.DataFrame:
     """Agrupa los ingresos por categoría para un mes específico (función cacheada)."""
@@ -113,6 +114,7 @@ def _calcular_ingresos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes: 
         (_datos['mes'] == mes) &
         (_datos['tipo'] == 'Ingreso')
     ].groupby('categoria')['importe'].sum().reset_index()
+
 
 @st.cache_data
 def _calcular_intervalo_ingresos_agrupados_mes_año(_datos: pd.DataFrame, año: int, mes_inicio: int, mes_fin: int) -> pd.DataFrame:
@@ -133,6 +135,7 @@ def _calcular_intervalo_gastos_por_meses(_datos: pd.DataFrame, año: int) -> pd.
         (_datos['tipo'] == 'Gasto')
     ].groupby('mes')['importe'].sum().reset_index()
 
+
 @st.cache_data
 def _calcular_intervalo_ingresos_por_meses(_datos: pd.DataFrame, año: int) -> pd.DataFrame:
     """Agrupa los ingresos por mes para un año completo (función cacheada)."""
@@ -141,18 +144,11 @@ def _calcular_intervalo_ingresos_por_meses(_datos: pd.DataFrame, año: int) -> p
         (_datos['tipo'] == 'Ingreso')
     ].groupby('mes')['importe'].sum().reset_index()
 
-@st.cache_data
-def _calcular_ahorro_jubilacion_por_meses(_datos: pd.DataFrame, año: int) -> pd.DataFrame:
-    """Agrupa el ahorro por mes y concepto para un año completo (función cacheada)."""
-    return _datos[
-        (_datos['año'] == año) &
-        (_datos['tipo'] == 'Gasto') &
-        (_datos['categoria'] == 'Planes de pensión y previsión')
-    ].groupby(['mes', 'concepto'])['importe'].sum().abs().reset_index()
 
 # ============================================
 # CLASE PRINCIPAL
 # ============================================
+
 
 class MisFinanzas():
 
@@ -167,7 +163,7 @@ class MisFinanzas():
         Args:
             año: Año a consultar
             mes: Mes a consultar (1-12)
-        
+
         Returns:
             Total de ingresos del mes en euros
         """
@@ -180,7 +176,7 @@ class MisFinanzas():
         Args:
             año: Año a consultar
             mes: Mes a consultar (1-12)
-        
+
         Returns:
             Total de gastos del mes en euros (valor negativo)
         """
@@ -193,7 +189,7 @@ class MisFinanzas():
         Args:
             año: Año a consultar
             mes: Mes a consultar (1-12)
-        
+
         Returns:
             Media de gasto diario en euros
         """
@@ -304,15 +300,3 @@ class MisFinanzas():
             DataFrame con columnas ['mes', 'importe'] para los 12 meses
         """
         return _calcular_intervalo_ingresos_por_meses(self.datos, año)
-    
-    def obtener_ahorro_jubilacion_por_meses(self, año: int) -> pd.DataFrame:
-        """
-        Obtiene el ahorro por mes para un año completo.
-
-        Args:
-            año: Año a consultar
-
-        Returns:
-            DataFrame con columnas ['mes', 'importe'] para los 12 meses
-        """
-        return _calcular_ahorro_jubilacion_por_meses(self.datos, año)   

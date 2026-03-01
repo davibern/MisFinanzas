@@ -138,46 +138,6 @@ def obtener_media_tasa_ahorro() -> None:
     st.metric(label="Tasa de ahorro media mensual", value=f"{media_tasa_ahorro:.2f} %")
 
 
-def obtener_intervalo_prevision() -> None:
-    """
-    Obtiene el ahorro diferido por jubilación mensual en un año
-    """
-    # Crear copia para evitar problemas con el DataFrame cacheado (inmutable)
-    df_ahorro = datos.obtener_ahorro_jubilacion_por_meses(año).copy()
-
-    # Mapear número de mes a nombre en español
-    df_ahorro['mes_nombre'] = df_ahorro['mes'].map(nombres_meses)
-
-    fig = go.Figure()
-    for concepto in df_ahorro['concepto'].unique():
-        df_filtrado = df_ahorro[df_ahorro['concepto'] == concepto]
-        fig.add_trace(
-            go.Scatter(
-                x=df_filtrado['mes_nombre'],
-                y=df_filtrado['importe'],
-                mode='lines+markers',
-                name=concepto,
-                hovertemplate=(
-                    '<b>%{fullData.name}</b><br>'
-                    'Mes: %{x}<br>'
-                    'Importe: %{y:.2f} €'
-                    '<extra></extra>'
-                )
-            )
-        )
-
-    # Forzar el eje X como categórico y ordenar los meses correctamente
-    fig.update_layout(
-        xaxis=dict(
-            type='category',
-            categoryorder='array',
-            categoryarray=list(nombres_meses.values())
-        )
-    )
-
-    st.plotly_chart(fig, width='stretch')
-
-
 selector_año()
 
 tab_diferencia, tab_tasa_ahorro = st.tabs(["📈 Ingresos - Gastos", "💵 Tasa Ahorro (%)"])
@@ -197,4 +157,4 @@ with tab_tasa_ahorro:
 
 tab_ahorro = st.tabs(["🐖 Ahorro y Previsión"])[0]
 with tab_ahorro:
-    obtener_intervalo_prevision()
+    st.write("En construcción...")
