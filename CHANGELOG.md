@@ -1,5 +1,13 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.25] - 2026-03-01
+### Añadido
+- Añadida nueva página `cargar_ahorro.py` para cargar los datos de ahorro previsión.
+- Añadida nueva clase `CargarDatosAhorros` en `src/cargar_datos_ahorros.py` para procesar los datos de ahorro previsión.
+- Añadida nueva opción de menú para cargar los datos de ahorro previsión en `app.py`.
+### Modificado
+- Corregido nombres y espacios de formato
+
 ## [0.0.24] - 2026-02-28
 ### Añadido
 - Fichero de datos para los datos de inversión de AXA, con el mismo formato que el de FIATC.
