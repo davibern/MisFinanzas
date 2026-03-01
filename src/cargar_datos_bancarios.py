@@ -66,7 +66,7 @@ class CargarFicheroBancario:
 
         return self.df
 
-    def limpiar_datos(self):
+    def limpiar_datos(self) -> pd.DataFrame:
         """
         Limpia y procesa los datos del DataFrame
 
