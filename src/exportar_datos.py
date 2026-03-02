@@ -1,11 +1,14 @@
 import pandas as pd
-from src.cargar_datos_bancarios import CargarFicheroBancario as CargarFichero
+
+from src.cargar_datos_bancarios import CargarFicheroBancario
+from src.cargar_datos_ahorros import CargarFicheroAhorro
 
 
 class ExportarDatos:
-    def __init__(self, datos: CargarFichero, tipo: str) -> None:
+    def __init__(self, datos: CargarFicheroBancario | CargarFicheroAhorro, tipo: str, compañia: str | None = None) -> None:
         self.datos = datos
         self.tipo = tipo
+        self.compañia = compañia
 
     def validar_año_mes(self) -> bool:
         """
@@ -50,5 +53,13 @@ class ExportarDatos:
                     index=False,
                 )
                 return 1
+        elif self.tipo == 'ahorro':
+            self.datos.df.to_parquet(
+                f"data/ahorros.{self.compañia}.parquet",
+                engine="pyarrow",
+                compression="snappy",
+                partition_cols=["FECHA"],
+                index=False
+            )
         else:
-            return 0
+            raise ValueError('Tipo de datos no reconocido. Debe ser de tipo "bancario" o "ahorro".')
