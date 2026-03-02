@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.26] - 2026-03-02
+### Añadido
+- Nueva función para exportar los datos de ahorro según compañía
+### Modificado
+- Cambiado los nombres de las clases de carga de datos y exportacion para que sea más legible y mantenible
+
 ## [0.0.25] - 2026-03-01
 ### Añadido
 - Añadida nueva página `cargar_ahorro.py` para cargar los datos de ahorro previsión.
