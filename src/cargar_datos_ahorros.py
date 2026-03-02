@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-class CargarDatosAhorros:
+class CargarFicheroAhorro:
     def __init__(self, file) -> None:
         self.file = file
         self.df: pd.DataFrame = None
