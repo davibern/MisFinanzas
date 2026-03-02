@@ -3,8 +3,9 @@ from src.cargar_datos_bancarios import CargarFicheroBancario as CargarFichero
 
 
 class ExportarDatos:
-    def __init__(self, datos: CargarFichero):
+    def __init__(self, datos: CargarFichero, tipo: str) -> None:
         self.datos = datos
+        self.tipo = tipo
 
     def validar_año_mes(self) -> bool:
         """
@@ -31,18 +32,23 @@ class ExportarDatos:
         # Compruebo si hay pares nuevos
         return set_nuevos.issubset(set_existente)
 
-    def exportar(self) -> int:
+    def exportar_parquet(self) -> int:
         """
-        Exporta los datos a un fichero parquet
+        Exporta los datos a un fichero parquet.
+
+        Dependiendo del tipo de datos, se guardarán en uno u otro directorio.
         """
-        if self.validar_año_mes():
-            return 0
+        if self.tipo == 'bancario':
+            if self.validar_año_mes():
+                return 0
+            else:
+                self.datos.df.to_parquet(
+                    "data/finanzas.parquet",
+                    engine="pyarrow",
+                    compression="snappy",
+                    partition_cols=["año", "mes"],
+                    index=False,
+                )
+                return 1
         else:
-            self.datos.df.to_parquet(
-                "data/finanzas.parquet",
-                engine="pyarrow",
-                compression="snappy",
-                partition_cols=["año", "mes"],
-                index=False,
-            )
-            return 1
+            return 0

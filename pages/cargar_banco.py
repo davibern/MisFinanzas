@@ -38,8 +38,8 @@ if nombre_archivo:
             fichero = CargarFichero(archivo)
             fichero.parsear_xml()
             fichero.limpiar_datos()
-            exportar = ExportarDatos(fichero)
-            resultado = exportar.exportar()
+            exportar = ExportarDatos(fichero, tipo="bancario")
+            resultado = exportar.exportar_parquet()
 
             # Comprobar resultado
             if resultado == 0:
