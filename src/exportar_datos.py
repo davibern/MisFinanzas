@@ -57,14 +57,17 @@ class ExportarDatos:
                 return 1
         elif self.tipo == 'ahorro':
             # Borrar si ya existe para asegurar sobreescribir totalmente
-            if os.path.exists(f"data/ahorros.{self.compañia}.parquet"):
-                shutil.rmtree(f"data/ahorros.{self.compañia}.parquet")
+            archivo = f"data/ahorros.{self.compañia}.parquet"
+            if os.path.exists(archivo):
+                if os.path.isdir(archivo):
+                    shutil.rmtree(archivo)
+                else:
+                    os.remove(archivo)
             # Generar el parquet
             self.datos.df.to_parquet(
-                f"data/ahorros.{self.compañia}.parquet",
+                archivo,
                 engine="pyarrow",
                 compression="snappy",
-                partition_cols=["FECHA"],
                 index=False,
             )
         else:
