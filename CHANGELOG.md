@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.27] - 2026-03-03
+### Añadido
+- Nueva función para obtener el nombre de la compañía del fichero de ahorro.
+### Modificado
+- Cambiar la forma de eliminar el fichero de ahorro para que funcione con cualquier nombre de fichero.
+
 ## [0.0.26] - 2026-03-02
 ### Añadido
 - Nueva función para exportar los datos de ahorro según compañía
