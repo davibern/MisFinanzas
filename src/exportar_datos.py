@@ -1,4 +1,6 @@
 import pandas as pd
+import os
+import shutil
 
 from src.cargar_datos_bancarios import CargarFicheroBancario
 from src.cargar_datos_ahorros import CargarFicheroAhorro
@@ -54,12 +56,16 @@ class ExportarDatos:
                 )
                 return 1
         elif self.tipo == 'ahorro':
+            # Borrar si ya existe para asegurar sobreescribir totalmente
+            if os.path.exists(f"data/ahorros.{self.compañia}.parquet"):
+                shutil.rmtree(f"data/ahorros.{self.compañia}.parquet")
+            # Generar el parquet
             self.datos.df.to_parquet(
                 f"data/ahorros.{self.compañia}.parquet",
                 engine="pyarrow",
                 compression="snappy",
                 partition_cols=["FECHA"],
-                index=False
+                index=False,
             )
         else:
             raise ValueError('Tipo de datos no reconocido. Debe ser de tipo "bancario" o "ahorro".')
