@@ -40,5 +40,8 @@ class CargarFicheroAhorro:
         # 5. Formato de texto para Movimiento
         self.df['MOVIMIENTO'] = self.df['MOVIMIENTO'].astype('string')
 
+        # 6. Calcular el total aportado acumulado (suma de IMPORTE)
+        self.df['TOTAL_APORTADO'] = self.df['IMPORTE'].fillna(0).cumsum()
+
         # Opcional: retornar el df por si quieres encadenar métodos
         return self.df
