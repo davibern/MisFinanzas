@@ -1,5 +1,12 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.28] - 2026-03-04
+### Añadido
+- Nueva columna de total acumulado para poder calcular beneficio/pérdida.
+- Información de si la carga del dato se ha realizado correctamente.
+### Modificado
+- Validar que la carpeta /src está creada y si no la crea para evitar errores FileNotFoundError o NotADirectoryError.
+
 ## [0.0.27] - 2026-03-03
 ### Añadido
 - Nueva función para obtener el nombre de la compañía del fichero de ahorro.
