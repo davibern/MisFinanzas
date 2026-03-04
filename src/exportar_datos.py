@@ -43,6 +43,9 @@ class ExportarDatos:
 
         Dependiendo del tipo de datos, se guardarán en uno u otro directorio.
         """
+        # Aseguramos que el directorio principal de datos existe
+        os.makedirs("data", exist_ok=True)
+
         if self.tipo == 'bancario':
             if self.validar_año_mes():
                 return 0
