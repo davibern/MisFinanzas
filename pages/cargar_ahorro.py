@@ -18,4 +18,5 @@ if archivo is not None:
     exportar = ExportarDatos(fichero, tipo='ahorro', compañia=compañia)
     exportar.exportar_parquet()
 
-    st.dataframe(fichero.df)
+    st.success(f'Datos de ahorro de {compañia} cargados correctamente.')
+    
