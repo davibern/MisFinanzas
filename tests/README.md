@@ -96,22 +96,3 @@ def test_nombre_descriptivo(fixture_si_necesario):
    ```python
    assert resultado == 100, f"Se esperaba 100 pero se obtuvo {resultado}"
    ```
-
-## 📖 Ejemplo de uso
-
-Mira `test_mis_finanzas.py` para ver ejemplos completos de:
-- Cómo crear fixtures
-- Cómo usar mocks
-- Diferentes tipos de assertions
-- Tests de funciones que devuelven valores simples
-- Tests de funciones que devuelven DataFrames
-
-## 🔍 Próximos pasos
-
-Ahora que tienes un ejemplo, puedes:
-
-1. **Crear más tests** para otras funciones de `MisFinanzas`
-2. **Crear tests** para `CargarFichero` en `test_cargar_fichero.py`
-3. **Crear tests** para `ExportarDatos` en `test_exportar_datos.py`
-
-Sigue el patrón del ejemplo y adapta los datos de prueba según lo que necesites probar.
