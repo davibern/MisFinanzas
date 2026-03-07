@@ -6,6 +6,15 @@ from src.exportar_datos import ExportarDatos
 
 st.title("🗂️ Cargar Datos de Ahorro")
 
+st.markdown("""
+1. Descarga el fichero de datos de tu NAS (Synology) en formato *.csv
+2. Guardarlo en tu carpeta de descarga y seleccionalo con el botón de cargar.
+""")
+
+st.write("Si necesitas ayuda para exportar los datos de Ahorro, puedes pulsar en el siguiente botónde ayuda 👇🏻")
+st.page_link("./pages/cargar_banco_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
+st.markdown("""---""", unsafe_allow_html=True)
+
 col1, _ = st.columns([1, 2])
 with col1:
     archivo = st.file_uploader('Selecciona un archivo CSV', type=['csv'])
