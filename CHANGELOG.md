@@ -1,5 +1,13 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.29] - 2026-03-07
+### Añadido
+- Cuando se importa los datos de ahorro, se guarda el fichero como copia de seguridad en `raw` con el mismo formato orignal.
+- Se añade página de ayuda para la carga de datos de ahorro.
+- Se añade navegación para la ayuda de cargar datos de ahorro.
+### Modificado
+- Se corrige texto literal de la ayuda de carga de datos bancarios.
+
 ## [0.0.28] - 2026-03-04
 ### Añadido
 - Nueva columna de total acumulado para poder calcular beneficio/pérdida.
