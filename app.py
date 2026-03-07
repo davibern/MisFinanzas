@@ -9,13 +9,14 @@ def main():
     resumen_anual = st.Page("./pages/resumen_anual.py", title="Resumen Anual", icon=":material/bar_chart:")
     ahorro_prevision = st.Page("./pages/ahorro_prevision.py", title="Ahorro y Previsión", icon=":material/savings:")
     cargar_banco_ayuda = st.Page("./pages/cargar_banco_ayuda.py", title="Ayuda datos bancarios", icon=":material/help:")
+    cargar_ahorro_ayuda = st.Page("./pages/cargar_ahorro_ayuda.py", title="Ayuda datos ahorro", icon=":material/help:")
 
     pg = st.navigation(
             {
                 "Inicio": [inicio_pagina],
                 "Informes": [resumen_mensual, resumen_anual, ahorro_prevision],
                 "Herramientas": [cargar_banco, cargar_ahorro],
-                "Ayuda": [cargar_banco_ayuda]
+                "Ayuda": [cargar_banco_ayuda, cargar_ahorro_ayuda]
             }
         )
 

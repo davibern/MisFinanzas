@@ -12,7 +12,7 @@ st.markdown("""
 """)
 
 st.write("Si necesitas ayuda para exportar los datos de Ahorro, puedes pulsar en el siguiente botónde ayuda 👇🏻")
-st.page_link("./pages/cargar_banco_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
+st.page_link("./pages/cargar_ahorro_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
 st.markdown("""---""", unsafe_allow_html=True)
 
 col1, _ = st.columns([1, 2])
