@@ -1,11 +1,14 @@
 import streamlit as st
+import os
 
 from src.cargar_datos_ahorros import CargarFicheroAhorro as CargarFichero
 from src.exportar_datos import ExportarDatos
 
 st.title("🗂️ Cargar Datos de Ahorro")
 
-archivo = st.file_uploader('Selecciona un archivo CSV', type=['csv'])
+col1, _ = st.columns([1, 2])
+with col1:
+    archivo = st.file_uploader('Selecciona un archivo CSV', type=['csv'])
 
 if archivo is not None:
     # Obtener el nombre de la compañia
@@ -19,4 +22,7 @@ if archivo is not None:
     exportar.exportar_parquet()
 
     st.success(f'Datos de ahorro de {compañia} cargados correctamente.')
-    
+
+    with open(os.path.join(f"./raw/{compañia.lower()}", archivo.name), "wb") as f:
+        f.write(archivo.getbuffer())
+    st.success("Se ha sobreescrito el fichero como copia de seguridad en /raw")
