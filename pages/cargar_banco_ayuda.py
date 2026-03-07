@@ -2,7 +2,7 @@ import streamlit as st
 
 st.title("📚 Manual de ayuda para importar datos bancarios")
 st.write("A continuación se detalla el proceso para descargar los datos de la cuenta de CaixaBank para \
-    que puedas importarlo en la herramienta de __Cargar Datos__.")
+    que puedas importarlo en la herramienta de __Cargar Datos Bancarios__.")
 st.markdown("""---""", unsafe_allow_html=True)
 
 st.write("Entramos en https://www.caixabank.es/, con nuestro usuario y contraseña.")
