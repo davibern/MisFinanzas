@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.30] - 2026-03-09
+### Añadido
+- Limpiar caché cuando se añaden datos de ahorros.
+- Crear clase inicial para obtener estadísticas de ahorro
+- Crear tests iniciales para los datos estadísticos de ahorros
+
 ## [0.0.29] - 2026-03-07
 ### Añadido
 - Cuando se importa los datos de ahorro, se guarda el fichero como copia de seguridad en `raw` con el mismo formato orignal.
