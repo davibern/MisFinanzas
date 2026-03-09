@@ -30,8 +30,10 @@ if archivo is not None:
     exportar = ExportarDatos(fichero, tipo='ahorro', compañia=compañia)
     exportar.exportar_parquet()
 
-    st.success(f'Datos de ahorro de {compañia} cargados correctamente.')
+    st.success(f'Datos de ahorro de {compañia} cargados correctamente y se ha guardado copia en /raw')
 
     with open(os.path.join(f"./raw/{compañia.lower()}", archivo.name), "wb") as f:
         f.write(archivo.getbuffer())
-    st.success("Se ha sobreescrito el fichero como copia de seguridad en /raw")
+
+    st.cache_data.clear()
+    st.info("✅ Caché limpiado. Los nuevos datos estarán disponibles al navegar a otras páginas.")
