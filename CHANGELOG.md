@@ -1,5 +1,13 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.31] - 2026-03-10
+### Añadido
+- Añadir métodos para graficar ahorros de axa y fiatc
+- Añadir gráficos de ahorros de axa y fiatc
+- Añadir tests para los métodos de gráficos de ahorros
+### Modificado
+- Cambiar nombre de variables en la parte de ahorro para que sea más legible y mantenible
+
 ## [0.0.30] - 2026-03-09
 ### Añadido
 - Limpiar caché cuando se añaden datos de ahorros.
