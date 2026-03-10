@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 
 from datetime import datetime
 from src.mis_finanzas import MisFinanzas
+from src.mis_ahorros import MisAhorros
 
 # Título de la página
 st.title("💰 Ahorro y Previsión")
@@ -18,8 +19,10 @@ nombres_meses = {
     9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
 }
 
-# Cargar datos de finanzas
+# Cargar datos de finanzas y ahorros
 finanzas = MisFinanzas()
+ahorros_axa = MisAhorros('axa')
+ahorros_fiatc = MisAhorros('fiatc')
 
 
 def selector_año() -> None:
@@ -138,6 +141,64 @@ def obtener_media_tasa_ahorro() -> None:
     st.metric(label="Tasa de ahorro media mensual", value=f"{media_tasa_ahorro:.2f} %")
 
 
+def obtener_historico_axa() -> None:
+    """
+    Obtiene la gráfica del histórico de ingresos al plan de ahorro de axa
+    """
+    df: pd.DataFrame = ahorros_axa.obtener_historico()
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=df['FECHA'],
+            y=df['TOTAL_APORTADO'],
+            name='Aportado',
+            line=dict(color='#1f77b4'),
+            marker=dict(color='#1f77b4'),
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=df['FECHA'],
+            y=df['SALDO'],
+            name='Saldo',
+            line=dict(color="#34960d"),
+            marker=dict(color='#34960d'),
+        )
+    )
+
+    st.plotly_chart(fig, width='stretch')
+
+
+def obtener_historico_fiatc() -> None:
+    """
+    Obtiene la gráfica del histórico de ingresos al plan de ahorro de axa
+    """
+    df: pd.DataFrame = ahorros_fiatc.obtener_historico()
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=df['FECHA'],
+            y=df['TOTAL_APORTADO'],
+            name='Aportado',
+            line=dict(color='#1f77b4'),
+            marker=dict(color='#1f77b4'),
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=df['FECHA'],
+            y=df['SALDO'],
+            name='Saldo',
+            line=dict(color="#34960d"),
+            marker=dict(color='#34960d'),
+        )
+    )
+
+    st.plotly_chart(fig, width='stretch')
+
+
 selector_año()
 
 tab_diferencia, tab_tasa_ahorro = st.tabs(["📈 Ingresos - Gastos", "💵 Tasa Ahorro (%)"])
@@ -157,4 +218,6 @@ with tab_tasa_ahorro:
 
 tab_ahorro = st.tabs(["🐖 Ahorro y Previsión"])[0]
 with tab_ahorro:
-    st.write("En construcción...")
+    st.dataframe(ahorros_axa.obtener_historico())
+    obtener_historico_axa()
+    obtener_historico_fiatc()
