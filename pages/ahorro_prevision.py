@@ -18,8 +18,8 @@ nombres_meses = {
     9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
 }
 
-# Cargar datos
-datos = MisFinanzas()
+# Cargar datos de finanzas
+finanzas = MisFinanzas()
 
 
 def selector_año() -> None:
@@ -46,8 +46,8 @@ def obtener_intervalo_ahorro_meses() -> None:
     """
     Obtiene la diferencia entre los gastos e ingresos por meses
     """
-    df_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)
-    df_gastos = datos.obtener_intervalo_gastos_por_meses(año)
+    df_ingresos = finanzas.obtener_intervalo_ingresos_por_meses(año)
+    df_gastos = finanzas.obtener_intervalo_gastos_por_meses(año)
 
     df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
     df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
@@ -73,8 +73,8 @@ def obtener_total_diferencia() -> None:
     """
     Obtiene el total de las diferencias de ingresos y gastos del año completo
     """
-    total_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)['importe'].sum()
-    total_gastos = datos.obtener_intervalo_gastos_por_meses(año)['importe'].sum()
+    total_ingresos = finanzas.obtener_intervalo_ingresos_por_meses(año)['importe'].sum()
+    total_gastos = finanzas.obtener_intervalo_gastos_por_meses(año)['importe'].sum()
     total_diferencia = total_ingresos + total_gastos
 
     st.metric(label="Ahorro total del año", value=f"{total_diferencia:.2f} €")
@@ -84,8 +84,8 @@ def obtener_media_diferencia() -> None:
     """
     Obtiene el promedio de las diferencias entre gasto e ingresos del año completo
     """
-    df_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)
-    df_gastos = datos.obtener_intervalo_gastos_por_meses(año)
+    df_ingresos = finanzas.obtener_intervalo_ingresos_por_meses(año)
+    df_gastos = finanzas.obtener_intervalo_gastos_por_meses(año)
 
     df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
     df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
@@ -99,8 +99,8 @@ def obtener_intervalo_tasa_ahorro() -> None:
     """
     Obtiene la tasa de ahorro con respecto a los ingresos: ((ingresos - gastos) / ingresos) * 100
     """
-    df_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)
-    df_gastos = datos.obtener_intervalo_gastos_por_meses(año)
+    df_ingresos = finanzas.obtener_intervalo_ingresos_por_meses(año)
+    df_gastos = finanzas.obtener_intervalo_gastos_por_meses(año)
 
     df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
     df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
@@ -126,8 +126,8 @@ def obtener_media_tasa_ahorro() -> None:
     """
     Obtiene la tasa de ahorro medio con respecto a los ingresos: ((ingresos - gastos) / ingresos) * 100
     """
-    df_ingresos = datos.obtener_intervalo_ingresos_por_meses(año)
-    df_gastos = datos.obtener_intervalo_gastos_por_meses(año)
+    df_ingresos = finanzas.obtener_intervalo_ingresos_por_meses(año)
+    df_gastos = finanzas.obtener_intervalo_gastos_por_meses(año)
 
     df_final = pd.merge(df_ingresos, df_gastos, on='mes', suffixes=('_ingresos', '_gastos'))
     df_final['diferencia'] = df_final['importe_ingresos'] + df_final['importe_gastos']
