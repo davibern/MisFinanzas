@@ -53,6 +53,21 @@ def mis_ahorros_mock(datos_prueba: pd.DataFrame) -> MisAhorros:
     Returns:
         MisAhorros: Instancia de la clase con datos de prueba
     """
-    with patch('pandas.read_parquet', return_value=datos_prueba):
-        ahorros = MisAhorros()
+    with patch('src.mis_ahorros.pd.read_parquet', return_value=datos_prueba):
+        ahorros = MisAhorros('FIATC')
     return ahorros
+
+
+def test_obtener_historico(mis_ahorros_mock: MisAhorros, datos_prueba: pd.DataFrame) -> None:
+    """
+    Test: Verifica que obtener_historico devuelve los datos esperados.
+    """
+    # Llama al método bajo prueba
+    resultado = mis_ahorros_mock.obtener_historico()
+
+    # Comprueba que el resultado es un DataFrame
+    assert isinstance(resultado, pd.DataFrame)
+
+    # Comprueba que los datos devueltos coinciden con los datos de prueba
+    pd.testing.assert_frame_equal(resultado, datos_prueba)
+
