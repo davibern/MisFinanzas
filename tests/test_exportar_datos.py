@@ -10,7 +10,7 @@ Este archivo contiene tests unitarios para validar el funcionamiento de:
 import pytest
 import pandas as pd
 from unittest.mock import Mock, patch
-from src.cargar_datos_bancarios import CargarFichero
+from src.cargar_datos_bancarios import CargarFicheroBancario
 from src.exportar_datos import ExportarDatos
 
 
@@ -38,7 +38,7 @@ def datos_prueba_df() -> pd.DataFrame:
 
 
 @pytest.fixture
-def mock_cargar_fichero(datos_prueba_df: pd.DataFrame) -> CargarFichero:
+def mock_cargar_fichero(datos_prueba_df: pd.DataFrame) -> CargarFicheroBancario:
     """
     Fixture: Crea un mock de CargarFichero con datos de prueba.
 
@@ -48,13 +48,13 @@ def mock_cargar_fichero(datos_prueba_df: pd.DataFrame) -> CargarFichero:
     Returns:
         Mock: Mock de CargarFichero con DataFrame asignado
     """
-    mock = Mock(spec=CargarFichero)
+    mock = Mock(spec=CargarFicheroBancario)
     mock.df = datos_prueba_df
     return mock
 
 
 @pytest.fixture
-def exportar_datos_instance(mock_cargar_fichero: CargarFichero) -> ExportarDatos:
+def exportar_datos_instance(mock_cargar_fichero: CargarFicheroBancario) -> ExportarDatos:
     """
     Fixture: Crea una instancia de ExportarDatos con datos de prueba.
 
@@ -64,25 +64,26 @@ def exportar_datos_instance(mock_cargar_fichero: CargarFichero) -> ExportarDatos
     Returns:
         ExportarDatos: Instancia inicializada
     """
-    return ExportarDatos(mock_cargar_fichero)
+    return ExportarDatos(mock_cargar_fichero, tipo='bancario')
 
 
 # ============================================================================
 # TESTS PARA __init__
 # ============================================================================
 
-def test_init_exportar_datos(mock_cargar_fichero: CargarFichero):
+def test_init_exportar_datos(mock_cargar_fichero: CargarFicheroBancario):
     """
     Test: Verifica que la inicialización de ExportarDatos sea correcta.
 
     Comprueba que el atributo datos se asigne correctamente.
     """
     # Act
-    exportador = ExportarDatos(mock_cargar_fichero)
+    exportador = ExportarDatos(mock_cargar_fichero, tipo='bancario')
 
     # Assert
     assert exportador.datos == mock_cargar_fichero
     assert exportador.datos.df is not None
+    assert exportador.tipo == 'bancario'
 
 
 # ============================================================================
@@ -205,7 +206,7 @@ def test_exportar_when_validation_false(exportar_datos_instance: ExportarDatos):
     with patch.object(exportar_datos_instance, 'validar_año_mes', return_value=False):
         with patch.object(exportar_datos_instance.datos.df, 'to_parquet') as mock_to_parquet:
             # Act
-            resultado = exportar_datos_instance.exportar()
+            resultado = exportar_datos_instance.exportar_parquet()
 
             # Assert
             assert resultado == 1
@@ -222,7 +223,7 @@ def test_exportar_when_validation_true(exportar_datos_instance: ExportarDatos):
     with patch.object(exportar_datos_instance, 'validar_año_mes', return_value=True):
         with patch.object(exportar_datos_instance.datos.df, 'to_parquet') as mock_to_parquet:
             # Act
-            resultado = exportar_datos_instance.exportar()
+            resultado = exportar_datos_instance.exportar_parquet()
 
             # Assert
             assert resultado == 0
@@ -244,7 +245,7 @@ def test_exportar_parquet_parameters(exportar_datos_instance: ExportarDatos):
     with patch.object(exportar_datos_instance, 'validar_año_mes', return_value=False):
         with patch.object(exportar_datos_instance.datos.df, 'to_parquet') as mock_to_parquet:
             # Act
-            exportar_datos_instance.exportar()
+            exportar_datos_instance.exportar_parquet()
 
             # Assert
             mock_to_parquet.assert_called_once_with(
@@ -266,7 +267,7 @@ def test_exportar_creates_partitions(exportar_datos_instance: ExportarDatos):
     with patch.object(exportar_datos_instance, 'validar_año_mes', return_value=False):
         with patch.object(exportar_datos_instance.datos.df, 'to_parquet') as mock_to_parquet:
             # Act
-            exportar_datos_instance.exportar()
+            exportar_datos_instance.exportar_parquet()
 
             # Assert
             call_kwargs = mock_to_parquet.call_args[1]
@@ -284,12 +285,12 @@ def test_exportar_return_values(exportar_datos_instance: ExportarDatos):
     # Arrange & Act & Assert - Caso 1: Se exporta
     with patch.object(exportar_datos_instance, 'validar_año_mes', return_value=False):
         with patch.object(exportar_datos_instance.datos.df, 'to_parquet'):
-            resultado = exportar_datos_instance.exportar()
+            resultado = exportar_datos_instance.exportar_parquet()
             assert resultado == 1
 
     # Arrange & Act & Assert - Caso 2: No se exporta
     with patch.object(exportar_datos_instance, 'validar_año_mes', return_value=True):
-        resultado = exportar_datos_instance.exportar()
+        resultado = exportar_datos_instance.exportar_parquet()
         assert resultado == 0
 
 
@@ -315,7 +316,7 @@ def test_integration_validar_and_exportar(exportar_datos_instance: ExportarDatos
     with patch('pandas.read_parquet', return_value=df_existente):
         with patch.object(exportar_datos_instance.datos.df, 'to_parquet') as mock_to_parquet:
             # Act
-            resultado = exportar_datos_instance.exportar()
+            resultado = exportar_datos_instance.exportar_parquet()
 
             # Assert
             # Como los datos de prueba son de 2025/01 y 2025/02, y solo existe 2024/12,
@@ -340,7 +341,7 @@ def test_integration_duplicate_prevention(exportar_datos_instance: ExportarDatos
     with patch('pandas.read_parquet', return_value=df_existente):
         with patch.object(exportar_datos_instance.datos.df, 'to_parquet') as mock_to_parquet:
             # Act
-            resultado = exportar_datos_instance.exportar()
+            resultado = exportar_datos_instance.exportar_parquet()
 
             # Assert
             # Como todos los períodos ya existen, no debe exportar

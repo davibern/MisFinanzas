@@ -194,9 +194,9 @@ def test_limpiar_datos_total_aportado(cargar_ahorro_instance: CargarFicheroAhorr
     assert df['TOTAL_APORTADO'].iloc[2] == 1500.50
 
 
-def test_limpiar_datos_saldo_ffill(tmp_path):
+def test_limpiar_datos_saldo_no_ffill(tmp_path):
     """
-    Test: Verifica que SALDO aplique correctamente ffill a los vacíos.
+    Test: Verifica que SALDO deje como NaN los huecos vacíos.
     """
     # Arrange
     csv_saldo = """FECHA,MOVIMIENTO,IMPORTE,SALDO
@@ -212,5 +212,5 @@ def test_limpiar_datos_saldo_ffill(tmp_path):
     df = cargador.limpiar_datos()
 
     # Assert
-    # El ffill debería hacer que la segunda fila tenga saldo 1000.0
-    assert df['SALDO'].iloc[1] == 1000.0
+    # Ya no se hace ffill, debería ser NaN
+    assert pd.isna(df['SALDO'].iloc[1])
