@@ -205,6 +205,12 @@ selector_año()
 
 tab_diferencia, tab_tasa_ahorro = st.tabs(["📈 Ingresos - Gastos", "💵 Tasa Ahorro (%)"])
 with tab_diferencia:
+    st.write("Aquí se muestra la diferencia entre los ingresos y los gastos de cada mes.\
+        Se suman los ingresos y se restan los gastos para obtener la diferencia.")
+    st.write("El ahorro total del año representa el acumulado de las diferencias mensuales\
+        hasta la fecha actual.")
+    st.write("El ahorro medio mensual representa el promedio de las diferencias mensuales\
+        hasta la fecha actual.")
     col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
     with col1:
         obtener_intervalo_ahorro_meses()
@@ -212,6 +218,8 @@ with tab_diferencia:
         obtener_total_diferencia()
         obtener_media_diferencia()
 with tab_tasa_ahorro:
+    st.write("Aquí se muestra la tasa de ahorro con respecto a los ingresos de cada mes.")
+    st.write("La tasa de ahorro media mensual representa el promedio de las tasas de ahorro mensuales")
     col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
     with col1:
         obtener_intervalo_tasa_ahorro()
