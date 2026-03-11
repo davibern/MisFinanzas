@@ -34,10 +34,9 @@ class CargarFicheroAhorro:
         # Formato de solo fecha
         self.df['FECHA'] = self.df['FECHA'].dt.date
 
-        # 4. Rellenar huecos del Saldo
-        self.df['SALDO'] = self.df['SALDO'].ffill()
-
-        # 5. Formato de texto para Movimiento
+        # 4. Dejamos los huecos del Saldo en lugar de auto-rellenarlos (ffill)
+        # Esto nos permite dibujar en la gráfica sólo los momentos en los que
+        # hemos volcado datos reales del importe en cartera.
         self.df['MOVIMIENTO'] = self.df['MOVIMIENTO'].astype('string')
 
         # 6. Calcular el total aportado acumulado (suma de IMPORTE)
