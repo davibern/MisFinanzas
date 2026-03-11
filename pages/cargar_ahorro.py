@@ -11,7 +11,7 @@ st.markdown("""
 2. Guardarlo en tu carpeta de descarga y seleccionalo con el botón de cargar.
 """)
 
-st.write("Si necesitas ayuda para exportar los datos de Ahorro, puedes pulsar en el siguiente botónde ayuda 👇🏻")
+st.write("Si necesitas ayuda para exportar los datos de Ahorro, puedes pulsar en el siguiente botón de ayuda 👇🏻")
 st.page_link("./pages/cargar_ahorro_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
 st.markdown("""---""", unsafe_allow_html=True)
 
