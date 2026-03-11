@@ -1,5 +1,15 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.32] - 2026-03-12
+### Modificado
+- Eliminar `Forward-Fill` en la carga de datos de ahorro para que se muestren los datos correctamente en las gráficas e impedir que se infiera información "duplicada".
+- Conectar los puntos de las gráficas de ahorro para que se muestren de manera continua.
+- Añadir pestañas en ahorro para diferenciar los planes de ahorro.
+- Añadir breves descripciones de los indicadores de ahorro.
+### Corregido
+- Corregido los tests de carga y exportación de ahorros.
+- Corregido texto literal de la ayuda de carga de datos de ahorro.
+
 ## [0.0.31] - 2026-03-10
 ### Añadido
 - Añadir métodos para graficar ahorros de axa y fiatc
