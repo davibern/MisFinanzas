@@ -164,6 +164,7 @@ def obtener_historico_axa() -> None:
             name='Saldo',
             line=dict(color="#34960d"),
             marker=dict(color='#34960d'),
+            connectgaps=True,
         )
     )
 
@@ -193,6 +194,7 @@ def obtener_historico_fiatc() -> None:
             name='Saldo',
             line=dict(color="#34960d"),
             marker=dict(color='#34960d'),
+            connectgaps=True,
         )
     )
 
@@ -216,8 +218,10 @@ with tab_tasa_ahorro:
     with col3:
         obtener_media_tasa_ahorro()
 
-tab_ahorro = st.tabs(["🐖 Ahorro y Previsión"])[0]
-with tab_ahorro:
-    st.dataframe(ahorros_axa.obtener_historico())
+tab_axa, tab_fiatc = st.tabs(["🐖 Plan Ahorro: AXA" , "🐖 Plan Ahorro: FIATC"])
+with tab_axa:
+    st.subheader("Plan de Ahorro AXA")
     obtener_historico_axa()
+with tab_fiatc:
+    st.subheader("Plan de Ahorro FIATC")
     obtener_historico_fiatc()
