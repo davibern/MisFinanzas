@@ -40,3 +40,21 @@ class MisAhorros():
             pd.DataFrame: DataFrame con el histórico de todos los datos
         """
         return self.datos
+
+    def obtener_total_aportado_plan_ahorro(self) -> float:
+        """
+        Obtiene el total aportado al plan de ahorros
+
+        Returns:
+            float: Suma de las cantidades aportada al plan de ahorro
+        """
+        return self.datos['IMPORTE'].sum()
+
+    def obtener_total_acumulado_plan_ahorro(self) -> float:
+        """
+        Obtiene el último dato almacenado como acumulado del plan
+
+        Returns:
+            float: Último dato almacenado en el dataframe que devuelve el total acumulado
+        """
+        return self.datos['SALDO'].dropna().iloc[-1]
