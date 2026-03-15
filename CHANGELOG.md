@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.33] - 2026-03-15
+### Añadido
+- Añadir aviso al usuario de que no hay datos de ahorro sino se encuentran ficheros con datos de ahorro.
+- Añadir métodos en `mis_ahorros.py` para calcular el total aportado a un plan de ahorro y el acumulado.
+- Mostra datos acumulados totales (aportado y acumulado) en `ahorro_prevision.py`
+
 ## [0.0.32] - 2026-03-12
 ### Modificado
 - Eliminar `Forward-Fill` en la carga de datos de ahorro para que se muestren los datos correctamente en las gráficas e impedir que se infiera información "duplicada".
