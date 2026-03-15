@@ -147,6 +147,10 @@ def obtener_historico_axa() -> None:
     """
     df: pd.DataFrame = ahorros_axa.obtener_historico()
 
+    if df.empty:
+        st.warning('No hay datos de ahorro para AXA cargados en el sistema.')
+        return
+
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
@@ -173,9 +177,13 @@ def obtener_historico_axa() -> None:
 
 def obtener_historico_fiatc() -> None:
     """
-    Obtiene la gráfica del histórico de ingresos al plan de ahorro de axa
+    Obtiene la gráfica del histórico de ingresos al plan de ahorro de fiatc
     """
     df: pd.DataFrame = ahorros_fiatc.obtener_historico()
+
+    if df.empty:
+        st.warning('No hay datos de ahorro para FIATC cargados en el sistema.')
+        return
 
     fig = go.Figure()
     fig.add_trace(
@@ -226,7 +234,7 @@ with tab_tasa_ahorro:
     with col3:
         obtener_media_tasa_ahorro()
 
-tab_axa, tab_fiatc = st.tabs(["🐖 Plan Ahorro: AXA" , "🐖 Plan Ahorro: FIATC"])
+tab_axa, tab_fiatc = st.tabs(["🐖 Plan Ahorro: AXA", "🐖 Plan Ahorro: FIATC"])
 with tab_axa:
     st.subheader("Plan de Ahorro AXA")
     obtener_historico_axa()

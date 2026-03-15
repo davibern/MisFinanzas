@@ -11,7 +11,11 @@ def cargar_datos_ahorros(compañia: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame con los datos procesados
     """
-    datos = pd.read_parquet(f'data/ahorros.{compañia.lower()}.parquet')
+    try:
+        datos = pd.read_parquet(f'data/ahorros.{compañia.lower()}.parquet')
+    except FileNotFoundError:
+        # Si el archivo no existe, devolver un DataFrame vacío
+        datos = pd.DataFrame()
     return datos
 
 
