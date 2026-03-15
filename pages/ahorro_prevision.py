@@ -175,6 +175,20 @@ def obtener_historico_axa() -> None:
     st.plotly_chart(fig, width='stretch')
 
 
+def obtener_total_aportado_axa() -> None:
+    """
+    Obtiene el total aportado al plan de axa
+    """
+    st.metric(label="Acumlado al plan AXA", value=f"{ahorros_axa.obtener_total_aportado_plan_ahorro():.2f} €")
+
+
+def obtener_total_acumulado_axa() -> None:
+    """
+    Obtiene el total acumulado aportado al plan de axa
+    """
+    st.metric(label="Acumlado al plan AXA", value=f"{ahorros_axa.obtener_total_acumulado_plan_ahorro():.2f} €")
+
+
 def obtener_historico_fiatc() -> None:
     """
     Obtiene la gráfica del histórico de ingresos al plan de ahorro de fiatc
@@ -209,6 +223,20 @@ def obtener_historico_fiatc() -> None:
     st.plotly_chart(fig, width='stretch')
 
 
+def obtener_total_aportado_fiatc() -> None:
+    """
+    Obtiene el total aportado al plan de fiatc
+    """
+    st.metric(label="Acumlado al plan FIATC", value=f"{ahorros_fiatc.obtener_total_aportado_plan_ahorro():.2f} €")
+
+
+def obtener_total_acumulado_fiatc() -> None:
+    """
+    Obtiene el total acumulado aportado al plan de axa
+    """
+    st.metric(label="Acumlado al plan FIATC", value=f"{ahorros_fiatc.obtener_total_acumulado_plan_ahorro():.2f} €")
+
+
 selector_año()
 
 tab_diferencia, tab_tasa_ahorro = st.tabs(["📈 Ingresos - Gastos", "💵 Tasa Ahorro (%)"])
@@ -237,7 +265,17 @@ with tab_tasa_ahorro:
 tab_axa, tab_fiatc = st.tabs(["🐖 Plan Ahorro: AXA", "🐖 Plan Ahorro: FIATC"])
 with tab_axa:
     st.subheader("Plan de Ahorro AXA")
-    obtener_historico_axa()
+    col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
+    with col1:
+        obtener_historico_axa()
+    with col3:
+        obtener_total_aportado_axa()
+        obtener_total_acumulado_axa()
 with tab_fiatc:
     st.subheader("Plan de Ahorro FIATC")
-    obtener_historico_fiatc()
+    col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
+    with col1:
+        obtener_historico_fiatc()
+    with col3:
+        obtener_total_aportado_fiatc()
+        obtener_total_acumulado_fiatc()
