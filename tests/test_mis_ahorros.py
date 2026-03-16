@@ -71,3 +71,25 @@ def test_obtener_historico(mis_ahorros_mock: MisAhorros, datos_prueba: pd.DataFr
     # Comprueba que los datos devueltos coinciden con los datos de prueba
     pd.testing.assert_frame_equal(resultado, datos_prueba)
 
+
+def test_obtener_total_aportado_plan_ahorro(mis_ahorros_mock: MisAhorros, datos_prueba: pd.DataFrame) -> None:
+    """
+    Test: Verifica que obtener_total_aportado_plan_ahorro devuelve la suma correcta.
+    """
+    resultado = mis_ahorros_mock.obtener_total_aportado_plan_ahorro()
+    esperado = datos_prueba['IMPORTE'].sum()
+    
+    assert resultado == esperado
+    assert resultado == 150.0
+
+
+def test_obtener_total_acumulado_plan_ahorro(mis_ahorros_mock: MisAhorros, datos_prueba: pd.DataFrame) -> None:
+    """
+    Test: Verifica que obtener_total_acumulado_plan_ahorro devuelve el último saldo correctamente.
+    """
+    resultado = mis_ahorros_mock.obtener_total_acumulado_plan_ahorro()
+    esperado = datos_prueba['SALDO'].dropna().iloc[-1]
+    
+    assert resultado == esperado
+    assert resultado == 160.0
+
