@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.34] - 2026-03-17
+### Añadido
+- Añadir tests para los métodos de gráficos de ahorros
+
 ## [0.0.33] - 2026-03-15
 ### Añadido
 - Añadir aviso al usuario de que no hay datos de ahorro sino se encuentran ficheros con datos de ahorro.
