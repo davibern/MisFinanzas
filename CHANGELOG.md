@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.35] - 2026-03-19
+### Añadido
+- Añadir delta de ahorro en `pages/ahorro_prevision.py`
+### Modificado
+- Corregir texto literal de la ayuda de carga de datos de ahorro.
+
 ## [0.0.34] - 2026-03-17
 ### Añadido
 - Añadir tests para los métodos de gráficos de ahorros
