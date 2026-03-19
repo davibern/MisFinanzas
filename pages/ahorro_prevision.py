@@ -179,14 +179,21 @@ def obtener_total_aportado_axa() -> None:
     """
     Obtiene el total aportado al plan de axa
     """
-    st.metric(label="Acumlado al plan AXA", value=f"{ahorros_axa.obtener_total_aportado_plan_ahorro():.2f} €")
+    st.metric(label="Aportado al plan AXA", value=f"{ahorros_axa.obtener_total_aportado_plan_ahorro():.2f} €")
 
 
 def obtener_total_acumulado_axa() -> None:
     """
     Obtiene el total acumulado aportado al plan de axa
     """
-    st.metric(label="Acumlado al plan AXA", value=f"{ahorros_axa.obtener_total_acumulado_plan_ahorro():.2f} €")
+    acumulado: float = ahorros_axa.obtener_total_acumulado_plan_ahorro()
+    aportado: float = ahorros_axa.obtener_total_aportado_plan_ahorro()
+    delta: float = ((acumulado-aportado)/aportado)*100
+    st.metric(
+        label="Acumulado al plan AXA",
+        value=f"{acumulado:.2f} €",
+        delta=f"{delta:.2f} %"
+    )
 
 
 def obtener_historico_fiatc() -> None:
@@ -227,14 +234,24 @@ def obtener_total_aportado_fiatc() -> None:
     """
     Obtiene el total aportado al plan de fiatc
     """
-    st.metric(label="Acumlado al plan FIATC", value=f"{ahorros_fiatc.obtener_total_aportado_plan_ahorro():.2f} €")
+    st.metric(
+        label="Aportado al plan FIATC",
+        value=f"{ahorros_fiatc.obtener_total_aportado_plan_ahorro():.2f} €",
+    )
 
 
 def obtener_total_acumulado_fiatc() -> None:
     """
-    Obtiene el total acumulado aportado al plan de axa
+    Obtiene el total acumulado aportado al plan de fiatc
     """
-    st.metric(label="Acumlado al plan FIATC", value=f"{ahorros_fiatc.obtener_total_acumulado_plan_ahorro():.2f} €")
+    acumulado: float = ahorros_fiatc.obtener_total_acumulado_plan_ahorro()
+    aportado: float = ahorros_fiatc.obtener_total_aportado_plan_ahorro()
+    delta: float = ((acumulado-aportado)/aportado)*100
+    st.metric(
+        label="Acumulado al plan FIATC",
+        value=f"{acumulado:.2f} €",
+        delta=f"{delta:.2f} %"
+    )
 
 
 selector_año()
