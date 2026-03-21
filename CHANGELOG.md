@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.36] - 2026-03-20
+### Añadido
+- Clase ENUM llamado Mes sacar como constante en `pages/ahorro_prevision.py` y `pages/resumen_mensual.py` los datos de los meses.
+### Modificado
+- Aplicar la clase ENUM a los ficheros anteriormente citados.
+
 ## [0.0.35] - 2026-03-19
 ### Añadido
 - Añadir delta de ahorro en `pages/ahorro_prevision.py`
