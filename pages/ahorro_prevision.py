@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 from datetime import datetime
 from src.mis_finanzas import MisFinanzas
 from src.mis_ahorros import MisAhorros
+from src.enums import Mes
 
 # Título de la página
 st.title("💰 Ahorro y Previsión")
@@ -13,11 +14,7 @@ st.write("Selecciona el año para obtener los datos correspondientes, y obtendr�
     automáticamente la evolución de los últimos doce meses.")
 
 # Mapear número de mes a nombre en español
-nombres_meses = {
-    1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
-    5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
-    9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
-}
+nombres_meses = Mes.get_map_dict()
 
 # Cargar datos de finanzas y ahorros
 finanzas = MisFinanzas()
