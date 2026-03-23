@@ -6,7 +6,8 @@
 !/raw/fiatc/example.csv
 !/raw/axa/example.csv
 /data/finanzas.parquet
-/data/ahorros.*.parquet
+/data/ahorros.AXA.parquet
+/data/ahorros.FIATC.parquet
 
 # Ficheros para el entorno
 /.venv
