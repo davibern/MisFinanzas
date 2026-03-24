@@ -4,8 +4,12 @@
 ### Añadido
 - Fichero de configuración `src/config.py` para guardar las constantes de la aplicación.
 - Clase Color para guardar los colores de la aplicación.
+- Métodos para obtener el año máximo y mínimo del fichero parquet en `src/mis_finanzas.py`.
 ### Modificado
 - Cambiar referencias estáticas por la clase Color en `pages/resumen_anual.py` y `pages/ahorro_prevision.py`.
+- Aplicar los métodos de min y max de fechas en `pages/resumen_anual.py` y `pages/resumen_mensual.py`.
+### Corregido
+- Corregir tests para los métodos de min y max de fechas.
 
 ## [0.0.36] - 2026-03-20
 ### Añadido
