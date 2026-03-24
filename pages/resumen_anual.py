@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 from datetime import datetime
 from src.mis_finanzas import MisFinanzas
 from src.enums import Mes
+from src.config import Color
 
 # Título de la página
 st.title("📅 Datos por Meses")
@@ -53,8 +54,8 @@ def obtener_intervalo_ingresos_meses() -> None:
             y=ingresos_meses['importe'],
             mode='lines+markers',
             name='Ingresos',
-            line=dict(color='#1f77b4'),
-            marker=dict(color='#1f77b4'),
+            line=dict(color=Color.AZUL),
+            marker=dict(color=Color.AZUL),
         )
     )
     fig.add_trace(
@@ -63,8 +64,8 @@ def obtener_intervalo_ingresos_meses() -> None:
             y=gastos_meses['importe'],
             mode='lines+markers',
             name='Gastos',
-            line=dict(color='#d62728'),
-            marker=dict(color='#d62728'),
+            line=dict(color=Color.ROJO),
+            marker=dict(color=Color.ROJO),
         )
     )
 

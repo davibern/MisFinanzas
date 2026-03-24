@@ -6,6 +6,7 @@ from datetime import datetime
 from src.mis_finanzas import MisFinanzas
 from src.mis_ahorros import MisAhorros
 from src.enums import Mes
+from src.config import Color
 
 # Título de la página
 st.title("💰 Ahorro y Previsión")
@@ -154,8 +155,8 @@ def obtener_historico_axa() -> None:
             x=df['FECHA'],
             y=df['TOTAL_APORTADO'],
             name='Aportado',
-            line=dict(color='#1f77b4'),
-            marker=dict(color='#1f77b4'),
+            line=dict(color=Color.AZUL),
+            marker=dict(color=Color.AZUL),
         )
     )
     fig.add_trace(
@@ -163,8 +164,8 @@ def obtener_historico_axa() -> None:
             x=df['FECHA'],
             y=df['SALDO'],
             name='Saldo',
-            line=dict(color="#34960d"),
-            marker=dict(color='#34960d'),
+            line=dict(color=Color.VERDE),
+            marker=dict(color=Color.VERDE),
             connectgaps=True,
         )
     )
@@ -209,8 +210,8 @@ def obtener_historico_fiatc() -> None:
             x=df['FECHA'],
             y=df['TOTAL_APORTADO'],
             name='Aportado',
-            line=dict(color='#1f77b4'),
-            marker=dict(color='#1f77b4'),
+            line=dict(color=Color.AZUL),
+            marker=dict(color=Color.AZUL),
         )
     )
     fig.add_trace(
@@ -218,8 +219,8 @@ def obtener_historico_fiatc() -> None:
             x=df['FECHA'],
             y=df['SALDO'],
             name='Saldo',
-            line=dict(color="#34960d"),
-            marker=dict(color='#34960d'),
+            line=dict(color=Color.VERDE),
+            marker=dict(color=Color.VERDE),
             connectgaps=True,
         )
     )
