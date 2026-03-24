@@ -156,6 +156,24 @@ class MisFinanzas():
     def __init__(self) -> None:
         # Usa función cacheada en lugar de leer directamente
         self.datos = cargar_datos_finanzas()
+    
+    def obtener_año_minimo(self) -> int:
+        """
+        Obtiene el año mínimo de los datos.
+
+        Returns:
+            int: Año mínimo
+        """
+        return self.datos['año'].min()
+
+    def obtener_año_maximo(self) -> int:
+        """
+        Obtiene el año máximo de los datos.
+
+        Returns:
+            int: Año máximo
+        """
+        return self.datos['año'].max()
 
     def obtener_ingresos_mes_año(self, año: int, mes: int) -> float:
         """
