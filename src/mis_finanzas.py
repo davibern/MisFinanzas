@@ -146,6 +146,20 @@ def _calcular_intervalo_ingresos_por_meses(_datos: pd.DataFrame, año: int) -> p
     ].groupby('mes')['importe'].sum().reset_index()
 
 
+@st.cache_data
+def _calcular_ahorro_jubilacion_por_meses(_datos: pd.DataFrame, año: int) -> pd.DataFrame:
+    """Calcula el ahorro de jubilación por concepto para un año agrupado por meses (función cacheada)."""
+    ahorro = _datos[
+        (_datos['año'] == año) &
+        (_datos['categoria'] == 'Planes de pensión y previsión')
+    ].groupby(['mes', 'concepto'])['importe'].sum().reset_index()
+    
+    # El importe viene en negativo por ser gasto, lo pasamos a positivo
+    ahorro['importe'] = ahorro['importe'].abs()
+    
+    return ahorro
+
+
 # ============================================
 # CLASE PRINCIPAL
 # ============================================
@@ -319,3 +333,15 @@ class MisFinanzas():
             DataFrame con columnas ['mes', 'importe'] para los 12 meses
         """
         return _calcular_intervalo_ingresos_por_meses(self.datos, año)
+
+    def obtener_ahorro_jubilacion_por_meses(self, año: int) -> pd.DataFrame:
+        """
+        Obtiene los ahorros de jubilación por mes y concepto de un año.
+
+        Args:
+            año: Año a consultar
+
+        Returns:
+            DataFrame con columnas ['mes', 'concepto', 'importe']
+        """
+        return _calcular_ahorro_jubilacion_por_meses(self.datos, año)
