@@ -1,5 +1,12 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.37] - 2026-03-25
+### Añadido
+- Fichero de configuración `src/config.py` para guardar las constantes de la aplicación.
+- Clase Color para guardar los colores de la aplicación.
+### Modificado
+- Cambiar referencias estáticas por la clase Color en `pages/resumen_anual.py` y `pages/ahorro_prevision.py`.
+
 ## [0.0.36] - 2026-03-20
 ### Añadido
 - Clase ENUM llamado Mes sacar como constante en `pages/ahorro_prevision.py` y `pages/resumen_mensual.py` los datos de los meses.
