@@ -20,7 +20,7 @@ def selector_año_mes() -> None:
     col1, col2 = st.columns(2)
     with col1:
         global año
-        años = list(range(2024, 2027))
+        años = list(range(datos.obtener_año_minimo(), datos.obtener_año_maximo() + 1))
         año_actual = datetime.now().year
 
         # Calculo el índice del año actual en la lista de años
