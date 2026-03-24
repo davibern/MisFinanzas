@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 
+from src.config import RUTA_FINANZAS_PARQUET
 
 @st.cache_data
 def cargar_datos_finanzas() -> pd.DataFrame:
@@ -11,7 +12,7 @@ def cargar_datos_finanzas() -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame con los datos procesados
     """
-    datos = pd.read_parquet("data/finanzas.parquet")
+    datos = pd.read_parquet(RUTA_FINANZAS_PARQUET)
     # Convertir columnas de partición de categorical a int
     datos[['año', 'mes']] = datos[['año', 'mes']].astype(int)
     return datos

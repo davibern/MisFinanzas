@@ -4,6 +4,7 @@ import shutil
 
 from src.cargar_datos_bancarios import CargarFicheroBancario
 from src.cargar_datos_ahorros import CargarFicheroAhorro
+from src.config import RUTA_FINANZAS_PARQUET
 
 
 class ExportarDatos:
@@ -20,7 +21,7 @@ class ExportarDatos:
             bool: True si el año y el mes ya han sido procesados, False en caso contrario
         """
         try:
-            df_existente = pd.read_parquet("data/finanzas.parquet")
+            df_existente = pd.read_parquet(RUTA_FINANZAS_PARQUET)
         except FileNotFoundError:
             return False
 
@@ -51,7 +52,7 @@ class ExportarDatos:
                 return 0
             else:
                 self.datos.df.to_parquet(
-                    "data/finanzas.parquet",
+                    RUTA_FINANZAS_PARQUET,
                     engine="pyarrow",
                     compression="snappy",
                     partition_cols=["año", "mes"],
