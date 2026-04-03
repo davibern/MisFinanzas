@@ -29,7 +29,7 @@ class CargarFicheroCaja:
         self.df['FECHA'] = self.df['FECHA'].ffill()
 
         # 4. Formato de solo fecha
-        self.df['FECHA'] = self.df['FECHA'].dt._delegate_method
+        self.df['FECHA'] = self.df['FECHA'].dt.date
 
         # 5. Devolver dataframe
         return self.df
