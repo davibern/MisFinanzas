@@ -9,6 +9,7 @@
 /data/ahorros.AXA.parquet
 /data/ahorros.FIATC.parquet
 /raw/caja/*.csv
+/data/caja.parquet
 
 # Ficheros para el entorno
 /.venv
