@@ -4,11 +4,13 @@ import shutil
 
 from src.cargar_datos_bancarios import CargarFicheroBancario
 from src.cargar_datos_ahorros import CargarFicheroAhorro
+from src.cargar_datos_caja import CargarFicheroCaja
 from src.config import RUTA_FINANZAS_PARQUET
+from src.config import RUTA_CAJA_PARQUET
 
 
 class ExportarDatos:
-    def __init__(self, datos: CargarFicheroBancario | CargarFicheroAhorro, tipo: str, compañia: str | None = None) -> None:
+    def __init__(self, datos: CargarFicheroBancario | CargarFicheroAhorro | CargarFicheroCaja, tipo: str, compañia: str | None = None) -> None:
         self.datos = datos
         self.tipo = tipo
         self.compañia = compañia
@@ -62,6 +64,21 @@ class ExportarDatos:
         elif self.tipo == 'ahorro':
             # Borrar si ya existe para asegurar sobreescribir totalmente
             archivo = f"data/ahorros.{self.compañia}.parquet"
+            if os.path.exists(archivo):
+                if os.path.isdir(archivo):
+                    shutil.rmtree(archivo)
+                else:
+                    os.remove(archivo)
+            # Generar el parquet
+            self.datos.df.to_parquet(
+                archivo,
+                engine="pyarrow",
+                compression="snappy",
+                index=False,
+            )
+        elif self.tipo == 'caja':
+            # Borrar si ya existe para asegurar sobreescribir totalmente
+            archivo = RUTA_CAJA_PARQUET
             if os.path.exists(archivo):
                 if os.path.isdir(archivo):
                     shutil.rmtree(archivo)
