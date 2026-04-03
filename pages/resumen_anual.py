@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 
 from datetime import datetime
 from src.mis_finanzas import MisFinanzas
+from src.mis_cajas import MisCajas
 from src.enums import Mes
 from src.config import Color
 
@@ -15,6 +16,7 @@ nombres_meses = Mes.get_map_dict()
 
 # Cargar datos
 datos = MisFinanzas()
+cajas = MisCajas()
 
 
 def selector_año() -> None:
@@ -40,6 +42,8 @@ def obtener_intervalo_ingresos_meses() -> None:
     """
     Obtiene la suma de los ingresos por meses
     """
+    st.subheader("Ingresos y gastos por meses")
+
     fig = go.Figure()
     ingresos_meses = datos.obtener_intervalo_ingresos_por_meses(año)
     gastos_meses = datos.obtener_intervalo_gastos_por_meses(año).abs()
@@ -70,7 +74,38 @@ def obtener_intervalo_ingresos_meses() -> None:
     )
 
     st.plotly_chart(fig, width='stretch')
+    st.markdown("---")
+
+
+def obtener_historico_flujo_caja() -> None:
+    col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')    
+    with col1:
+        """
+        Obtiene el histórico de flujo de caja
+        """
+        st.subheader("Historico de flujo de caja")
+
+        fig = go.Figure()
+        historico_flujo_caja = cajas.obtener_historico()
+
+        fig.add_trace(
+            go.Scatter(
+                x=historico_flujo_caja['FECHA'],
+                y=historico_flujo_caja['CAJA'],
+                mode='lines+markers',
+                name='Flujo de caja',
+                line=dict(color=Color.AZUL),
+                marker=dict(color=Color.AZUL),
+            )
+        )
+
+        st.plotly_chart(fig, width='stretch')
+    with col3:
+        st.metric(label="Media últimos 3 meses", value=f"{cajas.obtener_media_caja_3_meses():.2f} €")
+        st.metric(label="Media últimos 6 meses", value=f"{cajas.obtener_media_caja_6_meses():.2f} €")
+        st.metric(label="Media últimos 12 meses", value=f"{cajas.obtener_media_caja_12_meses():.2f} €")
 
 
 selector_año()
 obtener_intervalo_ingresos_meses()
+obtener_historico_flujo_caja()  
