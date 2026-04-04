@@ -1,0 +1,24 @@
+# ============================================================
+# FICHERO DE EJEMPLO - Flujo de caja
+# ============================================================
+# Este fichero sirve como plantilla de referencia para entender
+# el formato que deben tener los CSV exportados desde Control de Inversiones.csv.
+#
+# IMPORTANTE: Este fichero contiene datos FICTICIOS únicamente
+# con fines de documentación y pruebas. No refleja datos reales.
+#
+# El fichero real debe colocarse en este mismo directorio con
+# el nombre: "Control de Inversiones.csv"
+# ============================================================
+#
+# COLUMNAS:
+#   FECHA       → Fecha del mes DD/MM/AAAA
+#   CAJA        → Saldo total acumulado al final del mes correspondiente.
+# ============================================================
+FECHA,CAJA
+05/07/2024,"€1.557.35"
+05/08/2024,"€2.500,17"
+05/09/2024,"€689,11"
+06/10/2024,"€3.211,98"
+06/11/2024,"€2234,51"
+07/12/2024,"€1264,61"
