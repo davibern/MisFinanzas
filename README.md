@@ -29,6 +29,12 @@ Secciones de consulta con información relevante sobre el formato y la estructur
 - **Ayuda datos ahorro:** Instrucciones para los datos de ahorro aportados.
 - **Ayuda datos flujo de caja:** Instrucciones para el registro de movimientos en caja.
 
+## 🌍 Internacionalización (i18n)
+
+La aplicación soporta múltiples idiomas de manera transparente (actualmente Español e Inglés) gracias a un sistema de internacionalización basado en diccionarios. 
+- A través del directorio `i18n/`, se gestionan las traducciones en archivos `.json` separados (como `es.json` y `en.json`).
+- Mediante la clase `Locale`, la aplicación detecta el idioma del cliente/navegador definido en Streamlit y carga los textos correspondientes que se visualizan en todas las pantallas.
+
 ## Instrucciones de Instalación Local
 
 Para ejecutar este proyecto en tu máquina local, sigue estos pasos recomendados utilizando un entorno virtual.
