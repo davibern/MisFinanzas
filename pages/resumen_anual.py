@@ -100,6 +100,7 @@ def obtener_historico_flujo_caja() -> None:
         )
 
         st.plotly_chart(fig, width='stretch')
+
     with col3:
         st.metric(label="Media últimos 3 meses", value=f"{cajas.obtener_media_caja_3_meses():.2f} €")
         st.metric(label="Media últimos 6 meses", value=f"{cajas.obtener_media_caja_6_meses():.2f} €")
