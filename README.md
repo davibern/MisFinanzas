@@ -70,7 +70,7 @@ Tras ejecutar este comando, la aplicación se abrirá automáticamente en una nu
 
 ## Capturas de Pantalla
 
-```Datos de ejemplo```
+> Las capturas de pantalla muestran datos de ejemplo, no son datos reales.
 
 ### Inicio
 ![Inicio](assets/demo/pantalla_inicio.png)
