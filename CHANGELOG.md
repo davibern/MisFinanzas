@@ -1,5 +1,15 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.39] - 2026-04-05
+### Añadido
+- Creado directorio `i18n` para internacionalización.
+- Creado fichero `es.json` para internacionalización en español.
+- Creado fichero `en.json` para internacionalización en inglés.
+- Creado fichero `src/locale.py` para internacionalización.
+### Modificado
+- Actualizada todas las páginas para incluir internacionalización.
+- Actualizado el `README.md` para incluir información sobre la internacionalización, instalación, etc.
+
 ## [0.0.38] - 2026-04-04
 ### Añadido
 - Carga de datos para obtener el flujo de caja.
