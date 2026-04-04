@@ -3,35 +3,35 @@ import os
 
 from src.cargar_datos_bancarios import CargarFicheroBancario as CargarFichero
 from src.exportar_datos import ExportarDatos
+from src.locale import Locale
 
-st.title("🗂️ Cargar Datos Bancarios")
+locale = Locale(st.context.locale)
 
-st.markdown("""
-1. Indica el **año y el mes** del archivo que se va a cargar. Sigue el formato indicado (YYYYMM)
-2. Seguidamente, selecciona el archivo `.xml` que se va a cargar.
-""")
+st.title("🗂️ " + locale.textos["titulo_cargar_banco"])
 
-st.write("Si necesitas ayuda para exportar los datos de CaixaBank, puedes pulsar el siguiente botón de ayuda 👇🏻")
-st.page_link("./pages/cargar_banco_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
+st.markdown(locale.textos["instrucciones_cargar_banco"])
+
+st.write(locale.textos["ayuda_exportar_banco_texto"])
+st.page_link("./pages/cargar_banco_ayuda.py", label=locale.textos["ayuda_exportar_banco_boton"], icon="ℹ️")
 st.markdown("""---""", unsafe_allow_html=True)
 
 col1, _ = st.columns([1, 3])
 
 with col1:
-    nombre_archivo = str(st.text_input("Nombre del archivo (formato: YYYYMM)", placeholder="YYYYMM"))
+    nombre_archivo = str(st.text_input(locale.textos["nombre_archivo_banco_label"], placeholder=locale.textos["nombre_archivo_banco_placeholder"]))
 
 # Validar que exista un nombre y luego que siga el formato correcto
 if nombre_archivo:
     if nombre_archivo.isalpha():
-        st.warning("El nombre del fichero debe ser numérico y seguir el formato YYYYMM, ejemplo: 202401, que sería enero 2024.")
+        st.warning(locale.textos["error_formato_banco_numerico"])
     elif len(nombre_archivo) != 6:
-        st.warning("El nombre del fichero debe tener 6 dígitos y seguir el formato YYYYMM, ejemplo: 202401, que sería enero 2024.")
+        st.warning(locale.textos["error_formato_banco_longitud"])
     else:
 
         col1, _ = st.columns([1, 2])
 
         with col1:
-            archivo = st.file_uploader("Selecciona un archivo XML", type=["xml"])
+            archivo = st.file_uploader(locale.textos["selecciona_archivo_xml"], type=["xml"])
 
         if archivo is not None:
             # Cargar y procesar el archivo desde el uploader de Streamlit
@@ -43,7 +43,7 @@ if nombre_archivo:
 
             # Comprobar resultado
             if resultado == 0:
-                st.warning("El año y el mes ya han sido procesados anteriormente.")
+                st.warning(locale.textos["aviso_banco_procesado"])
             else:
                 # Crear directorio raw si no existe
                 if not os.path.exists("./raw/bancario"):
@@ -53,6 +53,6 @@ if nombre_archivo:
                 nombre_archivo = f"{nombre_archivo}.xml" if nombre_archivo else archivo.name
                 with open(os.path.join("./raw/bancario", nombre_archivo), "wb") as f:
                     f.write(archivo.getbuffer())
-                st.success("Datos exportados correctamente. Se ha guardado una copia en la carpeta raw y los datos se han añadido al parquet.")
+                st.success(locale.textos["exito_cargar_banco"])
                 st.cache_data.clear()
-                st.info("✅ Caché limpiado. Los nuevos datos estarán disponibles al navegar a otras páginas.")
+                st.info(locale.textos["cache_limpiado"])

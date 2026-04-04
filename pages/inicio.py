@@ -1,8 +1,13 @@
 import streamlit as st
+
+from src.locale import Locale
 from PIL import Image
 
-st.title("📊 Mis Finanzas")
+# Obtener el idioma del contexto (ejemplo: "es", "en")
+locale = Locale(st.context.locale)
+
+st.title("📊 " + locale.textos["nombre_app"])
 image = Image.open("./assets/logo.webp")
 st.image(image, width=900)
-st.write("Bienvenido a la página de inicio de Mis Finanzas.")
-st.write("Aquí puedes gestionar y analizar tus finanzas personales de manera eficiente.")
+st.write(locale.textos["mensaje_inicio_1"])
+st.write(locale.textos["mensaje_inicio_2"])

@@ -6,10 +6,15 @@ from src.mis_finanzas import MisFinanzas
 from src.mis_cajas import MisCajas
 from src.enums import Mes
 from src.config import Color
+from src.locale import Locale
+
+
+# Obtener el idioma del contexto (ejemplo: "es", "en")
+locale = Locale(st.context.locale)
 
 # Título de la página
-st.title("📅 Datos por Meses")
-st.write("Histograma de gastos vs ingresos por mes en el año seleccionado.")
+st.title(locale.textos["titulo_resumen_anual"])
+st.write(locale.textos["descripcion_resumen_anual"])
 
 # Mapear número de mes a nombre en español
 nombres_meses = Mes.get_map_dict()
@@ -34,7 +39,7 @@ def selector_año() -> None:
             indice_defecto_año = años.index(año_actual)
         except ValueError:
             indice_defecto_año = 0
-        año = st.selectbox("Año", años, index=indice_defecto_año, help="Selecciona el año que deseas consultar")
+        año = st.selectbox(locale.textos["opcion"]["año"], años, index=indice_defecto_año, help=locale.textos["opcion"]["selecciona_año"])
     st.markdown("---")
 
 
@@ -42,7 +47,7 @@ def obtener_intervalo_ingresos_meses() -> None:
     """
     Obtiene la suma de los ingresos por meses
     """
-    st.subheader("Ingresos y gastos por meses")
+    st.subheader(locale.textos["ingresos_gastos_mes"])
 
     fig = go.Figure()
     ingresos_meses = datos.obtener_intervalo_ingresos_por_meses(año)
@@ -80,10 +85,7 @@ def obtener_intervalo_ingresos_meses() -> None:
 def obtener_historico_flujo_caja() -> None:
     col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')    
     with col1:
-        """
-        Obtiene el histórico de flujo de caja
-        """
-        st.subheader("Historico de flujo de caja")
+        st.subheader(locale.textos["historico_flujo_caja"])
 
         fig = go.Figure()
         historico_flujo_caja = cajas.obtener_historico()
@@ -102,9 +104,9 @@ def obtener_historico_flujo_caja() -> None:
         st.plotly_chart(fig, width='stretch')
 
     with col3:
-        st.metric(label="Media últimos 3 meses", value=f"{cajas.obtener_media_caja_3_meses():.2f} €")
-        st.metric(label="Media últimos 6 meses", value=f"{cajas.obtener_media_caja_6_meses():.2f} €")
-        st.metric(label="Media últimos 12 meses", value=f"{cajas.obtener_media_caja_12_meses():.2f} €")
+        st.metric(label=locale.textos["media_flujo_caja_3"], value=f"{cajas.obtener_media_caja_3_meses():.2f} €")
+        st.metric(label=locale.textos["media_flujo_caja_6"], value=f"{cajas.obtener_media_caja_6_meses():.2f} €")
+        st.metric(label=locale.textos["media_flujo_caja_12"], value=f"{cajas.obtener_media_caja_12_meses():.2f} €")
 
 
 selector_año()

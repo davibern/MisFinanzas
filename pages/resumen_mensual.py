@@ -4,11 +4,15 @@ import pandas as pd
 
 from datetime import datetime
 from src.mis_finanzas import MisFinanzas
+from src.locale import Locale
+
+# Obtener el idioma del contexto (ejemplo: "es", "en")
+locale = Locale(st.context.locale)
 
 # Título de la página
-st.title("📅 Datos del Mes")
-st.write("Estadísticas financieras del mes. Podrás analizar tus ingresos, gastos y balance.")
-st.write("Consulta los detalles de los gastos e ingresos y el detalle de cada movimiento individualmente.")
+st.title("📅 " + locale.textos["titulo_resumen_mensual"])
+st.write(locale.textos["descripcion_resumen_mensual"])
+st.write(locale.textos["descripcion_resumen_mensual_2"])
 
 # Cargar datos
 datos = MisFinanzas()
@@ -29,7 +33,7 @@ def selector_año_mes() -> None:
             indice_defecto_año = años.index(año_actual)
         except ValueError:
             indice_defecto_año = 0
-        año = st.selectbox("Año", años, index=indice_defecto_año, help="Selecciona el año que deseas consultar")
+        año = st.selectbox(locale.textos["opcion"]["año"], años, index=indice_defecto_año, help=locale.textos["opcion"]["selecciona_año"])
     with col2:
         global mes
         meses = list(range(1, 13))
@@ -41,13 +45,13 @@ def selector_año_mes() -> None:
             indice_defecto_mes = meses.index(mes_actual)
         except ValueError:
             indice_defecto_mes = 0
-        mes = st.selectbox("Mes", meses, index=indice_defecto_mes, help="Selecciona el mes que deseas consultar")
+        mes = st.selectbox(locale.textos["opcion"]["mes"], meses, index=indice_defecto_mes, help=locale.textos["opcion"]["selecciona_mes"])
     st.markdown("---")
 
 
 def obtener_resumen_mes() -> None:
     """Obtiene el resumen estadístico del mes actual y anterior y lo muestra en tarjetas."""
-    st.subheader("Resumen Estadístico")
+    st.subheader(locale.textos["resumen_estadistico"])
     # Obtener ingresos del mes actual y anterior y el ratio de diferencia
     ingresos: float = datos.obtener_ingresos_mes_año(año, mes)
     delta_ingresos: float = datos.obtener_ingresos_mes_año(año, mes - 1) if mes > 1 else datos.obtener_ingresos_mes_año(año - 1, 12)
@@ -72,20 +76,20 @@ def obtener_resumen_mes() -> None:
     # Mostrar tarjetas en columnas de 4
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Ingresos", ingresos, delta=f"{ratio_delta_ingresos:.2f}%",
-                  help="Ingresos del mes y su diferencia con el mes anterior en porcentaje",
+        st.metric(locale.textos["ingresos"], ingresos, delta=f"{ratio_delta_ingresos:.2f}%",
+                  help=locale.textos["ingresos_descripcion"],
                   label_visibility="visible", format="euro")
     with col2:
-        st.metric("Gastos", gastos, delta=f"{ratio_delta_gastos:.2f}%", delta_color="inverse",
-                  help="Gastos del mes y su diferencia con el mes anterior en porcentaje",
+        st.metric(locale.textos["gastos"], gastos, delta=f"{ratio_delta_gastos:.2f}%", delta_color="inverse",
+                  help=locale.textos["gastos_descripcion"],
                   label_visibility="visible", format="euro")
     with col3:
-        st.metric("Balance", balance, delta=f"{ratio_delta_balance:.2f}%",
-                  help="Balance del mes y su diferencia con el mes anterior en porcentaje",
+        st.metric(locale.textos["balance"], balance, delta=f"{ratio_delta_balance:.2f}%",
+                  help=locale.textos["balance_descripcion"],
                   label_visibility="visible", format="euro")
     with col4:
-        st.metric("Media de gasto diario", media_gasto_diario, delta=f"{ratio_delta_media_gasto_diario:.2f}%", delta_color="inverse",
-                  help="Media de gasto diario del mes y su diferencia con el mes anterior en porcentaje",
+        st.metric(locale.textos["media_gasto_diario"], media_gasto_diario, delta=f"{ratio_delta_media_gasto_diario:.2f}%", delta_color="inverse",
+                  help=locale.textos["media_gasto_diario_descripcion"],
                   label_visibility="visible", format="euro")
 
 
@@ -93,14 +97,14 @@ def obtener_gastos_mes() -> None:
     """Obtiene los gastos por categoría del mes actual y lo muestra en un gráfico de barras."""
 
     # Subtítulo para los gastos por categoría
-    st.subheader("Gastos por categoría")
+    st.subheader(locale.textos["gastos_por_categoria"])
 
     # Obtener datos del mes y almacenarlos en un dataframe
     df_gastos = datos.obtener_gastos_agrupados_mes_año(año, mes)
 
     # Validar si no hay datos para salir antes de intentar graficar
     if df_gastos.empty:
-        st.info("No hay datos de gastos para el mes seleccionado.")
+        st.info(locale.textos["gastos_categoria_error"])
         return
 
     # Convertir los importes a valores absolutos para mostrar el grafico correctamente
@@ -120,8 +124,8 @@ def obtener_gastos_mes() -> None:
 
     # Configurar el layout con etiquetas rotadas a 45 grados
     fig_hist.update_layout(
-        xaxis_title="Categoría",
-        yaxis_title="Importe (€)",
+        xaxis_title=locale.textos["eje_x_grafico_mensual"],
+        yaxis_title=locale.textos["eje_y_grafico_mensual"],
         height=600,
         xaxis=dict(
             tickangle=-45,  # Rotar etiquetas a 45 grados
@@ -135,19 +139,19 @@ def obtener_gastos_mes() -> None:
 
 
 def obtener_gastos_top_5_mes() -> None:
-    st.subheader("Top de gastos del mes")
+    st.subheader(locale.textos["top_gastos_mes"])
     col_burbuja, col_top_gasto = st.columns(2)
     with col_burbuja:
         # Control de usuario para "zoom" (tamaño máximo de burbuja)
-        diametro_burbuja = st.slider("Tamaño máximo de burbuja (px)", min_value=40, max_value=200, value=180)
+        diametro_burbuja = st.slider(locale.textos["tamaño_gastos_mes"], min_value=40, max_value=200, value=180)
     with col_top_gasto:
         # Control para el top de gastos
-        control_tope_gasto = st.slider("Filtra el tope de gastos máximos (3 ó 5)", min_value=3, max_value=5, value=4)
+        control_tope_gasto = st.slider(locale.textos["filtro_gastos_mes"], min_value=3, max_value=5, value=4)
 
     # Obtener y validar datos
     df_gastos = datos.obtener_gastos_agrupados_mes_año(año, mes)
     if df_gastos.empty:
-        st.info("No hay datos de gastos para el mes seleccionado.")
+        st.info(locale.textos["top_gastos_mes_error"])
         return
 
     # Asegurar que 'importe' sea numérico, sin NaN y en valor absoluto
@@ -156,7 +160,7 @@ def obtener_gastos_top_5_mes() -> None:
     # Mostrar solo el top 5 de gastos por cuantía
     df_gastos = df_gastos.sort_values(by='importe', ascending=False).head(control_tope_gasto)
     if df_gastos.empty:
-        st.info("No hay gastos para mostrar en el Top 5.")
+        st.info(locale.textos["top_gastos_mes_error"])
         return
 
     # Preparar tamaños como lista de floats (Plotly valida mejor listas simples)
@@ -184,14 +188,14 @@ def obtener_gastos_top_5_mes() -> None:
                 showscale=True,
                 line=dict(width=10, color='rgba(0,0,0,0.2)')
             ),
-            hovertemplate='%{text}<br>Importe: €%{y:.2f}<extra></extra>',
+            hovertemplate='%{text}<br>' + locale.textos["importe_texto_grafico"] + '%{y:.2f}<extra></extra>',
             text=categorias
         )
     ])
 
     fig_bub.update_layout(
-        xaxis_title="Categoría",
-        yaxis_title="Importe (€)",
+        xaxis_title=locale.textos["eje_x_grafico_mensual"],
+        yaxis_title=locale.textos["eje_y_grafico_mensual"],
         height=500,
         xaxis=dict(
             tickmode='array',
@@ -211,14 +215,14 @@ def obtener_ingresos_mes() -> None:
     """Obtiene los ingresos por categoría del mes actual y lo muestra en un gráfico de barras."""
 
     # Subtítulo para los gastos por categoría
-    st.subheader("Ingresos por categoría")
+    st.subheader(locale.textos["ingresos_categoria"])
 
     # Obtener datos del mes y almacenarlos en un dataframe
     df_ingresos = datos.obtener_ingresos_agrupados_mes_año(año, mes)
 
     # Validar si no hay datos para salir antes de intentar graficar
     if df_ingresos.empty:
-        st.info("No hay datos de ingresos para el mes seleccionado.")
+        st.info(locale.textos["ingresos_categoria_error"])
         return
 
     # Convertir los importes a valores absolutos para mostrar el grafico correctamente
@@ -238,8 +242,8 @@ def obtener_ingresos_mes() -> None:
 
     # Configurar el layout con etiquetas rotadas a 45 grados
     fig.update_layout(
-        xaxis_title="Categoría",
-        yaxis_title="Importe (€)",
+        xaxis_title=locale.textos["eje_x_grafico_mensual"],
+        yaxis_title=locale.textos["eje_y_grafico_mensual"],
         height=600,
         xaxis=dict(
             tickangle=-45,  # Rotar etiquetas a 45 grados
@@ -262,7 +266,7 @@ def obtener_detalles_mes() -> None:
 selector_año_mes()
 obtener_resumen_mes()
 
-tab_gastos, tab_ingresos, tab_listado = st.tabs(["🛍️ Gastos", "🪙 Ingresos", "🗒️ Listado"], default="🛍️ Gastos")
+tab_gastos, tab_ingresos, tab_listado = st.tabs([locale.textos["tabs"]["gastos"], locale.textos["tabs"]["ingresos"], locale.textos["tabs"]["listado"]], default=locale.textos["tabs"]["gastos"])
 
 with tab_gastos:
     obtener_gastos_mes()

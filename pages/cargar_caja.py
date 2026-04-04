@@ -3,21 +3,21 @@ import os
 
 from src.cargar_datos_caja import CargarFicheroCaja as CargarFichero
 from src.exportar_datos import ExportarDatos
+from src.locale import Locale
 
-st.title("🗂️ Cargar Datos de Flujo de Caja")
+locale = Locale(st.context.locale)
 
-st.markdown("""
-1. Descarga el fichero de datos de tu NAS (Synology) en formato *.csv
-2. Guardarlo en tu carpeta de descarga y seleccionalo con el botón de cargar.
-""")
+st.title("🗂️ " + locale.textos["titulo_cargar_caja"])
 
-st.write("Si necesitas ayuda para exportar los datos de Flujo de Caja, puedes pulsar en el siguiente botón de ayuda 👇🏻")
-st.page_link("./pages/cargar_caja_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
+st.markdown(locale.textos["instrucciones_cargar_caja"])
+
+st.write(locale.textos["ayuda_exportar_caja_texto"])
+st.page_link("./pages/cargar_caja_ayuda.py", label=locale.textos["ayuda_exportar_caja_boton"], icon="ℹ️")
 st.markdown("""---""", unsafe_allow_html=True)
 
 col1, _ = st.columns([1, 2])
 with col1:
-    archivo = st.file_uploader('Selecciona un archivo CSV', type=['csv'])
+    archivo = st.file_uploader(locale.textos["selecciona_archivo_csv"], type=['csv'])
 
 if archivo is not None:
     # Cargar y procesar el archivo desde el uploader de streamlit
@@ -27,10 +27,10 @@ if archivo is not None:
     exportar = ExportarDatos(fichero, tipo='caja')
     exportar.exportar_parquet()
 
-    st.success(f'Datos de flujo de caja cargados correctamente y se ha guardado copia en /raw')
+    st.success(locale.textos["exito_cargar_caja"])
 
     with open(os.path.join(f"./raw/caja", archivo.name), "wb") as f:
         f.write(archivo.getbuffer())
 
     st.cache_data.clear()
-    st.info("✅ Caché limpiado. Los nuevos datos estarán disponibles al navegar a otras páginas.")  
+    st.info(locale.textos["cache_limpiado"])

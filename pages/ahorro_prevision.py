@@ -7,12 +7,15 @@ from src.mis_finanzas import MisFinanzas
 from src.mis_ahorros import MisAhorros
 from src.enums import Mes
 from src.config import Color
+from src.locale import Locale
+
+# Obtener el idioma del contexto
+locale = Locale(st.context.locale)
 
 # Título de la página
-st.title("💰 Ahorro y Previsión")
-st.write("Histograma del ahorro mensual en el año seleccionado.")
-st.write("Selecciona el año para obtener los datos correspondientes, y obtendrás\
-    automáticamente la evolución de los últimos doce meses.")
+st.title("💰 " + locale.textos["titulo_ahorro"])
+st.write(locale.textos["descripcion_ahorro_1"])
+st.write(locale.textos["descripcion_ahorro_2"])
 
 # Mapear número de mes a nombre en español
 nombres_meses = Mes.get_map_dict()
@@ -26,7 +29,7 @@ ahorros_fiatc = MisAhorros('fiatc')
 def selector_año() -> None:
     """Selector de año y mes"""
     st.markdown("---")
-    st.markdown("#### Selecciona el año y el mes que deseas consultar")
+    st.markdown("#### " + locale.textos["selecciona_ano_mes_consultar"])
     col1, col2 = st.columns(2)
     with col1:
         global año
@@ -39,7 +42,7 @@ def selector_año() -> None:
             indice_defecto_año = años.index(año_actual)
         except ValueError:
             indice_defecto_año = 0
-        año = st.selectbox("Año", años, index=indice_defecto_año)
+        año = st.selectbox(locale.textos["opcion"]["año"], años, index=indice_defecto_año)
     st.markdown("---")
 
 
@@ -63,7 +66,7 @@ def obtener_intervalo_ahorro_meses() -> None:
             x=df_final['mes_nombre'],
             y=df_final['diferencia'],
             mode='lines+markers',
-            name='Ahorro'
+            name=locale.textos["ahorro"]
         )
     )
 
@@ -78,7 +81,7 @@ def obtener_total_diferencia() -> None:
     total_gastos = finanzas.obtener_intervalo_gastos_por_meses(año)['importe'].sum()
     total_diferencia = total_ingresos + total_gastos
 
-    st.metric(label="Ahorro total del año", value=f"{total_diferencia:.2f} €")
+    st.metric(label=locale.textos["ahorro_total_ano"], value=f"{total_diferencia:.2f} €")
 
 
 def obtener_media_diferencia() -> None:
@@ -93,7 +96,7 @@ def obtener_media_diferencia() -> None:
     df_final['ahorrado'] = df_final['diferencia'] > 0
 
     media_diferencia = df_final['diferencia'].mean()
-    st.metric(label="Ahorro medio mensual", value=f"{media_diferencia:.2f} €")
+    st.metric(label=locale.textos["ahorro_medio_mensual"], value=f"{media_diferencia:.2f} €")
 
 
 def obtener_intervalo_tasa_ahorro() -> None:
@@ -116,7 +119,7 @@ def obtener_intervalo_tasa_ahorro() -> None:
             x=df_final['mes_nombre'],
             y=df_final['tasa_ahorro'],
             mode='lines+markers',
-            name='Tasa de Ahorro (%)'
+            name=locale.textos["tasa_ahorro_porcentaje"]
         )
     )
 
@@ -136,7 +139,7 @@ def obtener_media_tasa_ahorro() -> None:
     df_final['tasa_ahorro'] = (df_final['diferencia'] / df_final['importe_ingresos'] * 100).round(2)
     media_tasa_ahorro = df_final['tasa_ahorro'].mean()
 
-    st.metric(label="Tasa de ahorro media mensual", value=f"{media_tasa_ahorro:.2f} %")
+    st.metric(label=locale.textos["tasa_ahorro_media_mensual"], value=f"{media_tasa_ahorro:.2f} %")
 
 
 def obtener_historico_axa() -> None:
@@ -146,7 +149,7 @@ def obtener_historico_axa() -> None:
     df: pd.DataFrame = ahorros_axa.obtener_historico()
 
     if df.empty:
-        st.warning('No hay datos de ahorro para AXA cargados en el sistema.')
+        st.warning(locale.textos["error_datos_ahorro_axa"])
         return
 
     fig = go.Figure()
@@ -154,7 +157,7 @@ def obtener_historico_axa() -> None:
         go.Scatter(
             x=df['FECHA'],
             y=df['TOTAL_APORTADO'],
-            name='Aportado',
+            name=locale.textos["aportado"],
             line=dict(color=Color.AZUL),
             marker=dict(color=Color.AZUL),
         )
@@ -163,7 +166,7 @@ def obtener_historico_axa() -> None:
         go.Scatter(
             x=df['FECHA'],
             y=df['SALDO'],
-            name='Saldo',
+            name=locale.textos["saldo"],
             line=dict(color=Color.VERDE),
             marker=dict(color=Color.VERDE),
             connectgaps=True,
@@ -177,7 +180,7 @@ def obtener_total_aportado_axa() -> None:
     """
     Obtiene el total aportado al plan de axa
     """
-    st.metric(label="Aportado al plan AXA", value=f"{ahorros_axa.obtener_total_aportado_plan_ahorro():.2f} €")
+    st.metric(label=locale.textos["aportado_plan_axa"], value=f"{ahorros_axa.obtener_total_aportado_plan_ahorro():.2f} €")
 
 
 def obtener_total_acumulado_axa() -> None:
@@ -188,7 +191,7 @@ def obtener_total_acumulado_axa() -> None:
     aportado: float = ahorros_axa.obtener_total_aportado_plan_ahorro()
     delta: float = ((acumulado-aportado)/aportado)*100
     st.metric(
-        label="Acumulado al plan AXA",
+        label=locale.textos["acumulado_plan_axa"],
         value=f"{acumulado:.2f} €",
         delta=f"{delta:.2f} %"
     )
@@ -201,7 +204,7 @@ def obtener_historico_fiatc() -> None:
     df: pd.DataFrame = ahorros_fiatc.obtener_historico()
 
     if df.empty:
-        st.warning('No hay datos de ahorro para FIATC cargados en el sistema.')
+        st.warning(locale.textos["error_datos_ahorro_fiatc"])
         return
 
     fig = go.Figure()
@@ -209,7 +212,7 @@ def obtener_historico_fiatc() -> None:
         go.Scatter(
             x=df['FECHA'],
             y=df['TOTAL_APORTADO'],
-            name='Aportado',
+            name=locale.textos["aportado"],
             line=dict(color=Color.AZUL),
             marker=dict(color=Color.AZUL),
         )
@@ -218,7 +221,7 @@ def obtener_historico_fiatc() -> None:
         go.Scatter(
             x=df['FECHA'],
             y=df['SALDO'],
-            name='Saldo',
+            name=locale.textos["saldo"],
             line=dict(color=Color.VERDE),
             marker=dict(color=Color.VERDE),
             connectgaps=True,
@@ -233,7 +236,7 @@ def obtener_total_aportado_fiatc() -> None:
     Obtiene el total aportado al plan de fiatc
     """
     st.metric(
-        label="Aportado al plan FIATC",
+        label=locale.textos["aportado_plan_fiatc"],
         value=f"{ahorros_fiatc.obtener_total_aportado_plan_ahorro():.2f} €",
     )
 
@@ -246,7 +249,7 @@ def obtener_total_acumulado_fiatc() -> None:
     aportado: float = ahorros_fiatc.obtener_total_aportado_plan_ahorro()
     delta: float = ((acumulado-aportado)/aportado)*100
     st.metric(
-        label="Acumulado al plan FIATC",
+        label=locale.textos["acumulado_plan_fiatc"],
         value=f"{acumulado:.2f} €",
         delta=f"{delta:.2f} %"
     )
@@ -254,14 +257,11 @@ def obtener_total_acumulado_fiatc() -> None:
 
 selector_año()
 
-tab_diferencia, tab_tasa_ahorro = st.tabs(["📈 Ingresos - Gastos", "💵 Tasa Ahorro (%)"])
+tab_diferencia, tab_tasa_ahorro = st.tabs([locale.textos["tabs_ahorro_prevision"]["ingresos_gastos"], locale.textos["tabs_ahorro_prevision"]["tasa_ahorro"]])
 with tab_diferencia:
-    st.write("Aquí se muestra la diferencia entre los ingresos y los gastos de cada mes.\
-        Se suman los ingresos y se restan los gastos para obtener la diferencia.")
-    st.write("El ahorro total del año representa el acumulado de las diferencias mensuales\
-        hasta la fecha actual.")
-    st.write("El ahorro medio mensual representa el promedio de las diferencias mensuales\
-        hasta la fecha actual.")
+    st.write(locale.textos["info_diferencia_1"])
+    st.write(locale.textos["info_diferencia_2"])
+    st.write(locale.textos["info_diferencia_3"])
     col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
     with col1:
         obtener_intervalo_ahorro_meses()
@@ -269,17 +269,17 @@ with tab_diferencia:
         obtener_total_diferencia()
         obtener_media_diferencia()
 with tab_tasa_ahorro:
-    st.write("Aquí se muestra la tasa de ahorro con respecto a los ingresos de cada mes.")
-    st.write("La tasa de ahorro media mensual representa el promedio de las tasas de ahorro mensuales")
+    st.write(locale.textos["info_tasa_ahorro_1"])
+    st.write(locale.textos["info_tasa_ahorro_2"])
     col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
     with col1:
         obtener_intervalo_tasa_ahorro()
     with col3:
         obtener_media_tasa_ahorro()
 
-tab_axa, tab_fiatc = st.tabs(["🐖 Plan Ahorro: AXA", "🐖 Plan Ahorro: FIATC"])
+tab_axa, tab_fiatc = st.tabs([locale.textos["tabs_ahorro_prevision"]["plan_axa"], locale.textos["tabs_ahorro_prevision"]["plan_fiatc"]])
 with tab_axa:
-    st.subheader("Plan de Ahorro AXA")
+    st.subheader(locale.textos["plan_ahorro_axa"])
     col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
     with col1:
         obtener_historico_axa()
@@ -287,7 +287,7 @@ with tab_axa:
         obtener_total_aportado_axa()
         obtener_total_acumulado_axa()
 with tab_fiatc:
-    st.subheader("Plan de Ahorro FIATC")
+    st.subheader(locale.textos["plan_ahorro_fiatc"])
     col1, col2, col3 = st.columns([2.5, 0.5, 1], vertical_alignment='center')
     with col1:
         obtener_historico_fiatc()

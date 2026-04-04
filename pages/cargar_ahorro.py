@@ -3,21 +3,21 @@ import os
 
 from src.cargar_datos_ahorros import CargarFicheroAhorro as CargarFichero
 from src.exportar_datos import ExportarDatos
+from src.locale import Locale
 
-st.title("🗂️ Cargar Datos de Ahorro")
+locale = Locale(st.context.locale)
 
-st.markdown("""
-1. Descarga el fichero de datos de tu NAS (Synology) en formato *.csv
-2. Guardarlo en tu carpeta de descarga y seleccionalo con el botón de cargar.
-""")
+st.title("🗂️ " + locale.textos["titulo_cargar_ahorro"])
 
-st.write("Si necesitas ayuda para exportar los datos de Ahorro, puedes pulsar en el siguiente botón de ayuda 👇🏻")
-st.page_link("./pages/cargar_ahorro_ayuda.py", label="Ayuda para exportar últimos movimientos", icon="ℹ️")
+st.markdown(locale.textos["instrucciones_cargar_ahorro"])
+
+st.write(locale.textos["ayuda_exportar_ahorro_texto"])
+st.page_link("./pages/cargar_ahorro_ayuda.py", label=locale.textos["ayuda_exportar_ahorro_boton"], icon="ℹ️")
 st.markdown("""---""", unsafe_allow_html=True)
 
 col1, _ = st.columns([1, 2])
 with col1:
-    archivo = st.file_uploader('Selecciona un archivo CSV', type=['csv'])
+    archivo = st.file_uploader(locale.textos["selecciona_archivo_csv"], type=['csv'])
 
 if archivo is not None:
     # Obtener el nombre de la compañia
@@ -30,10 +30,10 @@ if archivo is not None:
     exportar = ExportarDatos(fichero, tipo='ahorro', compañia=compañia)
     exportar.exportar_parquet()
 
-    st.success(f'Datos de ahorro de {compañia} cargados correctamente y se ha guardado copia en /raw')
+    st.success(f'{locale.textos["exito_cargar_ahorro_1"]} {compañia} {locale.textos["exito_cargar_ahorro_2"]}')
 
     with open(os.path.join(f"./raw/{compañia.lower()}", archivo.name), "wb") as f:
         f.write(archivo.getbuffer())
 
     st.cache_data.clear()
-    st.info("✅ Caché limpiado. Los nuevos datos estarán disponibles al navegar a otras páginas.")
+    st.info(locale.textos["cache_limpiado"])
