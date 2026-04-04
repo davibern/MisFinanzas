@@ -1,6 +1,6 @@
 # Mis Finanzas
 
-Aplicación interactiva desarrollada en [Streamlit](https://github.com/streamlit/streamlit) para la gestión exhaustiva y visual de las finanzas personales.
+Aplicación interactiva desarrollada en **Python** utilizando el framework [Streamlit](https://github.com/streamlit/streamlit) para la gestión exhaustiva y visual de las finanzas personales.
 
 ## Objetivo
 
