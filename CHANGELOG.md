@@ -1,5 +1,17 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.38] - 2026-04-04
+### Añadido
+- Carga de datos para obtener el flujo de caja.
+- Crear página de ayuda para la carga de datos de flujo de caja.
+- Tests unitarios para la clase de flujo de caja.
+- Añadir al resumen anual los flujos de caja (el histórico).
+- Crear clase para obtener estadísticas de flujo de caja.
+### Modificado
+- Cambiar formato de los gráficos de resumen anual.
+- Eliminar enlace de la página de ayud de la carga de datos de ahorro.
+- Actualizar el menú lateral para incluir la carga de datos de flujos de caja.
+
 ## [0.0.37] - 2026-03-25
 ### Añadido
 - Fichero de configuración `src/config.py` para guardar las constantes de la aplicación.
