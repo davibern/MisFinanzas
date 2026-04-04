@@ -67,3 +67,17 @@ Para comenzar a utilizar la aplicación localmente, inicia el servidor de Stream
 streamlit run app.py
 ```
 Tras ejecutar este comando, la aplicación se abrirá automáticamente en una nueva pestaña de tu navegador web predeterminado (por lo general en `http://localhost:8501`).
+
+## Capturas de Pantalla
+
+```Datos de ejemplo```
+
+### Inicio
+![Inicio](assets/demo/pantalla_inicio.png)
+
+### Pantalla de resumen mensual
+![Pantalla de resumen mensual](assets/demo/pantalla_resumen_mensual_1.png)
+![Pantalla de resumen mensual](assets/demo/pantalla_resumen_mensual_2.png)
+
+### Pantalla de carga de datos
+![Pantalla de carga de datos](assets/demo/pantalla_carga_datos.png)
