@@ -5,8 +5,9 @@ Este directorio contiene los archivos fuente con los datos financieros originale
 ```
 raw/
 ├── bancario/   → Movimientos bancarios exportados desde CaixaBank (formato XML)
-└── fiatc/      → Control de inversiones exportado desde FIATC (formato CSV)
-└── axa/      → Control de inversiones exportado desde AXA (formato CSV)
+├── caja/       → Flujo de caja mensual exportado desde hoja de cálculo (formato CSV)
+├── fiatc/      → Control de inversiones exportado desde FIATC (formato CSV)
+└── axa/        → Control de inversiones exportado desde AXA (formato CSV)
 ```
 
 ---
@@ -126,4 +127,48 @@ El archivo [`src/cargar_fichero.py`](../src/cargar_fichero.py) se encarga de:
 
 [`fiatc/example.csv`](./fiatc/example.csv) — 8 filas ficticias que cubren 2 trimestres completos (aportación inicial + aportaciones periódicas + cierres trimestrales). Úsalo como plantilla de referencia.
 
-[`fiatc/example.csv`](./fiatc/example.csv) — 8 filas ficticias que cubren 2 trimestres completos (aportación inicial + aportaciones periódicas + cierres trimestrales). Úsalo como plantilla de referencia.
+---
+
+## caja/
+
+### Fuente de datos
+
+El fichero CSV se exporta desde una hoja de cálculo de seguimiento del flujo de caja familiar (p. ej. Google Sheets o Excel). Cada fila representa el saldo de caja registrado en una fecha concreta.
+
+### Formato de nombres
+
+El archivo exportado se llama:
+
+```
+Economía Familiar - Flujo de caja.csv
+```
+
+### Estructura del CSV
+
+El fichero usa **coma** como separador de campos y **codificación UTF-8**.
+
+#### Columnas
+
+| Columna | Descripción |
+|---------|-------------|
+| `FECHA` | Fecha del registro en formato `DD/MM/AAAA` |
+| `CAJA` | Saldo de caja en euros (ej: `"€10.891,38"`) |
+
+#### Convenciones
+
+1. **Importes**: Siempre positivos. Los valores usan punto como separador de miles, coma decimal y símbolo `€` como prefijo (ej: `"€10.891,38"`)
+2. **Fecha**: Una entrada por mes, habitualmente el día de liquidación mensual
+3. **Codificación**: UTF-8 (el nombre del fichero contiene caracteres especiales)
+
+### Procesamiento
+
+El archivo [`src/cargar_datos_caja.py`](../src/cargar_datos_caja.py) se encarga de:
+
+1. **Leer el CSV** con `pandas.read_csv`
+2. **Limpiar los importes**: eliminar el símbolo `€`, los puntos de miles y convertir la coma decimal a punto
+3. **Transformar las fechas**: parsear con `dayfirst=True` y rellenar huecos hacia adelante (`ffill`)
+4. **Exportar a Parquet** en el directorio `data/`
+
+### Archivo de ejemplo
+
+[`caja/example.csv`](./caja/example.csv) — Filas ficticias con la estructura esperada por `CargarFicheroCaja`. Úsalo como plantilla de referencia.
