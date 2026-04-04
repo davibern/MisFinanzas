@@ -7,6 +7,8 @@
 - Tests unitarios para la clase de flujo de caja.
 - Añadir al resumen anual los flujos de caja (el histórico).
 - Crear clase para obtener estadísticas de flujo de caja.
+- Crear ficheros de ejemplos de carga y parquet para flujos de caja.
+- Actualizar los README de datos.
 ### Modificado
 - Cambiar formato de los gráficos de resumen anual.
 - Eliminar enlace de la página de ayud de la carga de datos de ahorro.
