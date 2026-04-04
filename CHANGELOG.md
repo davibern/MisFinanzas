@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.40] - 2026-04-05
+### Añadido
+- Licencia MIT License al proyecto.
+
 ## [0.0.39] - 2026-04-05
 ### Añadido
 - Creado directorio `i18n` para internacionalización.
