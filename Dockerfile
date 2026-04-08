@@ -10,7 +10,8 @@ WORKDIR /app
 COPY requirements.txt .
 
 # 3. Instalar dependencias
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # 4. Copiar el resto de la aplicación
 COPY . .
