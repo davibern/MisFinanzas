@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.41] - 2026-04-09
+### Corregido
+- Corregir error de acceso a datos de ahorro forzando el nombre de la compañía a minúsculas, dado que Linux es sensible a mayúsculas y minúsculas.
+
 ## [0.0.40] - 2026-04-05
 ### Añadido
 - Licencia MIT License al proyecto.
