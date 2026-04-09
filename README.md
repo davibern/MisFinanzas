@@ -74,6 +74,37 @@ streamlit run app.py
 ```
 Tras ejecutar este comando, la aplicación se abrirá automáticamente en una nueva pestaña de tu navegador web predeterminado (por lo general en `http://localhost:8501`).
 
+## Instrucciones de Instalación con Docker
+
+También puedes ejecutar la aplicación utilizando Docker, lo cual simplifica la configuración del entorno.
+
+### 1. Construir la imagen Docker
+Asegúrate de estar en el directorio raíz del proyecto y ejecuta el siguiente comando para construir la imagen:
+```bash
+docker build -t misfinanzas .
+```
+
+### 2. Ejecutar el contenedor
+Para iniciar la aplicación de forma contenerizada, ejecuta el siguiente comando. Es muy importante mapear el puerto y configurar los volúmenes necesarios para conservar o intercambiar los datos de tus finanzas:
+
+```bash
+docker run -d \
+  -p 8501:8501 \
+  -v /ruta/local/a/data:/app/data \
+  -v /ruta/local/a/raw:/app/raw \
+  --name misfinanzas-app \
+  misfinanzas
+```
+
+**Nota sobre los volúmenes:**
+- **`data`** mapeado a **`/app/data`**: Directorio donde se almacena la información consolidada de los datos (normalmente archivos `.parquet` o bases de datos).
+- **`raw`** mapeado a **`/app/raw`**: Directorio que contiene los archivos en crudo importados directamente de los bancos o registros en caja.
+
+*Nota: Asegúrate de reemplazar `/ruta/local/a/...` por las rutas absolutas donde desees almacenar la información en tu equipo anfitrión.*
+
+### 3. Acceder a la aplicación
+Una vez que el contenedor esté en ejecución, abre tu navegador web y dirígete a `http://localhost:8501`.
+
 ## Capturas de Pantalla
 
 > Las capturas de pantalla muestran datos de ejemplo, no son datos reales.
