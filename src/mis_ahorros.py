@@ -12,7 +12,7 @@ def cargar_datos_ahorros(compañia: str) -> pd.DataFrame:
         pd.DataFrame: DataFrame con los datos procesados
     """
     try:
-        datos = pd.read_parquet(f'data/ahorros.{compañia.lower()}.parquet')
+        datos = pd.read_parquet(f'data/ahorros.{compañia.upper()}.parquet')
     except FileNotFoundError:
         # Si el archivo no existe, devolver un DataFrame vacío
         datos = pd.DataFrame()
@@ -48,6 +48,8 @@ class MisAhorros():
         Returns:
             float: Suma de las cantidades aportada al plan de ahorro
         """
+        if self.datos.empty or 'IMPORTE' not in self.datos.columns:
+            return 0.0
         return self.datos['IMPORTE'].sum()
 
     def obtener_total_acumulado_plan_ahorro(self) -> float:
@@ -57,4 +59,9 @@ class MisAhorros():
         Returns:
             float: Último dato almacenado en el dataframe que devuelve el total acumulado
         """
-        return self.datos['SALDO'].dropna().iloc[-1]
+        if self.datos.empty or 'SALDO' not in self.datos.columns:
+            return 0.0
+        saldos = self.datos['SALDO'].dropna()
+        if saldos.empty:
+            return 0.0
+        return saldos.iloc[-1]
