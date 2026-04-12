@@ -2,9 +2,19 @@
 
 Aplicación interactiva desarrollada en **Python** utilizando el framework [Streamlit](https://github.com/streamlit/streamlit) para la gestión exhaustiva y visual de las finanzas personales.
 
+Está pensada, de momento, para mostrar datos del banco __CaixaBank__.
+
+No requiere:
+
+- Conectar con el banco
+- Conectar con ninguna API
+- Conectar con ningún servicio en la nube
+
+Todo lo necesario para su funcionamiento es mediante archivos locales y descargas manuales de la web del banco, así como de los seguros de ahorro.
+
 ## Objetivo
 
-El objetivo principal de la aplicación es consolidar la información financiera procedente de distintas fuentes (cuentas bancarias, ahorros y efectivo o caja) para ofrecer un resumen detallado y visual que facilite el análisis y la toma de decisiones económicas.
+El objetivo principal de la aplicación es consolidar la información financiera procedente de distintas fuentes (cuentas bancarias -CaixaBank-, ahorros -Fiatc y Axa- y efectivo o caja) para ofrecer un resumen detallado y visual que facilite el análisis y la toma de decisiones económicas.
 
 ## Características y Opciones de la Aplicación
 
@@ -19,15 +29,15 @@ Pantalla principal de bienvenida a la aplicación.
 - **Ahorro y Previsión:** Seguimiento del estado actual de los ahorros y proyecciones a futuro.
 
 ### 🛠️ Herramientas
-- **Cargar Banco:** Importa y procesa los movimientos bancarios.
-- **Cargar Ahorro:** Carga e integra los datos de los depósitos o planes de ahorro.
-- **Cargar Caja:** Registro y actualización del flujo de efectivo o caja.
+- **Cargar Banco:** Importa y procesa los movimientos bancarios de una cuenta de __CaixaBank__ descargándola desde __CaixaBankNow__.
+- **Cargar Ahorro:** Carga e integra los datos de los depósitos o planes de ahorro de __Fiatc__ y __Axa__, ficheros de confección completamente __manual__.
+- **Cargar Caja:** Registro y actualización del flujo de efectivo o caja, confección completamente __manual__.
 
 ### ❓ Ayuda
 Secciones de consulta con información relevante sobre el formato y la estructura esperada para cada tipo de dato a importar:
-- **Ayuda datos bancarios:** Instrucciones para los archivos de movimientos bancarios.
-- **Ayuda datos ahorro:** Instrucciones para los datos de ahorro aportados.
-- **Ayuda datos flujo de caja:** Instrucciones para el registro de movimientos en caja.
+- **Ayuda datos bancarios:** Instrucciones para los archivos de movimientos bancarios desde la web de __CaixaBankNow__.
+- **Ayuda datos ahorro:** Instrucciones para los datos de ahorro aportados de __Fiatc__ y __Axa__. Es un fichero completamente __manual__.
+- **Ayuda datos flujo de caja:** Instrucciones para el registro de movimientos en caja. Es un fichero completamente __manual__.
 
 ## 🌍 Internacionalización (i18n)
 
