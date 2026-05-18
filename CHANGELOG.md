@@ -1,5 +1,10 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.42] - 2026-05-19
+### Modificado
+- Unificación de la pantalla de cargar datos para que estén todas en una misma página, y se pueda seleccionar qué tipo de datos cargar mediante pestañas. Se ha eliminado la página de carga de ahorro y la página de carga de flujos de caja.
+- Actualización de la internacionalización a la página de carga de datos.
+
 ## [0.0.41] - 2026-04-09
 ### Corregido
 - Corregir error de acceso a datos de ahorro forzando el nombre de la compañía a minúsculas, dado que Linux es sensible a mayúsculas y minúsculas.
