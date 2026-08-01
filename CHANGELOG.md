@@ -1,5 +1,9 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.43] - 2026-08-01
+### Actualizado
+- Actualizada la versión de streamlit, de la 1.56.0 a la 1.60.0
+
 ## [0.0.42] - 2026-05-19
 ### Modificado
 - Unificación de la pantalla de cargar datos para que estén todas en una misma página, y se pueda seleccionar qué tipo de datos cargar mediante pestañas. Se ha eliminado la página de carga de ahorro y la página de carga de flujos de caja.
