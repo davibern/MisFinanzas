@@ -154,10 +154,10 @@ def _calcular_ahorro_jubilacion_por_meses(_datos: pd.DataFrame, año: int) -> pd
         (_datos['año'] == año) &
         (_datos['categoria'] == 'Planes de pensión y previsión')
     ].groupby(['mes', 'concepto'])['importe'].sum().reset_index()
-    
+
     # El importe viene en negativo por ser gasto, lo pasamos a positivo
     ahorro['importe'] = ahorro['importe'].abs()
-    
+
     return ahorro
 
 
@@ -171,7 +171,7 @@ class MisFinanzas():
     def __init__(self) -> None:
         # Usa función cacheada en lugar de leer directamente
         self.datos = cargar_datos_finanzas()
-    
+
     def obtener_año_minimo(self) -> int:
         """
         Obtiene el año mínimo de los datos.
