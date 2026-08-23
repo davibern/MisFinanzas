@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.44] - 2026-08-23
+### Actualizado
+- Actualizada la versión de streamlit, de la 1.60.0 a la 1.62.0
+### Corregido
+- Formato del código de Python
+
 ## [0.0.43] - 2026-08-01
 ### Actualizado
 - Actualizada la versión de streamlit, de la 1.56.0 a la 1.60.0
