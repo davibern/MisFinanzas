@@ -3,6 +3,7 @@ import streamlit as st
 
 from src.config import RUTA_FINANZAS_PARQUET
 
+
 @st.cache_data
 def cargar_datos_finanzas() -> pd.DataFrame:
     """
