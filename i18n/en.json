@@ -12,6 +12,7 @@
         "resumen_anual": "Annual Summary",
         "ahorro_prevision": "Savings and Forecast",
         "herramientas": "Tools",
+        "stocks": "Shares",
         "cargar_datos": "Load Data",
         "ayuda": "Help",
         "ayuda_cargar_datos": "Help Load Data"
@@ -144,5 +145,7 @@
         "ayuda": "Help",
         "selecciona_año": "Select the year you wish to consult",
         "selecciona_mes": "Select the month you wish to consult"
-    }
+    },
+    "_comentario_acciones": "Screen texts for acciones",
+    "titulo_accion": "Shares"
 }

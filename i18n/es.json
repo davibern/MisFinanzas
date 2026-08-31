@@ -12,6 +12,7 @@
         "resumen_anual": "Resumen anual",
         "ahorro_prevision": "Ahorro y Previsión",
         "herramientas": "Herramientas",
+        "acciones": "Acciones",
         "cargar_datos": "Cargar Datos",
         "ayuda": "Ayuda",
         "ayuda_cargar_datos": "Ayuda"
@@ -144,5 +145,7 @@
         "ayuda": "Ayuda",
         "selecciona_año": "Selecciona el año que deseas consultar",
         "selecciona_mes": "Selecciona el mes que deseas consultar"
-    }
+    },
+    "_comentario_acciones": "Textos de la pantalla de acciones",
+    "titulo_accion": "Acciones"
 }
