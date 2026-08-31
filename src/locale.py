@@ -1,5 +1,6 @@
 import json
 
+
 class Locale:
     def __init__(self, locale: str) -> None:
         self.locale = locale
