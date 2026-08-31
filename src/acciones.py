@@ -1,22 +1,22 @@
-from ib_async import IB
+from ib_async import IB, AccountValue
 import asyncio
 
 
 class InteractiveBroker:
     def __init__(self) -> None:
-        self.ib = IB()
-        self.servidor = '127.0.0.1'
-        self.puerto = 4001
-        self.id = 1
+        self.ib: IB = IB()
+        self.servidor: str = '127.0.0.1'
+        self.puerto: int = 4001
+        self.id: int = 1
 
-    async def conectar(self):
+    async def conectar(self) -> None:
         await self.ib.connectAsync(self.servidor, self.puerto, clientId=self.id)
 
-    async def obtener_valores_cuenta(self):
+    async def obtener_valores_cuenta(self) -> list[AccountValue]:
         return self.ib.accountValues()
 
 
-async def main():
+async def main() -> None:
     # Conectar al host local (puerto 4001) y un cliente único
     conexion = InteractiveBroker()
     await conexion.conectar()
