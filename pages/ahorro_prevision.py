@@ -257,7 +257,10 @@ def obtener_total_acumulado_fiatc() -> None:
 
 selector_año()
 
-tab_diferencia, tab_tasa_ahorro = st.tabs([locale.textos["tabs_ahorro_prevision"]["ingresos_gastos"], locale.textos["tabs_ahorro_prevision"]["tasa_ahorro"]])
+tab_diferencia, tab_tasa_ahorro = st.tabs(
+    [locale.textos["tabs_ahorro_prevision"]["ingresos_gastos"],
+     locale.textos["tabs_ahorro_prevision"]["tasa_ahorro"]]
+)
 with tab_diferencia:
     st.write(locale.textos["info_diferencia_1"])
     st.write(locale.textos["info_diferencia_2"])
