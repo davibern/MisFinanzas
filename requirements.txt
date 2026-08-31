@@ -6,6 +6,9 @@ plotly == 6.6.0
 pytest == 9.0.3
 pytest-cov == 7.1.0
 
+# IB
+ib_async == 2.1.0
+
 # Vulnerabilidades
 tornado == 6.5.5
 pillow == 12.1.1
