@@ -22,6 +22,10 @@ async def conectar() -> InteractiveBroker | None:
 async def obtener_valores() -> list:
     return await broker.obtener_valores_cuenta()
 
+
+async def obtener_cartera() -> list:
+    return await broker.obtener_cartera()
+
 try:
     broker = asyncio.run(conectar())
 except RuntimeError:
@@ -37,14 +41,14 @@ if broker is None:
 st.success("Conexión establecida correctamente.")
 
 try:
-    valores = asyncio.run(obtener_valores())
+    cartera = asyncio.run(obtener_cartera())
 except Exception:
-    valores = []
+    cartera = []
 
-if valores:
-    st.dataframe(valores)
+if cartera:
+    st.dataframe(cartera)
 else:
-    st.info("No hay valores disponibles en la cuenta.")
+    st.info("No hay cartera disponibles en la cuenta.")
 
 if broker.ib.isConnected():
     broker.ib.disconnect()
