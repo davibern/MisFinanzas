@@ -1,4 +1,4 @@
-from ib_async import IB, AccountValue
+from ib_async import IB, AccountValue, PortfolioItem
 
 
 class InteractiveBroker:
@@ -22,3 +22,14 @@ class InteractiveBroker:
         if not self.esta_conectado():
             return []
         return self.ib.accountValues()
+
+    async def obtener_cartera(self) -> list[PortfolioItem]:
+        """
+        Obtiene los datos de la cartera, incluyendo posiciones, precio de mercado, costo promedio y PNL.
+
+        Returns:
+            list[PortfolioItem]: lista de posiciones, precio de mercado y coste promedio
+        """
+        if not self.esta_conectado():
+            return []
+        return self.ib.portfolio()
