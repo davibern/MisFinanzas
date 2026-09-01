@@ -227,6 +227,7 @@ def test_obtener_ahorro_jubilacion_por_meses(mis_finanzas_mock: MisFinanzas) -> 
     ahorro_fiatc = resultado[(resultado['mes'] == 1) & (resultado['concepto'] == 'FIATC MUTUA DE SEGUROS Y REASEGUROS')]['importe'].values[0]
     assert ahorro_fiatc == 50.0, f"El ahorro FIATC de enero debería ser 50.0 pero es {ahorro_fiatc}"
 
+
 def test_obtener_año_minimo(mis_finanzas_mock: MisFinanzas) -> None:
     """
     Test: Verifica que se obtenga correctamente el año mínimo.
@@ -238,6 +239,7 @@ def test_obtener_año_minimo(mis_finanzas_mock: MisFinanzas) -> None:
 
     # Assert
     assert resultado == 2025, f"El año mínimo debería ser 2025 pero es {resultado}"
+
 
 def test_obtener_año_maximo(mis_finanzas_mock: MisFinanzas) -> None:
     """
