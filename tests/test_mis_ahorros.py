@@ -78,7 +78,7 @@ def test_obtener_total_aportado_plan_ahorro(mis_ahorros_mock: MisAhorros, datos_
     """
     resultado = mis_ahorros_mock.obtener_total_aportado_plan_ahorro()
     esperado = datos_prueba['IMPORTE'].sum()
-    
+
     assert resultado == esperado
     assert resultado == 150.0
 
@@ -89,7 +89,6 @@ def test_obtener_total_acumulado_plan_ahorro(mis_ahorros_mock: MisAhorros, datos
     """
     resultado = mis_ahorros_mock.obtener_total_acumulado_plan_ahorro()
     esperado = datos_prueba['SALDO'].dropna().iloc[-1]
-    
+
     assert resultado == esperado
     assert resultado == 160.0
-
