@@ -42,8 +42,16 @@ class InteractiveBroker:
         for item in cartera_crudo:
             simbolo: str = item.contract.symbol
             exchange: str = item.contract.primaryExchange or item.contract.exchange
-            contrato: str = f'{simbolo} ({exchange})'
             base_coste: float = item.position * item.averageCost
+
+            # Pedir a IB los detalles del contrato para obtener el nombre largo
+            try:
+                detalle_instrumento = await self.ib.reqContractDetailsAsync(item.contract)
+                nombre_empresa = detalle_instrumento[0].longName if detalle_instrumento else simbolo
+            except Exception:
+                nombre_empresa = simbolo
+
+            contrato: str = f"{simbolo} - ({nombre_empresa}) - {exchange}"
 
             if base_coste != 0:
                 pct_pyg_no_realizadas: float = (item.unrealizedPNL / base_coste) * 100
