@@ -13,25 +13,20 @@ locale = Locale(st.context.locale)
 st.title("📈 " + locale.textos["titulo_accion"])
 
 
-async def conectar() -> InteractiveBroker | None:
+async def obtener_datos_broker():
     conexion = InteractiveBroker()
     conectado = await conexion.conectar()
     if not conectado:
-        return None
-    return conexion
+        return None, []
 
+    datos_cartera = await conexion.obtener_cartera()
 
-async def obtener_valores() -> list:
-    return await broker.obtener_valores_cuenta()
-
-
-async def obtener_cartera() -> list:
-    return await broker.obtener_cartera()
+    return conexion, datos_cartera
 
 try:
-    broker = asyncio.run(conectar())
-except RuntimeError:
-    broker = None
+    broker, cartera = asyncio.run(obtener_datos_broker())
+except Exception:
+    broker, cartera = None, []
 
 if broker is None:
     st.warning(
@@ -40,10 +35,6 @@ if broker is None:
     )
     st.stop()
 
-try:
-    cartera = asyncio.run(obtener_cartera())
-except Exception:
-    cartera = []
 
 if cartera:
     df: pd.DataFrame = pd.DataFrame(cartera)
