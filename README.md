@@ -33,6 +33,9 @@ Pantalla principal de bienvenida a la aplicación.
 - **Cargar Ahorro:** Carga e integra los datos de los depósitos o planes de ahorro de __Fiatc__ y __Axa__, ficheros de confección completamente __manual__.
 - **Cargar Caja:** Registro y actualización del flujo de efectivo o caja, confección completamente __manual__.
 
+### 📈 Acciones
+- **Acciones** Conecta mediante la API de IB para obtener información del portfolio del usuario.
+
 ### ❓ Ayuda
 Secciones de consulta con información relevante sobre el formato y la estructura esperada para cada tipo de dato a importar:
 - **Ayuda datos bancarios:** Instrucciones para los archivos de movimientos bancarios desde la web de __CaixaBankNow__.
