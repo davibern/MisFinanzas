@@ -12,6 +12,10 @@ locale = Locale(st.context.locale)
 # Título de la página
 st.title("📈 " + locale.textos["titulo_accion"])
 
+st.write(f'Foto fija del valor de la cartera a su situación actual a día de {pd.Timestamp.now().strftime("%d/%m/%Y")}.')
+
+st.divider()
+
 
 async def obtener_datos_broker():
     conexion = InteractiveBroker()
