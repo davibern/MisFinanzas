@@ -53,11 +53,24 @@ def test_obtener_cartera_formatea_posiciones_y_calcula_porcentajes(monkeypatch):
     monkeypatch.setattr(broker.ib, "isConnected", lambda: True)
     monkeypatch.setattr(broker.ib, "portfolio", lambda: cartera)
 
+    async def obtener_detalles_con_nombre(contrato):
+        nombres = {
+            "AAPL": "Apple Inc.",
+            "MSFT": "Microsoft Corporation",
+        }
+        return [SimpleNamespace(longName=nombres[contrato.symbol])]
+
+    monkeypatch.setattr(
+        broker.ib,
+        "reqContractDetailsAsync",
+        obtener_detalles_con_nombre,
+    )
+
     resultado = asyncio.run(broker.obtener_cartera())
 
     assert resultado == [
         {
-            "Intrumento": "AAPL (NASDAQ)",
+            "Instrumento": "AAPL - (Apple Inc.) - NASDAQ",
             "Posición": 10.1235,
             "Último": 110.13,
             "Precio Medio": 100.0,
@@ -69,7 +82,7 @@ def test_obtener_cartera_formatea_posiciones_y_calcula_porcentajes(monkeypatch):
             "PyG Realizadas": 25.13,
         },
         {
-            "Intrumento": "MSFT (SMART)",
+            "Instrumento": "MSFT - (Microsoft Corporation) - SMART",
             "Posición": 5.0,
             "Último": 100.0,
             "Precio Medio": 100.0,
