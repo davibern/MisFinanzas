@@ -65,7 +65,7 @@ class InteractiveBroker:
 
             # Crear diccionario plano para que el st.dataframe lo parsee
             cartera_formateada.append({
-                "Intrumento": contrato,
+                "Instrumento": contrato,
                 "Posición": round(item.position, 4),
                 "Último": round(item.marketPrice, 2),
                 "Precio Medio": round(item.averageCost, 2),
