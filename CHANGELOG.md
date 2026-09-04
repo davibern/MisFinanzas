@@ -1,5 +1,13 @@
 # CONTROL DE CAMBIOS
 
+## [0.0.5] - 2026-09-04
+### Añadido
+- Acceso en el menú para una nueva opción de consulta de Acciones
+- Nueva clase para conectar con Interactive Brokers y obtener datos del portfolio de acciones
+- Nueva página para conectar con Interactive Brokers y pintar un dataframe con los datos de las acciones y formateadas según valores
+- Añadido textos planos a es.json y en.json de Interactive Brokers
+- Añadido nuevo test unitario para obtener conexión y datos de Interactive Brokers
+
 ## [0.0.44] - 2026-08-23
 ### Actualizado
 - Actualizada la versión de streamlit, de la 1.60.0 a la 1.62.0
