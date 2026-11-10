@@ -11,6 +11,7 @@
 /raw/caja/*.csv
 !/raw/caja/example.csv
 /data/caja.parquet
+/raw/ibkr/*.csv
 
 # Ficheros para el entorno
 /.venv
