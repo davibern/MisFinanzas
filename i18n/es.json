@@ -13,6 +13,7 @@
         "ahorro_prevision": "Ahorro y Previsión",
         "herramientas": "Herramientas",
         "acciones": "Acciones",
+        "cartera": "Cartera",
         "cargar_datos": "Cargar Datos",
         "ayuda": "Ayuda",
         "ayuda_cargar_datos": "Ayuda"
@@ -147,5 +148,6 @@
         "selecciona_mes": "Selecciona el mes que deseas consultar"
     },
     "_comentario_acciones": "Textos de la pantalla de acciones",
-    "titulo_accion": "Acciones"
+    "titulo_accion": "Acciones",
+    "titulo_cartera": "Cartera"
 }
