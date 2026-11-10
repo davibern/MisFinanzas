@@ -6,4 +6,4 @@ from src.locale import Locale
 locale = Locale(st.context.locale)
 
 # Título de la página
-st.title("📈 " + locale.textos["titulo_accion"])
+st.title("📈 " + locale.textos["titulo_cartera"])
