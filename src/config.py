@@ -9,6 +9,7 @@ RAW_DIR = BASE_DIR / "raw"
 RUTA_FINANZAS_PARQUET = str(DATA_DIR / "finanzas.parquet")
 RUTA_AHORROS_PARQUET = str(DATA_DIR / "ahorros.parquet")
 RUTA_CAJA_PARQUET = str(DATA_DIR / "caja.parquet")
+RUTA_BOLSA_CARTERA = str(DATA_DIR / "bolsa_cartera.parquet")
 
 
 class Color:
