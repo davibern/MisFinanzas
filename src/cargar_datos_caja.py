@@ -23,7 +23,7 @@ class CargarFicheroCaja:
                 .str.strip()
             )
             self.df[col] = pd.to_numeric(self.df[col], errors='coerce')
-        
+
         # 3. Procesar Fechas
         self.df['FECHA'] = pd.to_datetime(self.df['FECHA'], dayfirst=True, errors='coerce')
         self.df['FECHA'] = self.df['FECHA'].ffill()
