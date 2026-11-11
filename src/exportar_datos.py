@@ -5,12 +5,14 @@ import shutil
 from src.cargar_datos_bancarios import CargarFicheroBancario
 from src.cargar_datos_ahorros import CargarFicheroAhorro
 from src.cargar_datos_caja import CargarFicheroCaja
+from src.cargar_datos_ibkr import CargarCarteraIBKR
 from src.config import RUTA_FINANZAS_PARQUET
 from src.config import RUTA_CAJA_PARQUET
+from src.config import RUTA_BOLSA_CARTERA
 
 
 class ExportarDatos:
-    def __init__(self, datos: CargarFicheroBancario | CargarFicheroAhorro | CargarFicheroCaja, tipo: str, compañia: str | None = None) -> None:
+    def __init__(self, datos: CargarFicheroBancario | CargarFicheroAhorro | CargarFicheroCaja | CargarCarteraIBKR, tipo: str, compañia: str | None = None) -> None:
         self.datos = datos
         self.tipo = tipo
         self.compañia = compañia
