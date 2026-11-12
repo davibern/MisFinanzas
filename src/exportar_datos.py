@@ -118,5 +118,35 @@ class ExportarDatos:
                 compression="snappy",
                 index=False,
             )
+        elif self.tipo == 'bolsa':
+            # Comprobar si la fecha existe
+            if self.validar_fecha():
+                return 0
+            else:
+                archivo = RUTA_BOLSA_CARTERA
+
+                # Recupero datos previos
+                try:
+                    df_existente = pd.read_parquet(archivo)
+                    df_final = pd.concat([df_existente, self.datos.df], ignore_index=True)
+                except FileNotFoundError:
+                    df_final = self.datos.df
+
+                # Limpio la carpeta para consolidar la partición
+                if os.path.exists(archivo):
+                    if os.path.isdir(archivo):
+                        shutil.rmtree(archivo)
+                    else:
+                        os.remove(archivo)
+
+                # Guardo el total particionado por año
+                df_final.to_parquet(
+                    archivo,
+                    engine="pyarrow",
+                    compression="snappy",
+                    index=False,
+                    partition_cols=['año']
+                )
+                return 1
         else:
-            raise ValueError('Tipo de datos no reconocido. Debe ser de tipo "bancario" o "ahorro".')
+            raise ValueError('Tipo de datos no reconocido. Debe ser de tipo "bancario", "ahorro", "caja" o "bolsa".')
