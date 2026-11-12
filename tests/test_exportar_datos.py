@@ -11,7 +11,9 @@ import pytest
 import pandas as pd
 from unittest.mock import Mock, patch
 from src.cargar_datos_bancarios import CargarFicheroBancario
+from src.cargar_datos_ibkr import CargarCarteraIBKR
 from src.exportar_datos import ExportarDatos
+from src.config import RUTA_FINANZAS_PARQUET, RUTA_BOLSA_CARTERA
 
 
 @pytest.fixture
@@ -249,7 +251,7 @@ def test_exportar_parquet_parameters(exportar_datos_instance: ExportarDatos):
 
             # Assert
             mock_to_parquet.assert_called_once_with(
-                "data/finanzas.parquet",
+                RUTA_FINANZAS_PARQUET,
                 engine="pyarrow",
                 compression="snappy",
                 partition_cols=["año", "mes"],
@@ -347,3 +349,222 @@ def test_integration_duplicate_prevention(exportar_datos_instance: ExportarDatos
             # Como todos los períodos ya existen, no debe exportar
             assert resultado == 0
             mock_to_parquet.assert_not_called()
+
+
+# ============================================================================
+# TESTS PARA validar_fecha Y tipo='bolsa'
+# ============================================================================
+
+@pytest.fixture
+def mock_cargar_ibkr_df() -> pd.DataFrame:
+    """Fixture con DataFrame procesado de cartera IBKR."""
+    return pd.DataFrame({
+        "fecha": pd.to_datetime(["2026-11-10", "2026-11-10"]),
+        "symbol": ["IBE", "AAPL"],
+        "description": ["IBERDROLA SA", "APPLE INC"],
+        "currency": ["EUR", "USD"],
+        "quantity": [10.0, 5.0],
+        "mark_price": [20.0, 150.0],
+        "cost_basis_price": [18.0, 140.0],
+        "cost_basis_money": [180.0, 700.0],
+        "position_value": [200.0, 750.0],
+        "fifo_pnl_unrealized": [20.0, 50.0],
+        "fx_rate_to_base": [1.0, 0.9],
+        "cost_basis_eur": [180.0, 630.0],
+        "position_value_eur": [200.0, 675.0],
+        "unrealized_pnl_eur": [20.0, 45.0],
+        "pnl_percent": [11.11, 7.14],
+        "percent_of_nav": [50.0, 50.0],
+        "año": [2026, 2026],
+    })
+
+
+@pytest.fixture
+def mock_cargador_ibkr(mock_cargar_ibkr_df: pd.DataFrame) -> CargarCarteraIBKR:
+    """Fixture que crea un mock de CargarCarteraIBKR."""
+    mock = Mock(spec=CargarCarteraIBKR)
+    mock.df = mock_cargar_ibkr_df
+    return mock
+
+
+def test_validar_fecha_file_not_found(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Verifica que si no existe bolsa_cartera.parquet, validar_fecha devuelve False."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    with patch("pandas.read_parquet", side_effect=FileNotFoundError()):
+        assert exportador.validar_fecha() is False
+
+
+def test_validar_fecha_date_exists(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Verifica que devuelva True si la fecha ya existe en el parquet."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    df_existente = pd.DataFrame({"fecha": pd.to_datetime(["2026-11-10", "2026-11-09"])})
+    with patch("pandas.read_parquet", return_value=df_existente):
+        assert exportador.validar_fecha() is True
+
+
+def test_validar_fecha_date_not_exists(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Verifica que devuelva False si la fecha es nueva."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    df_existente = pd.DataFrame({"fecha": pd.to_datetime(["2026-11-09"])})
+    with patch("pandas.read_parquet", return_value=df_existente):
+        assert exportador.validar_fecha() is False
+
+
+def test_exportar_bolsa_when_validation_true(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Si la fecha ya existe, exportar_parquet devuelve 0 y no exporta."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    with patch.object(exportador, "validar_fecha", return_value=True):
+        assert exportador.exportar_parquet() == 0
+
+
+def test_exportar_bolsa_end_to_end_e_idempotencia(mock_cargador_ibkr: CargarCarteraIBKR, tmp_path):
+    """
+    Test funcional completo con archivos reales temporales:
+    1. Primera exportación de día 1 (2026-11-10): crea parquet particionado y devuelve 1.
+    2. Segunda exportación idéntica (2026-11-10): detecta que existe y devuelve 0 (idempotente).
+    3. Exportación de día 2 (2026-11-11): acumula ambos días sin borrar el anterior y devuelve 1.
+    """
+    ruta_parquet_temp = str(tmp_path / "bolsa_cartera.parquet")
+
+    with patch("src.exportar_datos.RUTA_BOLSA_CARTERA", ruta_parquet_temp):
+        exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+
+        # 1. Primera exportación
+        res1 = exportador.exportar_parquet()
+        assert res1 == 1
+
+        df_guardado = pd.read_parquet(ruta_parquet_temp)
+        assert len(df_guardado) == 2
+        assert list(df_guardado["fecha"].unique()) == [pd.Timestamp("2026-11-10")]
+        assert list(df_guardado["año"].unique()) == [2026]
+
+        # 2. Re-ejecutar el mismo día (idempotencia)
+        res2 = exportador.exportar_parquet()
+        assert res2 == 0
+
+        df_despues = pd.read_parquet(ruta_parquet_temp)
+        assert len(df_despues) == 2  # No se han duplicado las filas
+
+        # 3. Exportar un día nuevo (2026-11-11)
+        df_dia_2 = mock_cargador_ibkr.df.copy()
+        df_dia_2["fecha"] = pd.to_datetime(["2026-11-11", "2026-11-11"])
+        mock_cargador_dia2 = Mock(spec=CargarCarteraIBKR)
+        mock_cargador_dia2.df = df_dia_2
+
+        exportador_dia2 = ExportarDatos(mock_cargador_dia2, tipo="bolsa")
+        res3 = exportador_dia2.exportar_parquet()
+        assert res3 == 1
+
+        df_total = pd.read_parquet(ruta_parquet_temp)
+        assert len(df_total) == 4
+        assert set(df_total["fecha"]) == {pd.Timestamp("2026-11-10"), pd.Timestamp("2026-11-11")}
+
+
+# ============================================================================
+# TESTS PARA validar_fecha Y tipo='bolsa'
+# ============================================================================
+
+@pytest.fixture
+def mock_cargar_ibkr_df() -> pd.DataFrame:
+    """Fixture con DataFrame procesado de cartera IBKR."""
+    return pd.DataFrame({
+        "fecha": pd.to_datetime(["2026-11-10", "2026-11-10"]),
+        "symbol": ["IBE", "AAPL"],
+        "description": ["IBERDROLA SA", "APPLE INC"],
+        "currency": ["EUR", "USD"],
+        "quantity": [10.0, 5.0],
+        "mark_price": [20.0, 150.0],
+        "cost_basis_price": [18.0, 140.0],
+        "cost_basis_money": [180.0, 700.0],
+        "position_value": [200.0, 750.0],
+        "fifo_pnl_unrealized": [20.0, 50.0],
+        "fx_rate_to_base": [1.0, 0.9],
+        "cost_basis_eur": [180.0, 630.0],
+        "position_value_eur": [200.0, 675.0],
+        "unrealized_pnl_eur": [20.0, 45.0],
+        "pnl_percent": [11.11, 7.14],
+        "percent_of_nav": [50.0, 50.0],
+        "año": [2026, 2026],
+    })
+
+
+@pytest.fixture
+def mock_cargador_ibkr(mock_cargar_ibkr_df: pd.DataFrame) -> CargarCarteraIBKR:
+    """Fixture que crea un mock de CargarCarteraIBKR."""
+    mock = Mock(spec=CargarCarteraIBKR)
+    mock.df = mock_cargar_ibkr_df
+    return mock
+
+
+def test_validar_fecha_file_not_found(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Verifica que si no existe bolsa_cartera.parquet, validar_fecha devuelve False."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    with patch("pandas.read_parquet", side_effect=FileNotFoundError()):
+        assert exportador.validar_fecha() is False
+
+
+def test_validar_fecha_date_exists(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Verifica que devuelva True si la fecha ya existe en el parquet."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    df_existente = pd.DataFrame({"fecha": pd.to_datetime(["2026-11-10", "2026-11-09"])})
+    with patch("pandas.read_parquet", return_value=df_existente):
+        assert exportador.validar_fecha() is True
+
+
+def test_validar_fecha_date_not_exists(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Verifica que devuelva False si la fecha es nueva."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    df_existente = pd.DataFrame({"fecha": pd.to_datetime(["2026-11-09"])})
+    with patch("pandas.read_parquet", return_value=df_existente):
+        assert exportador.validar_fecha() is False
+
+
+def test_exportar_bolsa_when_validation_true(mock_cargador_ibkr: CargarCarteraIBKR):
+    """Si la fecha ya existe, exportar_parquet devuelve 0 y no exporta."""
+    exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+    with patch.object(exportador, "validar_fecha", return_value=True):
+        assert exportador.exportar_parquet() == 0
+
+
+def test_exportar_bolsa_end_to_end_e_idempotencia(mock_cargador_ibkr: CargarCarteraIBKR, tmp_path):
+    """
+    Test funcional completo con archivos reales temporales:
+    1. Primera exportación de día 1 (2026-11-10): crea parquet particionado y devuelve 1.
+    2. Segunda exportación idéntica (2026-11-10): detecta que existe y devuelve 0 (idempotente).
+    3. Exportación de día 2 (2026-11-11): acumula ambos días sin borrar el anterior y devuelve 1.
+    """
+    ruta_parquet_temp = str(tmp_path / "bolsa_cartera.parquet")
+
+    with patch("src.exportar_datos.RUTA_BOLSA_CARTERA", ruta_parquet_temp):
+        exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+
+        # 1. Primera exportación
+        res1 = exportador.exportar_parquet()
+        assert res1 == 1
+
+        df_guardado = pd.read_parquet(ruta_parquet_temp)
+        assert len(df_guardado) == 2
+        assert list(df_guardado["fecha"].unique()) == [pd.Timestamp("2026-11-10")]
+        assert list(df_guardado["año"].unique()) == [2026]
+
+        # 2. Re-ejecutar el mismo día (idempotencia)
+        res2 = exportador.exportar_parquet()
+        assert res2 == 0
+
+        df_despues = pd.read_parquet(ruta_parquet_temp)
+        assert len(df_despues) == 2  # No se han duplicado las filas
+
+        # 3. Exportar un día nuevo (2026-11-11)
+        df_dia_2 = mock_cargador_ibkr.df.copy()
+        df_dia_2["fecha"] = pd.to_datetime(["2026-11-11", "2026-11-11"])
+        mock_cargador_dia2 = Mock(spec=CargarCarteraIBKR)
+        mock_cargador_dia2.df = df_dia_2
+
+        exportador_dia2 = ExportarDatos(mock_cargador_dia2, tipo="bolsa")
+        res3 = exportador_dia2.exportar_parquet()
+        assert res3 == 1
+
+        df_total = pd.read_parquet(ruta_parquet_temp)
+        assert len(df_total) == 4
+        assert set(df_total["fecha"]) == {pd.Timestamp("2026-11-10"), pd.Timestamp("2026-11-11")}
+
