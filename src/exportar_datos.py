@@ -2,6 +2,8 @@ import pandas as pd
 import os
 import shutil
 
+from pathlib import Path
+
 from src.cargar_datos_bancarios import CargarFicheroBancario
 from src.cargar_datos_ahorros import CargarFicheroAhorro
 from src.cargar_datos_caja import CargarFicheroCaja
@@ -9,6 +11,7 @@ from src.cargar_datos_ibkr import CargarCarteraIBKR
 from src.config import RUTA_FINANZAS_PARQUET
 from src.config import RUTA_CAJA_PARQUET
 from src.config import RUTA_BOLSA_CARTERA
+from src.config import DIR_RAW_IBKR
 
 
 class ExportarDatos:
@@ -150,3 +153,30 @@ class ExportarDatos:
                 return 1
         else:
             raise ValueError('Tipo de datos no reconocido. Debe ser de tipo "bancario", "ahorro", "caja" o "bolsa".')
+
+    @staticmethod
+    def procesar_ficheros_ibkr_cartera(directorio_raw: Path | str = DIR_RAW_IBKR) -> int:
+        """Procesa todos los ficheros nuevos que no están incluidos previamente
+
+        Args:
+            directorio_raw (Path | str, optional): La ruta de los ficheros. Por defecto la dirección DIR_RAW_IBK.
+
+        Returns:
+            int: cantidad de ficheros procesados
+        """
+        directorio = Path(directorio_raw)
+
+        if not directorio.exists():
+            return 0
+
+        ficheros_ordenados = sorted(directorio.glob("ibkr_cartera_operaciones_*.csv"))
+
+        ficheros_procesados = 0
+        for fichero in ficheros_ordenados:
+            cargador = CargarCarteraIBKR(str(fichero))
+            cargador.limpiar_datos()
+
+            exportador = ExportarDatos(cargador, tipo='bolsa')
+            ficheros_procesados += exportador.exportar_parquet()
+
+        return ficheros_procesados
