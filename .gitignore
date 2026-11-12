@@ -12,6 +12,7 @@
 !/raw/caja/example.csv
 /data/caja.parquet
 /raw/ibkr/*.csv
+/data/bolsa_cartera.parquet
 
 # Ficheros para el entorno
 /.venv
