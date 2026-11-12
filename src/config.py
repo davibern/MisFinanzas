@@ -4,6 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
 DATA_DIR = BASE_DIR / "data"
 RAW_DIR = BASE_DIR / "raw"
+DIR_RAW_IBKR = RAW_DIR / "ibkr"
 
 # Rutas específicas para constantes
 RUTA_FINANZAS_PARQUET = str(DATA_DIR / "finanzas.parquet")
