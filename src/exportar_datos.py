@@ -12,7 +12,15 @@ from src.config import RUTA_BOLSA_CARTERA
 
 
 class ExportarDatos:
-    def __init__(self, datos: CargarFicheroBancario | CargarFicheroAhorro | CargarFicheroCaja | CargarCarteraIBKR, tipo: str, compañia: str | None = None) -> None:
+    def __init__(
+        self,
+        datos: CargarFicheroBancario
+        | CargarFicheroAhorro
+        | CargarFicheroCaja
+        | CargarCarteraIBKR,
+        tipo: str,
+        compañia: str | None = None,
+    ) -> None:
         self.datos = datos
         self.tipo = tipo
         self.compañia = compañia
@@ -41,6 +49,23 @@ class ExportarDatos:
 
         # Compruebo si hay pares nuevos
         return set_nuevos.issubset(set_existente)
+
+    def validar_fecha(self) -> bool:
+        """Valida la fecha del fichero de datos de bolsa IBKR para comprobar que están o no en la base de datos
+
+        Returns:
+            bool: True si la fecha ya han sido procesados, False en caso contrario
+        """
+        try:
+            df_existente = pd.read_parquet(RUTA_BOLSA_CARTERA)
+        except FileNotFoundError:
+            return False
+
+        # Obtengo la fecha nueva
+        nueva_fecha = self.datos.df['fecha'].max()
+
+        # Compruebo si la fecha ya esta
+        return nueva_fecha in set(df_existente['fecha'])
 
     def exportar_parquet(self) -> int:
         """
