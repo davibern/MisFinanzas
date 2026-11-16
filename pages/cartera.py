@@ -5,6 +5,7 @@ import pandas as pd
 from src.locale import Locale
 from src.exportar_datos import ExportarDatos
 from src.config import RUTA_BOLSA_CARTERA
+from src.utilidades import color_positivo_negativo
 
 # Obtener el idioma del contexto
 locale = Locale(st.context.locale)
@@ -68,6 +69,7 @@ columnas_visibles = [
     "description",
     "quantity",
     "mark_price",
+    "cost_basis_price",
     "cost_basis_eur",
     "position_value_eur",
     "unrealized_pnl_eur",
@@ -75,14 +77,24 @@ columnas_visibles = [
     "percent_of_nav",
 ]
 
+df_estilado = df_foto_actual[columnas_visibles].style.map(
+    color_positivo_negativo,
+    subset=["unrealized_pnl_eur", "pnl_percent"]
+)
+
 st.dataframe(
-    df_foto_actual[columnas_visibles],
+    df_estilado,
     hide_index=True,
     column_config={
-        "position_value_eur": st.column_config.NumberColumn("Valor (€)", format="%.2f €"),
-        "cost_basis_eur": st.column_config.NumberColumn("Coste (€)", format="%.2f €"),
-        "unrealized_pnl_eur": st.column_config.NumberColumn("PyG (€)", format="%.2f €"),
-        "pnl_percent": st.column_config.NumberColumn("PyG (%)", format="%.2f %%"),
+        "symbol": st.column_config.TextColumn("Instrumento"),
+        "description": st.column_config.TextColumn("Descripción"),
+        "quantity": st.column_config.NumberColumn("Posición", format="%.4f"),
+        "mark_price": st.column_config.NumberColumn("Último", format="%.2f"),
+        "cost_basis_price": st.column_config.NumberColumn("Precio Medio", format="%.2f"),
+        "cost_basis_eur": st.column_config.NumberColumn("Base Coste (€)", format="%.2f €"),
+        "position_value_eur": st.column_config.NumberColumn("Valor Mercado (€)", format="%.2f €"),
+        "unrealized_pnl_eur": st.column_config.NumberColumn("PyG No Realizada (€)", format="%+.2f €"),
+        "pnl_percent": st.column_config.NumberColumn("PyG No Realizada (%)", format="%+.2f %%"),
         "percent_of_nav": st.column_config.NumberColumn("% Cartera", format="%.2f %%"),
     },
 )
