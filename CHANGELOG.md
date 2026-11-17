@@ -1,5 +1,22 @@
 # CONTROL DE CAMBIOS
 
+## [0.1.0] - 2026-11-17
+### Añadido
+- Cambio del cálculo y obtención de los datos de IBKR, de API a descarga a través de informes Flex, automatizado por n8n.
+- Actualización de los datos automáticamente cuando se accede a la página de acciones.
+- Nueva página de acciones llamada cartera.
+- Nuevo archivo de utilidades para calcular el color de algunas columnas del dataframe de cartera.
+- Renombrado de la página de acciones a cartera.
+- Obtención de la versión en la home de la aplicación.
+### Actualizado
+- Actualización de streamlit de la versión 1.62 a la 1.67.
+### Eliminado
+- Conexión mediante API a Interactive Brokers.
+- Eliminación de la página de acciones.
+- Eliminación de la clase de conexión a Interactive.
+- Eliminación del texto introductorio de la home.
+- Eliminación de los textos de la home en es.json y en.json.
+
 ## [0.0.5] - 2026-09-04
 ### Añadido
 - Acceso en el menú para una nueva opción de consulta de Acciones
