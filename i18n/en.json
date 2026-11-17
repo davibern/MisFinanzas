@@ -2,8 +2,6 @@
     "_comentario_inicio": "Texts for the main screen",
     "nombre_app": "My Finances",
     "descripcion_app": "Here you can efficiently manage and analyze your personal finances.",
-    "mensaje_inicio_1": "Welcome to the My Finances home page.",
-    "mensaje_inicio_2": "Here you can efficiently manage and analyze your personal finances.",
     "_comentario_menu": "Texts for the sidebar menu",
     "menu": {
         "inicio": "Home",

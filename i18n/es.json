@@ -2,8 +2,6 @@
     "_comentario_inicio": "Textos de la pantalla principal",
     "nombre_app": "Mis Finanzas",
     "descripcion_app": "Aquí puedes gestionar y analizar tus finanzas personales de manera eficiente.",
-    "mensaje_inicio_1": "Bienvenido a la página de inicio de Mis Finanzas.",
-    "mensaje_inicio_2": "Aquí puedes gestionar y analizar tus finanzas personales de manera eficiente.",
     "_comentario_menu": "Textos del menú lateral",
     "menu": {
         "inicio": "Inicio",
