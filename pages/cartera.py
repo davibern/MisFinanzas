@@ -98,3 +98,24 @@ st.dataframe(
         "percent_of_nav": st.column_config.NumberColumn("% Cartera", format="%.2f %%"),
     },
 )
+
+st.divider()
+
+st.markdown("""
+### Descripciones
+- **Instrumento**: Símbolo bursátil o _ticker_ único que identifica el activo financiero en el mercado donde cotiza.
+- **Descripción**: Nombre completo o razón social de la empresa emisora del activo.
+- **Posición**: Cantidad total de títulos o acciones (incluyendo fracciones) que mantienes actualmente en cartera.
+- **Último**: Último precio de cotización registrado del activo, expresado en su divisa original de mercado.
+- **Precio Medio**: Coste unitario promedio de la adquisición por acción en su divisa original, incluyendo el
+  **prorrateo de las comisiones de compra.
+- **Base Coste (€)**: Capital total invertido originalmente en la posición (precio de compra más comisiones),
+  **convertido a tu divisa base (EUR).
+- **Valor Mercado (€)**: Valoración actual de la posición (`Posición x Último`), convertida al tipo de cambio
+  **vigente a tu divisa base (EUR).
+- **PyG No Realizada (€)**: Ganancia o pérdida latente en EUR (`Valor Mercado - Base Coste`). Incluye tanto
+  **la variación del precio como el efecto del tipo de cambio (FX).
+- **PyG No Realizad (%)**: Rentabilidad porcentual latente sobre el capital invertido (`PyG No Realizada / Base Coste`).
+  **en tu divisa base.
+- **% Cartera**: Peso o ponderación que representa el valor de mercado de este activo respecto al valor total de toda tu cartera.
+""")
