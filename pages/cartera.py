@@ -86,36 +86,55 @@ st.dataframe(
     df_estilado,
     hide_index=True,
     column_config={
-        "symbol": st.column_config.TextColumn("Instrumento"),
-        "description": st.column_config.TextColumn("Descripción"),
-        "quantity": st.column_config.NumberColumn("Posición", format="%.4f"),
-        "mark_price": st.column_config.NumberColumn("Último", format="%.2f"),
-        "cost_basis_price": st.column_config.NumberColumn("Precio Medio", format="%.2f"),
-        "cost_basis_eur": st.column_config.NumberColumn("Base Coste (€)", format="%.2f €"),
-        "position_value_eur": st.column_config.NumberColumn("Valor Mercado (€)", format="%.2f €"),
-        "unrealized_pnl_eur": st.column_config.NumberColumn("PyG No Realizada (€)", format="%+.2f €"),
-        "pnl_percent": st.column_config.NumberColumn("PyG No Realizada (%)", format="%+.2f %%"),
-        "percent_of_nav": st.column_config.NumberColumn("% Cartera", format="%.2f %%"),
+        "symbol": st.column_config.TextColumn(
+            "Instrumento",
+            help="Símbolo bursátil o ticker único que identifica el activo financiero."
+        ),
+        "description": st.column_config.TextColumn(
+            "Descripción",
+            help="Nombre completo o razón social de la empresa emisora."
+        ),
+        "quantity": st.column_config.NumberColumn(
+            "Posición",
+            help="Cantidad total de títulos o acciones que mantienes actualmente en cartera.",
+            format="%.4f"
+        ),
+        "mark_price": st.column_config.NumberColumn(
+            "Último",
+            help="Último precio de cotización registrado del activo en su divisa original.",
+            format="%.2f"
+        ),
+        "cost_basis_price": st.column_config.NumberColumn(
+            "Precio Medio",
+            help="Coste unitario promedio de adquisición por acción en su divisa original.",
+            format="%.2f"
+        ),
+        "cost_basis_eur": st.column_config.NumberColumn(
+            "Base Coste (€)",
+            help="Capital total invertido originalmente en la posición, convertido a EUR.",
+            format="%.2f €"
+        ),
+        "position_value_eur": st.column_config.NumberColumn(
+            "Valor Mercado (€)",
+            help="Valoración actual de la posición (Posición x Último) convertida a EUR.",
+            format="%.2f €"
+        ),
+        "unrealized_pnl_eur": st.column_config.NumberColumn(
+            "PyG No Realizada (€)",
+            help="Ganancia o pérdida latente en EUR (Valor Mercado - Base Coste).",
+            format="%+.2f €"
+        ),
+        "pnl_percent": st.column_config.NumberColumn(
+            "PyG No Realizada (%)",
+            help="Rentabilidad porcentual latente sobre el capital invertido.",
+            format="%+.2f %%"
+        ),
+        "percent_of_nav": st.column_config.NumberColumn(
+            "% Cartera",
+            help="Peso o ponderación que representa este activo sobre el valor total de tu cartera.",
+            format="%.2f %%"
+        ),
     },
 )
 
 st.divider()
-
-st.markdown("""
-### Descripciones
-- **Instrumento**: Símbolo bursátil o _ticker_ único que identifica el activo financiero en el mercado donde cotiza.
-- **Descripción**: Nombre completo o razón social de la empresa emisora del activo.
-- **Posición**: Cantidad total de títulos o acciones (incluyendo fracciones) que mantienes actualmente en cartera.
-- **Último**: Último precio de cotización registrado del activo, expresado en su divisa original de mercado.
-- **Precio Medio**: Coste unitario promedio de la adquisición por acción en su divisa original, incluyendo el
-  **prorrateo de las comisiones de compra.
-- **Base Coste (€)**: Capital total invertido originalmente en la posición (precio de compra más comisiones),
-  **convertido a tu divisa base (EUR).
-- **Valor Mercado (€)**: Valoración actual de la posición (`Posición x Último`), convertida al tipo de cambio
-  **vigente a tu divisa base (EUR).
-- **PyG No Realizada (€)**: Ganancia o pérdida latente en EUR (`Valor Mercado - Base Coste`). Incluye tanto
-  **la variación del precio como el efecto del tipo de cambio (FX).
-- **PyG No Realizad (%)**: Rentabilidad porcentual latente sobre el capital invertido (`PyG No Realizada / Base Coste`).
-  **en tu divisa base.
-- **% Cartera**: Peso o ponderación que representa el valor de mercado de este activo respecto al valor total de toda tu cartera.
-""")
