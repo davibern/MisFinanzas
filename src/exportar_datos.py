@@ -135,6 +135,10 @@ class ExportarDatos:
                 except FileNotFoundError:
                     df_final = self.datos.df
 
+                # Descartar duplicados por ['fecha', 'symbol'] manteniendo el último
+                df_final = df_final.drop_duplicates(subset=['fecha', 'symbol'], keep='last')
+                df_final = df_final.sort_values(by=['fecha', 'symbol']).reset_index(drop=True)
+
                 # Limpio la carpeta para consolidar la partición
                 if os.path.exists(archivo):
                     if os.path.isdir(archivo):
