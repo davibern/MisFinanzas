@@ -460,6 +460,37 @@ def test_exportar_bolsa_end_to_end_e_idempotencia(mock_cargador_ibkr: CargarCart
         assert set(df_total["fecha"]) == {pd.Timestamp("2026-11-10"), pd.Timestamp("2026-11-11")}
 
 
+def test_exportar_bolsa_deduplicacion_keep_last(mock_cargador_ibkr: CargarCarteraIBKR, tmp_path):
+    """
+    Verifica que al guardar en Parquet se eliminen duplicados por ['fecha', 'symbol']
+    manteniendo el último (keep='last').
+    """
+    ruta_parquet_temp = str(tmp_path / "bolsa_cartera.parquet")
+
+    with patch("src.exportar_datos.RUTA_BOLSA_CARTERA", ruta_parquet_temp):
+        exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+        assert exportador.exportar_parquet() == 1
+
+        # Preparamos datos con la misma fecha y symbol pero valor actualizado (ej. repetición fin de semana)
+        df_modificado = mock_cargador_ibkr.df.copy()
+        df_modificado["position_value_eur"] = [999.0, 888.0]
+        mock_cargador_mod = Mock(spec=CargarCarteraIBKR)
+        mock_cargador_mod.df = df_modificado
+
+        exportador_mod = ExportarDatos(mock_cargador_mod, tipo="bolsa")
+        # Forzamos que intente exportar simulando que se procesa
+        with patch.object(exportador_mod, "validar_fecha", return_value=False):
+            res = exportador_mod.exportar_parquet()
+            assert res == 1
+
+        df_final = pd.read_parquet(ruta_parquet_temp)
+        # Se mantienen sólo 2 filas (no 4) y con los valores actualizados de keep='last'
+        assert len(df_final) == 2
+        assert df_final[df_final["symbol"] == "IBE"]["position_value_eur"].iloc[0] == 999.0
+        assert df_final[df_final["symbol"] == "AAPL"]["position_value_eur"].iloc[0] == 888.0
+
+
+
 # ============================================================================
 # TESTS PARA validar_fecha Y tipo='bolsa'
 # ============================================================================
@@ -567,4 +598,35 @@ def test_exportar_bolsa_end_to_end_e_idempotencia(mock_cargador_ibkr: CargarCart
         df_total = pd.read_parquet(ruta_parquet_temp)
         assert len(df_total) == 4
         assert set(df_total["fecha"]) == {pd.Timestamp("2026-11-10"), pd.Timestamp("2026-11-11")}
+
+
+def test_exportar_bolsa_deduplicacion_keep_last(mock_cargador_ibkr: CargarCarteraIBKR, tmp_path):
+    """
+    Verifica que al guardar en Parquet se eliminen duplicados por ['fecha', 'symbol']
+    manteniendo el último (keep='last').
+    """
+    ruta_parquet_temp = str(tmp_path / "bolsa_cartera.parquet")
+
+    with patch("src.exportar_datos.RUTA_BOLSA_CARTERA", ruta_parquet_temp):
+        exportador = ExportarDatos(mock_cargador_ibkr, tipo="bolsa")
+        assert exportador.exportar_parquet() == 1
+
+        # Preparamos datos con la misma fecha y symbol pero valor actualizado (ej. repetición fin de semana)
+        df_modificado = mock_cargador_ibkr.df.copy()
+        df_modificado["position_value_eur"] = [999.0, 888.0]
+        mock_cargador_mod = Mock(spec=CargarCarteraIBKR)
+        mock_cargador_mod.df = df_modificado
+
+        exportador_mod = ExportarDatos(mock_cargador_mod, tipo="bolsa")
+        # Forzamos que intente exportar simulando que se procesa
+        with patch.object(exportador_mod, "validar_fecha", return_value=False):
+            res = exportador_mod.exportar_parquet()
+            assert res == 1
+
+        df_final = pd.read_parquet(ruta_parquet_temp)
+        # Se mantienen sólo 2 filas (no 4) y con los valores actualizados de keep='last'
+        assert len(df_final) == 2
+        assert df_final[df_final["symbol"] == "IBE"]["position_value_eur"].iloc[0] == 999.0
+        assert df_final[df_final["symbol"] == "AAPL"]["position_value_eur"].iloc[0] == 888.0
+
 

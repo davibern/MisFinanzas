@@ -1,8 +1,14 @@
 import asyncio
+import pytest
 from typing import NoReturn
 from types import SimpleNamespace
 
-from src.interactive_broker import InteractiveBroker
+pytestmark = pytest.mark.skip(reason="Conexión directa legada de IBKR sustituida por informes Flex diarios vía n8n")
+
+try:
+    from src.interactive_broker import InteractiveBroker
+except ModuleNotFoundError:
+    InteractiveBroker = None
 
 
 def test_conectar_devuelve_false_si_no_hay_conexion(monkeypatch):
