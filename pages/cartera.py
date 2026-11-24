@@ -1,10 +1,11 @@
 import os
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 
 from src.locale import Locale
 from src.exportar_datos import ExportarDatos
-from src.config import RUTA_BOLSA_CARTERA
+from src.config import RUTA_BOLSA_CARTERA, Color
 from src.utilidades import color_positivo_negativo
 
 # Obtener el idioma del contexto
@@ -138,3 +139,47 @@ st.dataframe(
 )
 
 st.divider()
+
+# Gráfica de evolución diaria del patrimonio total de la cuenta en EUR
+st.subheader("Evolución del Patrimonio Total")
+
+df_evolucion = (
+    df_cartera.groupby("fecha", as_index=False)
+    .agg({
+        "position_value_eur": "sum",
+        "percent_of_nav": "sum"
+    })
+    .sort_values(by="fecha")
+    .reset_index(drop=True)
+)
+
+# Incluir efectivo líquido dividiendo entre (sum(percent_of_nav) / 100)
+df_evolucion["nav_factor"] = df_evolucion["percent_of_nav"] / 100.0
+df_evolucion["patrimonio_total"] = df_evolucion.apply(
+    lambda r: (r["position_value_eur"] / r["nav_factor"]) if r["nav_factor"] > 0 else r["position_value_eur"],
+    axis=1
+).round(2)
+
+fig = go.Figure()
+
+fig.add_trace(
+    go.Scatter(
+        x=df_evolucion["fecha"],
+        y=df_evolucion["patrimonio_total"],
+        mode="lines+markers",
+        name="Patrimonio (€)",
+        line=dict(color=Color.AZUL, width=2.5),
+        fill="tozeroy",
+        fillcolor="rgba(31, 119, 180, 0.1)",
+        hovertemplate="<b>Fecha:</b> %{x|%d/%m/%Y}<br><b>Patrimonio:</b> %{y:,.2f} €<extra></extra>",
+    )
+)
+
+fig.update_layout(
+    xaxis_title="Fecha",
+    yaxis_title="Valor en EUR (€)",
+    hovermode="x unified",
+    margin=dict(l=20, r=20, t=30, b=20),
+)
+
+st.plotly_chart(fig, width="stretch")
