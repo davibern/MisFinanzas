@@ -1,5 +1,11 @@
 # CONTROL DE CAMBIOS
 
+## [0.1.1] - 2026-11-24
+### Añadido
+- Gráfica diaria con el acumulado de las ganancias y pérdidas de la cartera.
+### Corregido
+- Desacople de las fechas de los informes flex, para que coincidan con el cierre contable
+
 ## [0.1.0] - 2026-11-17
 ### Añadido
 - Cambio del cálculo y obtención de los datos de IBKR, de API a descarga a través de informes Flex, automatizado por n8n.
